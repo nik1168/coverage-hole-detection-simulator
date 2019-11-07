@@ -1,6 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as theoremsActions from './actions/theoretical';
 
 function App() {
   return (
@@ -8,7 +11,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reloads.
+          Editss <code>src/App.js</code> and save to reloads.
         </p>
         <a
           className="App-link"
@@ -22,5 +25,15 @@ function App() {
     </div>
   );
 }
+function mapStateToProps(state){
+  return {
+    theorems: state.theorems.theorems
+  }
+}
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({...theoremsActions}, dispatch)
+}
 
-export default App;
+// export default App;
+
+export default connect(mapStateToProps,mapDispatchToProps)(App)
