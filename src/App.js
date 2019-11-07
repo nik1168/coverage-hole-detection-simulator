@@ -1,30 +1,65 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { connect } from 'react-redux'
+import {connect, Provider} from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as theoremsActions from './actions/theoretical';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Editss <code>src/App.js</code> and save to reloads.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React p
-        </a>
-      </header>
-    </div>
-  );
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles'
+import { blue, indigo } from '@material-ui/core/colors'
+import Routes from './routes'
+import {Route} from "react-router-dom";
+import configureStore from "./store/configureStore";
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: blue[900]
+    },
+    primary: {
+      main: indigo[700]
+    }
+  },
+  typography: {
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '"Lato"',
+      'sans-serif'
+    ].join(',')
+  }
+});
+const store = configureStore();
+class App extends Component {
+  render() {
+    return (
+        <div>
+          <ThemeProvider theme={theme}>
+            <Routes store={store} />
+          </ThemeProvider>
+        </div>
+    );
+  }
 }
+
+// class App extends Component {
+//   render() {
+//     return (
+//         <div>
+//           <ThemeProvider theme={theme}>
+//             <Routes />
+//           </ThemeProvider>
+//         </div>
+//     );
+//   }
+// }
+
+// const App = ({ store }) => (
+//     <Provider store={store}>
+//       <ThemeProvider theme={theme}>
+//         <Routes />
+//       </ThemeProvider>
+//     </Provider>
+// );
+
 function mapStateToProps(state){
   return {
     theorems: state.theorems.theorems
@@ -34,6 +69,6 @@ function mapDispatchToProps (dispatch) {
   return bindActionCreators({...theoremsActions}, dispatch)
 }
 
-// export default App;
+export default App;
 
-export default connect(mapStateToProps,mapDispatchToProps)(App)
+// export default connect(mapStateToProps,mapDispatchToProps)(App)
