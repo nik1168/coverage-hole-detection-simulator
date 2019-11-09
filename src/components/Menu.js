@@ -8,8 +8,8 @@ const Menu = [
     pathname: "/tanalysis"
   },
   {
-    label: "Application",
-    pathname: "/signup"
+    label: "Demo",
+    pathname: "/demo"
   },
   {
     label: "Wizard",

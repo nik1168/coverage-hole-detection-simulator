@@ -109,7 +109,7 @@ class Topbar extends Component {
     if(this.props.currentPath === '/tanalysis') {
       return 1
     }
-    if(this.props.currentPath === '/signup') {
+    if(this.props.currentPath === '/demo') {
       return 2
     }
     if(this.props.currentPath === '/wizard') {
