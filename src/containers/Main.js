@@ -1,6 +1,6 @@
-import React,  { Component } from 'react';
+import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -8,10 +8,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import InstructionDialog from './dialogs/InstructionDialog';
 import SwipeDialog from './dialogs/SwipeDialog';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Topbar from './Topbar';
 import {bindActionCreators} from "redux";
 import * as theoremsActions from "../actions/theoretical";
+import MathNotation from "../components/MathNotation";
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -99,7 +100,8 @@ class Main extends Component {
         getStartedDialog: false
     };
 
-    componentDidMount() {}
+    componentDidMount() {
+    }
 
     openDialog = (event) => {
         this.setState({learnMoredialog: true});
@@ -118,11 +120,11 @@ class Main extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
         return (
             <React.Fragment>
-                <CssBaseline />
-                <Topbar />
+                <CssBaseline/>
+                <Topbar/>
                 <div className={classes.root}>
                     <Grid container justify="center">
                         <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
@@ -130,10 +132,11 @@ class Main extends Component {
                                 <Paper className={classes.paper}>
                                     <div className={classes.box}>
                                         <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                                            First title :)
+                                            First title :) :P
                                         </Typography>
                                         <Typography variant="body2" gutterBottom>
-                                            A first title style <br/> with two lines
+                                            Let's try a math equation :P
+                                            <br/> <MathNotation text={"hola"} inline={true}/>
                                         </Typography>
                                     </div>
                                     <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -171,10 +174,12 @@ class Main extends Component {
                                         </Typography>
                                     </div>
                                     <div className={classes.alignRight}>
-                                        <Button onClick={this.openDialog}  variant="outlined" className={classes.actionButtom}>
+                                        <Button onClick={this.openDialog} variant="outlined"
+                                                className={classes.actionButtom}>
                                             Learn more
                                         </Button>
-                                        <Button onClick={this.openGetStartedDialog} color='primary' variant="contained" className={classes.actionButtom}>
+                                        <Button onClick={this.openGetStartedDialog} color='primary' variant="contained"
+                                                className={classes.actionButtom}>
                                             Dashboard
                                         </Button>
                                     </div>
@@ -193,7 +198,8 @@ class Main extends Component {
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
-                                                <Button color='primary' variant="contained" className={classes.actionButtom}>
+                                                <Button color='primary' variant="contained"
+                                                        className={classes.actionButtom}>
                                                     Learn more
                                                 </Button>
                                             </div>
@@ -205,7 +211,7 @@ class Main extends Component {
                     </Grid>
                     <SwipeDialog
                         open={this.state.learnMoredialog}
-                        onClose={this.dialogClose} />
+                        onClose={this.dialogClose}/>
                     <InstructionDialog
                         open={this.state.getStartedDialog}
                         onClose={this.closeGetStartedDialog}
@@ -215,14 +221,16 @@ class Main extends Component {
         )
     }
 }
-function mapStateToProps(state){
+
+function mapStateToProps(state) {
     return {
         theorems: state.theorems.theorems
     }
 }
-function mapDispatchToProps (dispatch) {
+
+function mapDispatchToProps(dispatch) {
     return bindActionCreators({...theoremsActions}, dispatch)
 }
 
 // export default withRouter(withStyles(styles)(Main));
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(withStyles(styles)(Main)))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(Main)))
