@@ -130,7 +130,7 @@ class Main extends Component {
                                 <Paper className={classes.paper}>
                                     <div className={classes.box}>
                                         <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                                            First title
+                                            First title :)
                                         </Typography>
                                         <Typography variant="body2" gutterBottom>
                                             A first title style <br/> with two lines

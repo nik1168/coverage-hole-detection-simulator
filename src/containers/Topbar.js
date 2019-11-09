@@ -133,8 +133,7 @@ class Topbar extends Component {
                   <div className={classes.inline}>
                     <Typography variant="h6" color="inherit" noWrap>
                       <Link to='/' className={classes.link}>
-                        <img width={20} src={logo} alt="" />
-                        <span className={classes.tagline}>Material Sense</span>
+                        <span className={classes.tagline}>INFO-F420 - Computational geometry</span>
                       </Link>
                     </Typography>
                   </div>
@@ -142,7 +141,7 @@ class Topbar extends Component {
                     <React.Fragment>
                       <div className={classes.productLogo}>
                         <Typography>
-                          A material UI Template
+                          Coverage hole detection - WSN
                         </Typography>
                       </div>
                       <div className={classes.iconContainer}>
