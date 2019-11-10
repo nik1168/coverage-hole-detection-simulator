@@ -24,29 +24,29 @@ const styles = theme => ({
   }
 })
 
-class Demo extends Component {
+class Cards extends Component {
 
   render() {
     const { classes } = this.props;
     const currentPath = this.props.location.pathname
 
     return (
-        <React.Fragment>
-          <CssBaseline />
-          <Topbar currentPath={currentPath} />
-          <div className={classes.root}>
-            <Grid container justify="center">
-              <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-                <Grid item xs={12}>
-                  <SectionHeader title="Cards" subtitle="One page with a list of a collection" />
-                  <CardItem />
-                </Grid>
+      <React.Fragment>
+        <CssBaseline />
+        <Topbar currentPath={currentPath} />
+        <div className={classes.root}>
+          <Grid container justify="center"> 
+            <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
+              <Grid item xs={12}>
+                <SectionHeader title="Cards" subtitle="One page with a list of a collection" />
+                <CardItem />
               </Grid>
             </Grid>
-          </div>
-        </React.Fragment>
+          </Grid>
+        </div>
+      </React.Fragment>
     )
   }
 }
 
-export default withStyles(styles)(Demo);
+export default withStyles(styles)(Cards);
