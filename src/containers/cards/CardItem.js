@@ -6,8 +6,12 @@ import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ButtonBar from '../buttons/ButtonBar';
 import P5Wrapper from 'react-p5-wrapper';
-import sketch from '../../sketches/sketch';
+import sketch, {Node} from '../../sketches/sketch';
 import {timesClicked} from '../../sketches/sketch';
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import {bindActionCreators} from "redux";
+import * as demoActions from "../../actions/demo";
 
 const styles = theme => ({
   paper: {
@@ -72,15 +76,22 @@ const styles = theme => ({
     marginRight: theme.spacing(2)
   }
 })
+export let pointsSegment1 = [];
 
-function getCoords(x,y){
-  console.log("Geto coords from component :)");
-  console.log(x, y)
-  console.log("Times clicked")
-  console.log(timesClicked)
-}
 
 class CardItem extends Component {
+    getCoords = (x,y)=>{
+        console.log("Geto coords from component :)");
+        console.log(x, y);
+        console.log("Times clicked");
+        console.log(timesClicked)
+        this.props.addNodeCreator(new Node(x,y))
+    };
+
+    componentDidMount() {
+        console.log("Props Card Item")
+        console.log(this.props)
+    }
 
   render() {
     const { classes } = this.props;
@@ -88,11 +99,21 @@ class CardItem extends Component {
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <P5Wrapper sketch={sketch} getCoords={getCoords} />
+          <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes} />
         </Paper>
       </div>
     )
   }
 }
 
-export default withStyles(styles)(CardItem);
+function mapStateToProps(state) {
+    return {
+        nodes: state.demo.nodes,
+        sensingRate : state.demo.sensingRate
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({...demoActions}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(CardItem)))

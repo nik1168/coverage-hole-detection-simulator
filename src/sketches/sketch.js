@@ -1,44 +1,50 @@
 export let timesClicked = 0;
-export class Point {
-    constructor(x, y) {
+
+export class Node {
+    constructor(x, y, sensingRate = 4) {
         this.x = x;
         this.y = y;
+        this.sensingRate = sensingRate;
+        this.oneHopeNeighbors = [];
+        this.twoHopeNeighbors = [];
     }
 }
 export default function sketch(p) {
-    let pointsSegment1 = [];
+
     let rotation = 0;
 
     p.setup = function () {
-        p.createCanvas(640, 480, p.WEBGL);
+        p.createCanvas(640, 480);
+        p.fill('black');
         // let canvas = p.createCanvas(canvasWidth, canvasHeight);
         // canvas.parent('sketchH1');
     };
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        console.log("myCustomRedrawAccordingToNewPropsHandler")
-        // if (props.rotation) {
-        //     rotation = props.rotation * Math.PI / 180;
-        // }
+        console.log("myCustomRedrawAccordingToNewPropsHandler");
         if(props.getCoords){
             p.sendCoords = props.getCoords;
+        }
+        if(props.nodes){
+            p.nodes = props.nodes
         }
     };
 
     p.draw = function () {
         p.background(200);
-        for (let i = 0; i < pointsSegment1; i++) {
-            p.ellipse(pointsSegment1[i].x, pointsSegment1[i].y, 4, 4);
+        console.log("p.nodes")
+        console.log(p.nodes)
+        if(p.nodes){
+            for (let i = 0; i < p.nodes.length; i++) {
+                p.ellipse(p.nodes[i].x, p.nodes[i].y, 4, 4);
+            }
         }
     };
 
     p.mousePressed = function () {
         p.sendCoords(p.mouseX, p.mouseY);
         timesClicked++;
-        console.log("Mouse pressed :)");
-        console.log("Sera?")
-        pointsSegment1.push(new Point(p.mouseX, p.mouseY));
-
+        // p.pointsSegment1.push(new Point(p.mouseX, p.mouseY));
     };
 
 };
