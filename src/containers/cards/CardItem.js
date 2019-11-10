@@ -5,6 +5,9 @@ import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ButtonBar from '../buttons/ButtonBar';
+import P5Wrapper from 'react-p5-wrapper';
+import sketch from '../../sketches/sketch';
+import {timesClicked} from '../../sketches/sketch';
 
 const styles = theme => ({
   paper: {
@@ -70,6 +73,13 @@ const styles = theme => ({
   }
 })
 
+function getCoords(x,y){
+  console.log("Geto coords from component :)");
+  console.log(x, y)
+  console.log("Times clicked")
+  console.log(timesClicked)
+}
+
 class CardItem extends Component {
 
   render() {
@@ -78,7 +88,7 @@ class CardItem extends Component {
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          Hola
+          <P5Wrapper sketch={sketch} getCoords={getCoords} />
         </Paper>
       </div>
     )

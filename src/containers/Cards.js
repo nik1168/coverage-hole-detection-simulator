@@ -6,6 +6,7 @@ import CardItem from './cards/CardItem';
 import Topbar from './Topbar';
 import SectionHeader from './typo/SectionHeader';
 const backgroundShape = require('../images/shape.svg');
+import P5Wrapper from 'react-p5-wrapper';
 
 const styles = theme => ({
   root: {
