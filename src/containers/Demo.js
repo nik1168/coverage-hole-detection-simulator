@@ -2,8 +2,8 @@ import React,  { Component } from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import CardItem from './cards/CardItem';
-import SideBar from './cards/SideBar';
+import SimulatorContainer from './simulator/SimulatorContainer';
+import SideBar from './simulator/SideBar';
 import Topbar from './Topbar';
 import SectionHeader from './typo/SectionHeader';
 const backgroundShape = require('../images/shape.svg');
@@ -49,7 +49,7 @@ class Demo extends Component {
                 </Grid>
                 <Grid item xs={12} id={'gridNetworks'}>
                   {/*<SectionHeader/>*/}
-                  <CardItem />
+                  <SimulatorContainer />
                 </Grid>
                 {/*<Grid item xs={6} >*/}
                 {/*  <SectionHeader title="Simulator" subtitle="Coverage holes detection" style={{marginLeft: 10}} />*/}

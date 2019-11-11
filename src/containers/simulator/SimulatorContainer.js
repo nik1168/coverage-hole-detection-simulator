@@ -79,12 +79,10 @@ const styles = theme => ({
 export let pointsSegment1 = [];
 
 
-class CardItem extends Component {
+class SimulatorContainer extends Component {
     getCoords = (x,y)=>{
         console.log("Geto coords from component :)");
         console.log(x, y);
-        console.log("Times clicked");
-        console.log(timesClicked)
         this.props.addNodeCreator(new Node(x,y))
     };
 
@@ -116,4 +114,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({...demoActions}, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(CardItem)))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(SimulatorContainer)))

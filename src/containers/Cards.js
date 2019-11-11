@@ -2,7 +2,7 @@ import React,  { Component } from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import CardItem from './cards/CardItem';
+import CardItem from './simulator/CardItem';
 import Topbar from './Topbar';
 import SectionHeader from './typo/SectionHeader';
 const backgroundShape = require('../images/shape.svg');

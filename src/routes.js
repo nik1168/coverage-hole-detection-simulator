@@ -13,6 +13,7 @@ export default ({store}) => (
                 <Switch>
                     <Route exact path='/' component={Main}/>
                     <Route exact path='/tanalysis' component={TheoreticalAnalysis}/>
+                    <Route exact path='/definitions' component={TheoreticalAnalysis}/>
                     <Route exact path='/demo' component={Demo}/>
                 </Switch>
             </ScrollToTop>

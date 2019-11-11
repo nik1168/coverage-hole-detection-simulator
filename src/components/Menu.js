@@ -8,13 +8,14 @@ const Menu = [
     pathname: "/tanalysis"
   },
   {
-    label: "Demo",
-    pathname: "/demo"
+    label: "Definitions and Notations",
+    pathname: "/definitions"
   },
   {
-    label: "Wizard",
-    pathname: "/wizard"
+    label: "Demo",
+    pathname: "/demo"
   }
+
 ];
 
 export default Menu;
