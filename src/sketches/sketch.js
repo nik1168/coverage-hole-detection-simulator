@@ -9,10 +9,13 @@ export class Node {
         this.twoHopeNeighbors = [];
     }
 }
+function checkClickInside(mouseX,mouseY,canvasWidth,canvasHeight){
+    return mouseX > 0 && mouseX < canvasWidth && mouseY > 0 && mouseY < canvasHeight
+}
 export default function sketch(p) {
-
+    let div1 = document.getElementById("paper");
     p.setup = function () {
-        let div1 = document.getElementById("paper");
+
         console.log("div1 width");
         console.log(div1.offsetWidth-90);
         // p.createCanvas(div1.offsetWidth, div1.offsetHeight);
@@ -46,10 +49,11 @@ export default function sketch(p) {
     };
 
     p.mousePressed = function () {
-        p.sendCoords(p.mouseX, p.mouseY);
-        timesClicked++;
-        // p.pointsSegment1.push(new Point(p.mouseX, p.mouseY));
-    };
+        if(checkClickInside(p.mouseX,p.mouseY,div1.offsetWidth-60, 600)){
+            p.sendCoords(p.mouseX, p.mouseY);
+            timesClicked++;
+        }
+    }
 
     p.windowResized = function () {
         let div1 = document.getElementById("paper");

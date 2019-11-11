@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import DescriptionIcon from '@material-ui/icons/Description';
-import ButtonBar from '../buttons/ButtonBar';
-import DeleteIcon from '@material-ui/icons/Delete';
-import LeakAddIcon from '@material-ui/icons/LeakAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import HelpIcon from '@material-ui/icons/Help';
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
@@ -20,10 +14,9 @@ import {bindActionCreators} from "redux";
 import * as demoActions from "../../actions/demo";
 import green from '@material-ui/core/colors/green';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import {red} from "@material-ui/core/colors";
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
-import Fab from "@material-ui/core/Fab";
 
 
 const styles = theme => ({
