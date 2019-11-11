@@ -7,6 +7,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 import AddIcon from '@material-ui/icons/Add';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
 import {Node, timesClicked} from '../../sketches/sketch';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
@@ -122,7 +123,7 @@ class SideBar extends Component {
                                     color="secondary"
                                     onClick={this.handleAddNodes}
                                     className={classes.outlinedButtom}
-                                    startIcon={<AddIcon/>}
+                                    startIcon={!this.props.addingNodes ? <AddIcon/> : <StopIcon/>}
                                 >
                                     Create Nodes
                                 </Button>
@@ -132,6 +133,7 @@ class SideBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="primary"
+                                        disabled={this.props.addingNodes}
                                         className={classes.outlinedButtom}
                                         startIcon={<PlayArrowIcon/>}
                                     >
@@ -144,6 +146,7 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="secondary"
+                                    disabled={this.props.addingNodes}
                                     className={classes.outlinedButtom}
                                     startIcon={<SettingsInputAntennaIcon/>}
                                 >
@@ -154,6 +157,7 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="default"
+                                    disabled={this.props.addingNodes}
                                     className={classes.outlinedButtom}
                                     startIcon={<PersonAddIcon/>}
                                 >
@@ -165,6 +169,7 @@ class SideBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="secondary"
+                                        disabled={this.props.addingNodes}
                                         className={classes.outlinedButtom}
                                         startIcon={<SignalWifiOffIcon/>}
                                     >

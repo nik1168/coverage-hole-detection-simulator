@@ -1,12 +1,13 @@
 export let timesClicked = 0;
 
 export class Node {
-    constructor(x, y, sensingRate = 4) {
+    constructor(x, y, sensingRate = 80) {
         this.x = x;
         this.y = y;
         this.sensingRate = sensingRate;
         this.oneHopeNeighbors = [];
         this.twoHopeNeighbors = [];
+        this.active = true
     }
 }
 function checkClickInside(mouseX,mouseY,canvasWidth,canvasHeight){
@@ -43,10 +44,10 @@ export default function sketch(p) {
         if(p.nodes){
             for (let i = 0; i < p.nodes.length; i++) {
                 p.ellipse(p.nodes[i].x, p.nodes[i].y, 6, 6);
-                p.text('Node '+(i+1)+'', p.nodes[i].x-10, p.nodes[i].y+15);
+                p.text('Node '+(i+1)+'', p.nodes[i].x-16, p.nodes[i].y+15);
                 p.stroke('black');
                 p.fill('rgba(0,255,0, 0.25)')
-                p.circle(p.nodes[i].x,  p.nodes[i].y, 80)
+                p.circle(p.nodes[i].x,  p.nodes[i].y, p.nodes[i].sensingRate)
             }
         }
     };
@@ -54,7 +55,6 @@ export default function sketch(p) {
     p.mousePressed = function () {
         if(checkClickInside(p.mouseX,p.mouseY,div1.offsetWidth-60, 600)){
             p.sendCoords(p.mouseX, p.mouseY);
-            timesClicked++;
         }
     }
 
