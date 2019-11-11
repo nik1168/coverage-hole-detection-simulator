@@ -3,6 +3,7 @@ import withStyles from '@material-ui/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import CardItem from './cards/CardItem';
+import SideBar from './cards/SideBar';
 import Topbar from './Topbar';
 import SectionHeader from './typo/SectionHeader';
 const backgroundShape = require('../images/shape.svg');
@@ -21,7 +22,11 @@ const styles = theme => ({
     paddingBottom: 200
   },
   grid: {
-    width: 1000
+  },
+  gridSide:{
+    marginLeft: 10,
+    marginBottom: theme.spacing(4),
+    width:500
   }
 })
 
@@ -36,12 +41,20 @@ class Demo extends Component {
           <CssBaseline />
           <Topbar currentPath={currentPath} />
           <div className={classes.root}>
-            <Grid container justify="center">
+            <Grid container direction="row" justify="center" spacing={2}>
               <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
-                <Grid item xs={12}>
-                  <SectionHeader title="Cards" subtitle="One page with a list of a collection" />
+                <Grid item xs={12} id={'gridNetworks'}>
+                  <SectionHeader title="Simulator" subtitle="Coverage holes detection" />
+                  <SideBar/>
+                </Grid>
+                <Grid item xs={12} id={'gridNetworks'}>
+                  {/*<SectionHeader/>*/}
                   <CardItem />
                 </Grid>
+                {/*<Grid item xs={6} >*/}
+                {/*  <SectionHeader title="Simulator" subtitle="Coverage holes detection" style={{marginLeft: 10}} />*/}
+                {/*  <SideBar/>*/}
+                {/*</Grid>*/}
               </Grid>
             </Grid>
           </div>

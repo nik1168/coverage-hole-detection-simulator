@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   sectionContainer: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(2),
+      marginLeft: 10
   },
   title: {
     fontWeight: 'bold'

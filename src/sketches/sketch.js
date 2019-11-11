@@ -11,10 +11,12 @@ export class Node {
 }
 export default function sketch(p) {
 
-    let rotation = 0;
-
     p.setup = function () {
-        p.createCanvas(640, 480);
+        let div1 = document.getElementById("paper");
+        console.log("div1 width");
+        console.log(div1.offsetWidth-90);
+        // p.createCanvas(div1.offsetWidth, div1.offsetHeight);
+        p.createCanvas(div1.offsetWidth-60, 600);
         p.fill('black');
         // let canvas = p.createCanvas(canvasWidth, canvasHeight);
         // canvas.parent('sketchH1');
@@ -32,11 +34,13 @@ export default function sketch(p) {
 
     p.draw = function () {
         p.background(200);
-        console.log("p.nodes")
-        console.log(p.nodes)
         if(p.nodes){
             for (let i = 0; i < p.nodes.length; i++) {
-                p.ellipse(p.nodes[i].x, p.nodes[i].y, 4, 4);
+                p.ellipse(p.nodes[i].x, p.nodes[i].y, 6, 6);
+                p.text('Node '+(i+1)+'', p.nodes[i].x-10, p.nodes[i].y+15);
+                p.stroke('black');
+                p.fill('rgba(0,255,0, 0.25)')
+                p.circle(p.nodes[i].x,  p.nodes[i].y, 80)
             }
         }
     };
@@ -47,4 +51,8 @@ export default function sketch(p) {
         // p.pointsSegment1.push(new Point(p.mouseX, p.mouseY));
     };
 
+    p.windowResized = function () {
+        let div1 = document.getElementById("paper");
+        p.resizeCanvas(div1.offsetWidth-60, 600);
+    }
 };

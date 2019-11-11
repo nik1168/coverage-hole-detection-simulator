@@ -98,7 +98,7 @@ class CardItem extends Component {
 
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} id={'paper'}>
           <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes} />
         </Paper>
       </div>
