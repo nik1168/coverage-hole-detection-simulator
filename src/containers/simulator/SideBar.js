@@ -7,7 +7,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 import AddIcon from '@material-ui/icons/Add';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import {timesClicked} from '../../sketches/sketch';
+import {Node, timesClicked} from '../../sketches/sketch';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
@@ -96,12 +96,11 @@ const theme = createMuiTheme({
 
 
 class SideBar extends Component {
-    getCoords = (x, y) => {
-        console.log("Geto coords from component :)");
-        console.log(x, y);
-        console.log("Times clicked");
-        console.log(timesClicked)
-        this.props.addNodeCreator(new Node(x, y))
+
+    handleAddNodes = () => {
+        console.log("Do something Here!")
+        console.log(!this.props.addingNodes)
+        this.props.addingNodesCreator(!this.props.addingNodes)
     };
 
     componentDidMount() {
@@ -121,6 +120,7 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="secondary"
+                                    onClick={this.handleAddNodes}
                                     className={classes.outlinedButtom}
                                     startIcon={<AddIcon/>}
                                 >
@@ -192,7 +192,8 @@ class SideBar extends Component {
 function mapStateToProps(state) {
     return {
         nodes: state.demo.nodes,
-        sensingRate: state.demo.sensingRate
+        sensingRate: state.demo.sensingRate,
+        addingNodes: state.demo.addingNodes,
     }
 }
 

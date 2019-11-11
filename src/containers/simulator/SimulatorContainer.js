@@ -79,6 +79,8 @@ class SimulatorContainer extends Component {
         console.log("Geto coords from component :)");
         console.log(x, y);
         this.props.addNodeCreator(new Node(x, y))
+        console.log("this.props.addingNodes")
+        console.log(this.props.addingNodes)
     };
 
     componentDidMount() {
@@ -92,7 +94,7 @@ class SimulatorContainer extends Component {
         return (
             <div className={classes.root}>
                 <Paper className={classes.paper} id={'paper'}>
-                    <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes}/>
+                    <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes} addingNodes={this.props.addingNodes}/>
                 </Paper>
             </div>
         )
@@ -102,7 +104,8 @@ class SimulatorContainer extends Component {
 function mapStateToProps(state) {
     return {
         nodes: state.demo.nodes,
-        sensingRate: state.demo.sensingRate
+        sensingRate: state.demo.sensingRate,
+        addingNodes : state.demo.addingNodes
     }
 }
 

@@ -33,6 +33,9 @@ export default function sketch(p) {
         if(props.nodes){
             p.nodes = props.nodes
         }
+        if(props.addingNodes !== undefined){
+            p.addingNodes = props.addingNodes
+        }
     };
 
     p.draw = function () {
