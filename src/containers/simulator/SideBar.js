@@ -113,20 +113,23 @@ class SideBar extends Component {
 
     dialogCloseOk = (referenceNodes) => {
         this.setState({learnMoredialog: false});
-        this.props.setReferenceNodesCreator(referenceNodes)
-        this.getNeighbors(referenceNodes)
+        this.getNeighbors()
     };
 
     handleAddNodes = () => {
         this.props.addingNodesCreator(!this.props.addingNodes)
     };
 
-    getNeighbors = (referenceNodes) => {
+    getNeighbors = () => {
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes;
-        console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node")
+        const referenceNodes = nodes.filter((val)=> val.isReference).map((valM)=>valM.id);
+
+        console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
+        console.log("There are two ways of finding one and two hope neighbors")
+        console.log()
         referenceNodes.forEach((referenceNode) => {
-            console.log("We iterate for every node that is not the reference node and we send a message")
+            console.log("We iterate for every node that is not the reference node and we send a message");
             console.log("Nodes that listened to my message :)");
             const message = "HELLO!!";
             const oneHopeNeighbors = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);

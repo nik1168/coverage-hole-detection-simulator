@@ -5,7 +5,8 @@ import {
     ADD_SENSING_RATE,
     ADDING_NODES,
     SET_REFERENCE_NODES,
-    ADD_NODE_ONE_HOPE_NEIGHBORS
+    ADD_NODE_ONE_HOPE_NEIGHBORS,
+    SET_REFERENCE
 } from "../actions/demo";
 
 export const demo = (state = {
@@ -53,6 +54,12 @@ export const demo = (state = {
             };
             prevStateOneHop.nodes[referenceNode].oneHopeNeighbors = neighbors;
             return prevStateOneHop;
+        case SET_REFERENCE:
+            let prevStateSetReference = {
+                ...state,
+            };
+            prevStateSetReference.nodes[referenceNode].isReference = !prevStateSetReference.nodes[referenceNode].isReference;
+            return prevStateSetReference;
         case ADD_SENSING_RATE:
             return {
                 ...state,

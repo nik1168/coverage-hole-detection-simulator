@@ -79,7 +79,7 @@ class SimulatorContainer extends Component {
         console.log("Geto coords from component :)");
         console.log(x, y);
         if(this.props.addingNodes){
-            this.props.addNodeCreator(new Node(x, y))
+            this.props.addNodeCreator(new Node(x, y,this.props.nodes.length))
         }
         console.log("this.props.addingNodes")
         console.log(this.props.addingNodes)

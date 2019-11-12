@@ -15,6 +15,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import {bindActionCreators} from "redux";
+import * as demoActions from "../../actions/demo";
+import {connect} from "react-redux";
 
 const logo = require('../../images/logo.svg');
 
@@ -65,30 +68,24 @@ class SwipeDialog extends Component {
     };
 
     handleCloseOk = () => {
-        this.props.onOk(this.state.checked)
+        this.props.onOk()
     };
 
     state = {
-        checked: this.props.nodes ? this.props.nodes.filter((val)=>val.isReference).map((val,index)=>index) : []
+        checked: this.props.nodes ? this.props.nodes.filter((val) => val.isReference).map((val, index) => index) : []
     };
 
-    handleToggle = value => () => {
-        const currentIndex = this.state.checked.indexOf(value);
-        const newChecked = [...this.state.checked];
+    handleToggle = index => () => {
+        this.props.setReferenceCreator(index);
+        this.forceUpdate(); // Calling force update since the component was not being re rendered when calling set Reference
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        this.setState({checked: newChecked});
     };
 
 
     render() {
         const {classes} = this.props;
         const nodes = this.props.nodes ? this.props.nodes : []
+        console.log("RENDER!!! DIALOG");
 
 
         return (
@@ -111,7 +108,7 @@ class SwipeDialog extends Component {
                                             <Checkbox
                                                 edge="end"
                                                 onChange={this.handleToggle(index)}
-                                                checked={this.state.checked.indexOf(index) !== -1}
+                                                checked={value.isReference}
                                                 inputProps={{'aria-labelledby': labelId}}
                                             />
                                         </ListItemSecondaryAction>
@@ -132,4 +129,14 @@ class SwipeDialog extends Component {
     }
 }
 
-export default withRouter(withStyles(styles)(SwipeDialog));
+function mapStateToProps(state) {
+    return {
+        nodes: state.demo.nodes,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({...demoActions}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(SwipeDialog)))
