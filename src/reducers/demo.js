@@ -1,4 +1,12 @@
-import {GET_NODES, ADD_NODE, GET_SENSING_RATE, ADD_SENSING_RATE, ADDING_NODES, SET_REFERENCE_NODES} from "../actions/demo";
+import {
+    GET_NODES,
+    ADD_NODE,
+    GET_SENSING_RATE,
+    ADD_SENSING_RATE,
+    ADDING_NODES,
+    SET_REFERENCE_NODES,
+    ADD_NODE_ONE_HOPE_NEIGHBORS
+} from "../actions/demo";
 
 export const demo = (state = {
     nodes: [],
@@ -9,7 +17,7 @@ export const demo = (state = {
     coverageHoles: [],
     referenceNodes: []
 }, action) => {
-    const {node, sensingRate, addingNodes,referenceNodes} = action;
+    const {node, sensingRate, addingNodes, referenceNodes, neighbors, referenceNode} = action;
 
     switch (action.type) {
         case GET_NODES:
@@ -34,11 +42,17 @@ export const demo = (state = {
             copy.nodes.push(node);
             return copy;
         case SET_REFERENCE_NODES:
-            let prevState = {
+            var prevState = {
                 ...state,
-                ['referenceNodes']: [referenceNodes]
+                ['referenceNodes']: referenceNodes
             };
             return prevState;
+        case ADD_NODE_ONE_HOPE_NEIGHBORS:
+            let prevStateOneHop = {
+                ...state,
+            };
+            prevStateOneHop.nodes[referenceNode].oneHopeNeighbors = neighbors;
+            return prevStateOneHop;
         case ADD_SENSING_RATE:
             return {
                 ...state,

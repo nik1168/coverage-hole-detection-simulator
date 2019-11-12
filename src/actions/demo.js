@@ -7,6 +7,7 @@ export const ADD_SENSING_RATE = 'ADD_SENSING_RATE';
 export const ADD_COVERAGE_HOLE = 'ADD_COVERAGE_HOLE';
 export const SET_REFERENCE_NODES = 'SET_REFERENCE_NODES';
 export const SET_NEIGHBORS = 'SET_NEIGHBORS';
+export const ADD_NODE_ONE_HOPE_NEIGHBORS = 'ADD_NODE_ONE_HOPE_NEIGHBORS';
 
 export const getNodes = () => ({
     type: GET_NODES,
@@ -41,5 +42,11 @@ export const addCoverageHole = hole => ({
 export const setReferenceNodesCreator = nodes => ({
     type: SET_REFERENCE_NODES,
     referenceNodes : nodes
+});
+
+export const addNodeOneHopeNeighborCreator = (node, neighbors) => ({
+    type: ADD_NODE_ONE_HOPE_NEIGHBORS,
+    referenceNode : node,
+    neighbors
 });
 

@@ -112,8 +112,6 @@ class SideBar extends Component {
     };
 
     dialogCloseOk = (referenceNodes) => {
-        console.log("Something here?");
-        console.log(referenceNodes);
         this.setState({learnMoredialog: false});
         this.props.setReferenceNodesCreator(referenceNodes)
         this.getNeighbors(referenceNodes)
@@ -123,32 +121,32 @@ class SideBar extends Component {
         this.props.addingNodesCreator(!this.props.addingNodes)
     };
 
-    getNeighbors = (referenceNodes)=>{
+    getNeighbors = (referenceNodes) => {
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes;
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node")
-        referenceNodes.forEach((referenceNode)=>{
+        referenceNodes.forEach((referenceNode) => {
             console.log("We iterate for every node that is not the reference node and we send a message")
             console.log("Nodes that listened to my message :)");
             const message = "HELLO!!";
-            console.log(this.nodesThatListenMessage(referenceNode,nodes, message))
+            const oneHopeNeighbors = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
+            console.log(oneHopeNeighbors);
+            this.props.addNodeOneHopeNeighborCreator(referenceNode,oneHopeNeighbors)
         })
 
     };
 
-    nodesThatListenMessage = (referenceNode, nodes, message)=>{
+    nodesThatListenedMessageWithRespectToRadius = (referenceNode, nodes, oneHop, message) => {
         let response = [];
-        nodes.forEach((node,index)=>{
-            if(referenceNode !== index){
-                if(checkPointInsideCircle(nodes[referenceNode],node, node.sensingRate)){
+        nodes.forEach((node, index) => {
+            if (referenceNode !== index) {
+                if (checkPointInsideCircle(nodes[referenceNode], node, oneHop ? node.sensingRate : 2 * node.sensingRate)) {
                     response.push(index)
                 }
             }
         })
         return response
     };
-
-
 
 
     componentDidMount() {

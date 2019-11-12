@@ -69,7 +69,7 @@ class SwipeDialog extends Component {
     };
 
     state = {
-        checked: this.props.nodes.filter((val)=>val.isReference).map((val,index)=>index)
+        checked: this.props.nodes ? this.props.nodes.filter((val)=>val.isReference).map((val,index)=>index) : []
     };
 
     handleToggle = value => () => {
@@ -88,6 +88,7 @@ class SwipeDialog extends Component {
 
     render() {
         const {classes} = this.props;
+        const nodes = this.props.nodes ? this.props.nodes : []
 
 
         return (
@@ -98,7 +99,7 @@ class SwipeDialog extends Component {
                             Choose a reference node
                         </Typography>
                         <List dense className={classes.root}>
-                            {this.props.nodes.map((value, index) => {
+                            {nodes.map((value, index) => {
                                 const labelId = `checkbox-list-secondary-label-${value}`;
                                 return (
                                     <ListItem key={index} button>
