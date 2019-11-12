@@ -1,4 +1,4 @@
-import {GET_NODES, ADD_NODE, GET_SENSING_RATE, ADD_SENSING_RATE, ADDING_NODES} from "../actions/demo";
+import {GET_NODES, ADD_NODE, GET_SENSING_RATE, ADD_SENSING_RATE, ADDING_NODES, SET_REFERENCE_NODES} from "../actions/demo";
 
 export const demo = (state = {
     nodes: [],
@@ -6,9 +6,10 @@ export const demo = (state = {
     addingNodes: false,
     neighborDiscoveryPhase: false,
     coverageHoleDetectionPhase: false,
-    coverageHoles: []
+    coverageHoles: [],
+    referenceNodes: []
 }, action) => {
-    const {node, sensingRate, addingNodes} = action;
+    const {node, sensingRate, addingNodes,referenceNodes} = action;
 
     switch (action.type) {
         case GET_NODES:
@@ -20,7 +21,7 @@ export const demo = (state = {
                 ...state
             };
         case ADDING_NODES:
-            console.log("Adding nodes Reducer")
+            console.log("Adding nodes Reducer");
             return {
                 ...state,
                 addingNodes: !state.addingNodes
@@ -32,6 +33,12 @@ export const demo = (state = {
             };
             copy.nodes.push(node);
             return copy;
+        case SET_REFERENCE_NODES:
+            let prevState = {
+                ...state,
+                ['referenceNodes']: [referenceNodes]
+            };
+            return prevState;
         case ADD_SENSING_RATE:
             return {
                 ...state,

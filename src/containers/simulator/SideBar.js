@@ -18,6 +18,8 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import {red} from "@material-ui/core/colors";
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
+import SwipeDialog from "../dialogs/SwipeDialog";
+import {checkPointInsideCircle} from "../../utils/geometryUtils";
 
 
 const styles = theme => ({
@@ -98,11 +100,56 @@ const theme = createMuiTheme({
 
 class SideBar extends Component {
 
+    state = {
+        learnMoredialog: false
+    };
+
+    openDialog = (event) => {
+        this.setState({learnMoredialog: true});
+    };
+    dialogClose = (event) => {
+        this.setState({learnMoredialog: false});
+    };
+
+    dialogCloseOk = (referenceNodes) => {
+        console.log("Something here?");
+        console.log(referenceNodes);
+        this.setState({learnMoredialog: false});
+        this.props.setReferenceNodesCreator(referenceNodes)
+        this.getNeighbors(referenceNodes)
+    };
+
     handleAddNodes = () => {
-        console.log("Do something Here!")
-        console.log(!this.props.addingNodes)
         this.props.addingNodesCreator(!this.props.addingNodes)
     };
+
+    getNeighbors = (referenceNodes)=>{
+        console.log("Well, are you ready to rumble?, don't forget single responsibility");
+        const nodes = this.props.nodes;
+        console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node")
+        referenceNodes.forEach((referenceNode)=>{
+            console.log("We iterate for every node that is not the reference node and we send a message")
+            console.log("Nodes that listened to my message :)");
+            const message = "HELLO!!";
+            console.log(this.nodesThatListenMessage(referenceNode,nodes, message))
+        })
+
+    };
+
+    nodesThatListenMessage = (referenceNode, nodes, message)=>{
+        let response = [];
+        nodes.forEach((node,index)=>{
+            if(referenceNode !== index){
+                if(checkPointInsideCircle(nodes[referenceNode],node, node.sensingRate)){
+                    response.push(index)
+                }
+            }
+        })
+        return response
+    };
+
+
+
 
     componentDidMount() {
         console.log("Props Card Item")
@@ -157,6 +204,7 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="default"
+                                    onClick={this.openDialog}
                                     disabled={this.props.addingNodes}
                                     className={classes.outlinedButtom}
                                     startIcon={<PersonAddIcon/>}
@@ -189,6 +237,11 @@ class SideBar extends Component {
                         </div>
                     </div>
                 </Paper>
+                <SwipeDialog
+                    open={this.state.learnMoredialog}
+                    onClose={this.dialogClose}
+                    onOk={this.dialogCloseOk}
+                    nodes={this.props.nodes}/>
             </div>
         )
     }

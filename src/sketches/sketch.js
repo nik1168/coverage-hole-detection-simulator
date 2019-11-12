@@ -1,13 +1,15 @@
 export let timesClicked = 0;
 
 export class Node {
-    constructor(x, y, sensingRate = 80) {
+    constructor(x, y, id=0, sensingRate = 80, isActive = true, isReference = false) {
         this.x = x;
         this.y = y;
         this.sensingRate = sensingRate;
         this.oneHopeNeighbors = [];
         this.twoHopeNeighbors = [];
-        this.active = true
+        this.active = isActive;
+        this.isReference = isReference;
+        this.id = id
     }
 }
 function checkClickInside(mouseX,mouseY,canvasWidth,canvasHeight){
