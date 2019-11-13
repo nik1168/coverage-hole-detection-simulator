@@ -70,24 +70,18 @@ const styles = theme => ({
     backButton: {
         marginRight: theme.spacing(2)
     }
-})
+});
 export let pointsSegment1 = [];
 
 
 class SimulatorContainer extends Component {
     getCoords = (x, y) => {
-        console.log("Geto coords from component :)");
-        console.log(x, y);
-        if(this.props.addingNodes){
-            this.props.addNodeCreator(new Node(x, y,this.props.nodes.length))
+        if (this.props.addingNodes) {
+            this.props.addNodeCreator(new Node(x, y, this.props.nodes.length))
         }
-        console.log("this.props.addingNodes")
-        console.log(this.props.addingNodes)
     };
 
     componentDidMount() {
-        console.log("Props Card Item")
-        console.log(this.props)
     }
 
     render() {
@@ -96,7 +90,8 @@ class SimulatorContainer extends Component {
         return (
             <div className={classes.root}>
                 <Paper className={classes.paper} id={'paper'}>
-                    <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes} addingNodes={this.props.addingNodes}/>
+                    <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes}
+                               addingNodes={this.props.addingNodes}/>
                 </Paper>
             </div>
         )
@@ -107,7 +102,7 @@ function mapStateToProps(state) {
     return {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
-        addingNodes : state.demo.addingNodes
+        addingNodes: state.demo.addingNodes
     }
 }
 

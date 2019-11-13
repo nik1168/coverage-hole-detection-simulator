@@ -117,26 +117,29 @@ class SideBar extends Component {
     };
 
     handleAddNodes = () => {
-        this.props.addingNodesCreator(!this.props.addingNodes)
+        this.props.addingNodesCreator()
     };
 
     getNeighbors = () => {
+        this.props.neighborDiscoveryPhaseCreator();
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes;
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
-
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
-        console.log("There are two ways of finding one and two hope neighbors")
-        console.log()
+        console.log("There are two ways of finding one and two hope neighbors");
+        console.log();
         referenceNodes.forEach((referenceNode) => {
             console.log("We iterate for every node that is not the reference node and we send a message");
             console.log("Nodes that listened to my message :)");
             const message = "HELLO!!";
             const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
-            console.log(oneHopeNeighbors);
-            this.props.addNodeOneHopeNeighborCreator(referenceNode, oneHopeNeighbors)
-        })
-
+            console.log("Just for testing purposes, let's see the union");
+            const union = [...new Set([...oneHopeNeighbors, ...twoHopeNeighbors])];
+            console.log(union);
+            this.props.addNodeOneHopeNeighborCreator(referenceNode, oneHopeNeighbors);
+            this.props.addNodeTwoHopeNeighborCreator(referenceNode, twoHopeNeighbors)
+        });
+        this.props.neighborDiscoveryPhaseCreator();
     };
 
     nodesThatListenedMessageWithRespectToRadius = (referenceNode, nodes, oneHop, message) => {
@@ -164,7 +167,9 @@ class SideBar extends Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, neighborDiscoveryPhase, addingNodes} = this.props;
+        console.log("NEIGHBOR DISCOVERY PHASE");
+        console.log(neighborDiscoveryPhase)
 
         return (
             <div className={classes.root}>
@@ -175,9 +180,10 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="secondary"
+                                    disabled={neighborDiscoveryPhase}
                                     onClick={this.handleAddNodes}
                                     className={classes.outlinedButtom}
-                                    startIcon={!this.props.addingNodes ? <AddIcon/> : <StopIcon/>}
+                                    startIcon={!addingNodes ? <AddIcon/> : <StopIcon/>}
                                 >
                                     Create Nodes
                                 </Button>
@@ -187,7 +193,7 @@ class SideBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        disabled={this.props.addingNodes}
+                                        disabled={addingNodes || neighborDiscoveryPhase}
                                         className={classes.outlinedButtom}
                                         startIcon={<PlayArrowIcon/>}
                                     >
@@ -200,7 +206,7 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    disabled={this.props.addingNodes}
+                                    disabled={addingNodes || neighborDiscoveryPhase}
                                     className={classes.outlinedButtom}
                                     startIcon={<SettingsInputAntennaIcon/>}
                                 >
@@ -212,7 +218,7 @@ class SideBar extends Component {
                                     variant="contained"
                                     color="default"
                                     onClick={this.openDialog}
-                                    disabled={this.props.addingNodes}
+                                    disabled={addingNodes}
                                     className={classes.outlinedButtom}
                                     startIcon={<PersonAddIcon/>}
                                 >
@@ -224,7 +230,7 @@ class SideBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="secondary"
-                                        disabled={this.props.addingNodes}
+                                        disabled={addingNodes || neighborDiscoveryPhase}
                                         className={classes.outlinedButtom}
                                         startIcon={<SignalWifiOffIcon/>}
                                     >
@@ -259,6 +265,7 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
+        neighborDiscoveryPhase : state.demo.neighborDiscoveryPhase
     }
 }
 

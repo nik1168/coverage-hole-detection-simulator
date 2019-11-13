@@ -4,6 +4,7 @@ import {
     ADD_NODE_TWO_HOPE_NEIGHBORS,
     ADD_SENSING_RATE,
     ADDING_NODES,
+    NEIGHBOR_DISCOVERY_PHASE,
     GET_NODES,
     GET_SENSING_RATE,
     SET_REFERENCE,
@@ -19,7 +20,7 @@ export const demo = (state = {
     coverageHoles: [],
     referenceNodes: []
 }, action) => {
-    const {node, sensingRate, addingNodes, referenceNodes, neighbors, referenceNode} = action;
+    const {node, sensingRate, referenceNodes, neighbors, referenceNode} = action;
 
     switch (action.type) {
         case GET_NODES:
@@ -34,6 +35,11 @@ export const demo = (state = {
             return {
                 ...state,
                 addingNodes: !state.addingNodes
+            };
+        case NEIGHBOR_DISCOVERY_PHASE:
+            return {
+                ...state,
+                neighborDiscoveryPhase: !state.neighborDiscoveryPhase
             };
         case ADD_NODE:
             let copy = {
