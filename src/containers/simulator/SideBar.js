@@ -123,7 +123,7 @@ class SideBar extends Component {
     getNeighbors = () => {
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes;
-        const referenceNodes = nodes.filter((val)=> val.isReference).map((valM)=>valM.id);
+        const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
 
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
         console.log("There are two ways of finding one and two hope neighbors")
@@ -132,22 +132,28 @@ class SideBar extends Component {
             console.log("We iterate for every node that is not the reference node and we send a message");
             console.log("Nodes that listened to my message :)");
             const message = "HELLO!!";
-            const oneHopeNeighbors = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
+            const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
             console.log(oneHopeNeighbors);
-            this.props.addNodeOneHopeNeighborCreator(referenceNode,oneHopeNeighbors)
+            this.props.addNodeOneHopeNeighborCreator(referenceNode, oneHopeNeighbors)
         })
 
     };
 
     nodesThatListenedMessageWithRespectToRadius = (referenceNode, nodes, oneHop, message) => {
-        let response = [];
+        let response = {
+            oneHopeNeighbors: [],
+            twoHopeNeighbors: []
+        };
         nodes.forEach((node, index) => {
             if (referenceNode !== index) {
-                if (checkPointInsideCircle(nodes[referenceNode], node, oneHop ? node.sensingRate : 2 * node.sensingRate)) {
-                    response.push(index)
+                if (checkPointInsideCircle(nodes[referenceNode], node, node.sensingRate)) {
+                    response.oneHopeNeighbors.push(index)
+                }
+                if (checkPointInsideCircle(nodes[referenceNode], node, 2 * node.sensingRate)) {
+                    response.twoHopeNeighbors.push(index)
                 }
             }
-        })
+        });
         return response
     };
 

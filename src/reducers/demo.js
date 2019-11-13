@@ -1,12 +1,13 @@
 import {
-    GET_NODES,
     ADD_NODE,
-    GET_SENSING_RATE,
+    ADD_NODE_ONE_HOPE_NEIGHBORS,
+    ADD_NODE_TWO_HOPE_NEIGHBORS,
     ADD_SENSING_RATE,
     ADDING_NODES,
-    SET_REFERENCE_NODES,
-    ADD_NODE_ONE_HOPE_NEIGHBORS,
-    SET_REFERENCE
+    GET_NODES,
+    GET_SENSING_RATE,
+    SET_REFERENCE,
+    SET_REFERENCE_NODES
 } from "../actions/demo";
 
 export const demo = (state = {
@@ -30,7 +31,6 @@ export const demo = (state = {
                 ...state
             };
         case ADDING_NODES:
-            console.log("Adding nodes Reducer");
             return {
                 ...state,
                 addingNodes: !state.addingNodes
@@ -43,17 +43,22 @@ export const demo = (state = {
             copy.nodes.push(node);
             return copy;
         case SET_REFERENCE_NODES:
-            var prevState = {
+            return {
                 ...state,
                 ['referenceNodes']: referenceNodes
             };
-            return prevState;
         case ADD_NODE_ONE_HOPE_NEIGHBORS:
             let prevStateOneHop = {
                 ...state,
             };
             prevStateOneHop.nodes[referenceNode].oneHopeNeighbors = neighbors;
             return prevStateOneHop;
+        case ADD_NODE_TWO_HOPE_NEIGHBORS:
+            let prevStateTwoHop = {
+                ...state,
+            };
+            prevStateTwoHop.nodes[referenceNode].twoHopeNeighbors = neighbors;
+            return prevStateTwoHop;
         case SET_REFERENCE:
             let prevStateSetReference = {
                 ...state,

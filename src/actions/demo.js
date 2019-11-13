@@ -9,6 +9,7 @@ export const SET_REFERENCE_NODES = 'SET_REFERENCE_NODES';
 export const SET_REFERENCE = 'SET_REFERENCE';
 export const SET_NEIGHBORS = 'SET_NEIGHBORS';
 export const ADD_NODE_ONE_HOPE_NEIGHBORS = 'ADD_NODE_ONE_HOPE_NEIGHBORS';
+export const ADD_NODE_TWO_HOPE_NEIGHBORS = 'ADD_NODE_TWO_HOPE_NEIGHBORS';
 
 export const getNodes = () => ({
     type: GET_NODES,
@@ -50,6 +51,13 @@ export const addNodeOneHopeNeighborCreator = (node, neighbors) => ({
     referenceNode : node,
     neighbors
 });
+
+export const addNodeTwoHopeNeighborCreator = (node, neighbors) => ({
+    type: ADD_NODE_TWO_HOPE_NEIGHBORS,
+    referenceNode : node,
+    neighbors
+});
+
 export const setReferenceCreator = (node) => ({
     type: SET_REFERENCE,
     referenceNode : node,
