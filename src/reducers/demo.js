@@ -5,6 +5,7 @@ import {
     ADD_SENSING_RATE,
     ADDING_NODES,
     NEIGHBOR_DISCOVERY_PHASE,
+    COVERAGE_HOLE_DETECTION_PHASE,
     GET_NODES,
     GET_SENSING_RATE,
     SET_REFERENCE,
@@ -40,6 +41,11 @@ export const demo = (state = {
             return {
                 ...state,
                 neighborDiscoveryPhase: !state.neighborDiscoveryPhase
+            };
+        case COVERAGE_HOLE_DETECTION_PHASE:
+            return {
+                ...state,
+                coverageHoleDetectionPhase: !state.coverageHoleDetectionPhase
             };
         case ADD_NODE:
             let copy = {

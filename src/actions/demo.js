@@ -4,6 +4,7 @@ export const GET_SENSING_RATE = 'GET_SENSING_RATE';
 export const ADD_NODE = 'ADD_NODE';
 export const ADDING_NODES = 'ADDING_NODES';
 export const NEIGHBOR_DISCOVERY_PHASE = 'NEIGHBOR_DISCOVERY_PHASE';
+export const COVERAGE_HOLE_DETECTION_PHASE = 'COVERAGE_HOLE_DETECTION_PHASE';
 export const ADD_SENSING_RATE = 'ADD_SENSING_RATE';
 export const ADD_COVERAGE_HOLE = 'ADD_COVERAGE_HOLE';
 export const SET_REFERENCE_NODES = 'SET_REFERENCE_NODES';
@@ -34,6 +35,9 @@ export const neighborDiscoveryPhaseCreator = () => ({
     type: NEIGHBOR_DISCOVERY_PHASE
 });
 
+export const coverageHoleDetectionPhaseCreator = () => ({
+    type: COVERAGE_HOLE_DETECTION_PHASE
+});
 
 export const addSensingRateCreator = sensingRate => ({
     type: ADD_SENSING_RATE,

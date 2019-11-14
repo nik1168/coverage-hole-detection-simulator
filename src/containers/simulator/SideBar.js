@@ -8,7 +8,7 @@ import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 import AddIcon from '@material-ui/icons/Add';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
-import {Node, timesClicked} from '../../sketches/sketch';
+import {Node, timesClicked, Triangle} from '../../sketches/sketch';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
@@ -20,6 +20,7 @@ import {red} from "@material-ui/core/colors";
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 import SwipeDialog from "../dialogs/SwipeDialog";
 import {checkPointInsideCircle} from "../../utils/geometryUtils";
+import {joinArrays} from "../../utils/generalUtils";
 
 
 const styles = theme => ({
@@ -134,12 +135,51 @@ class SideBar extends Component {
             const message = "HELLO!!";
             const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
             console.log("Just for testing purposes, let's see the union");
-            const union = [...new Set([...oneHopeNeighbors, ...twoHopeNeighbors])];
+            const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
             console.log(union);
             this.props.addNodeOneHopeNeighborCreator(referenceNode, oneHopeNeighbors);
             this.props.addNodeTwoHopeNeighborCreator(referenceNode, twoHopeNeighbors)
         });
         this.props.neighborDiscoveryPhaseCreator();
+    };
+
+    coverageHoleDetection = () => {
+        this.props.coverageHoleDetectionPhaseCreator();
+        // console.log("Init coverage hole detection phase");
+        // console.log("I think this is one of the most important phases of the algorithm :)");
+        // console.log("We will do a proof of concept with a reference node and two neighbors");
+        // const nodes = this.props.nodes;
+        // console.log("nodes");
+        // console.log(nodes);
+        // const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
+        // console.log("reference nodes ", referenceNodes);
+        // const referenceNode = nodes[referenceNodes[0]];
+        // const neighbors = joinArrays(referenceNode.oneHopeNeighbors, referenceNode.twoHopeNeighbors);
+        // console.log("neighbors");
+        // console.log(neighbors);
+        // const n1 = nodes[neighbors[0]];
+        // const n2 = nodes[neighbors[1]];
+        // TEST FORMULAS :)
+        const A = new Node(3,2,0);
+        const B = new Node(1,4,1);
+        const C = new Node(5,4,2);
+        const triangle = new Triangle(A, B, C);
+        // const triangle = new Triangle(referenceNode, n1, n2);
+        console.log("Triangle");
+        console.log(triangle);
+        console.log("Area of triangle");
+        console.log(triangle.getArea());
+        console.log("Triangle sides");
+        console.log(triangle.getDistanceAB());
+        console.log(triangle.getDistanceAC());
+        console.log(triangle.getDistanceBC());
+        console.log("Triangle circum radius");
+        console.log(triangle.getCircumRadius());
+        console.log("Triangle circum center");
+        triangle.findCircumCenter()
+
+
+        this.props.coverageHoleDetectionPhaseCreator();
     };
 
     nodesThatListenedMessageWithRespectToRadius = (referenceNode, nodes, oneHop, message) => {
@@ -206,6 +246,7 @@ class SideBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="secondary"
+                                    onClick={this.coverageHoleDetection}
                                     disabled={addingNodes || neighborDiscoveryPhase}
                                     className={classes.outlinedButtom}
                                     startIcon={<SettingsInputAntennaIcon/>}
@@ -265,7 +306,7 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
-        neighborDiscoveryPhase : state.demo.neighborDiscoveryPhase
+        neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase
     }
 }
 
