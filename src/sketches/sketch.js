@@ -21,6 +21,7 @@ export class Point {
 }
 
 export class Triangle {
+    rightAngle = 1.571 // 90 degrees equivalence
     constructor(nodeA, nodeB, nodeC) {
         this.pointA = nodeA;
         this.pointB = nodeB;
@@ -45,6 +46,32 @@ export class Triangle {
 
     getCircumRadius() {
         return (this.getDistanceAB() * this.getDistanceAC() * this.getDistanceBC()) / (4 * this.getArea())
+    }
+
+    getAngleA() {
+        return Math.asin(this.getDistanceAB() / (2 * this.getCircumRadius()))
+    }
+
+    getAngleC() {
+        return Math.asin(this.getDistanceAC() / (2 * this.getCircumRadius()))
+    }
+
+    getAngleB() {
+        return Math.asin(this.getDistanceBC() / (2 * this.getCircumRadius()))
+    }
+
+    isObtuse() {
+        const isA = this.getAngleA() > this.rightAngle;
+        const isB = this.getAngleB() > this.rightAngle;
+        const isC = this.getAngleC() > this.rightAngle;
+        return isA || isB || isC
+    }
+
+    isAcute() {
+        const isA = this.getAngleA() < this.rightAngle;
+        const isB = this.getAngleB() < this.rightAngle;
+        const isC = this.getAngleC() < this.rightAngle;
+        return isA && isB && isC
     }
 
     // Function to find the line given two points
@@ -77,6 +104,7 @@ export class Triangle {
         }
     }
 
+    // Returns the intersection point of two lines
     lineLineIntersection(a1, b1, c1, a2, b2, c2) {
         const determinant = a1 * b2 - a2 * b1;
         if (determinant === 0) {
@@ -90,7 +118,7 @@ export class Triangle {
         }
     }
 
-    findCircumCenter(A = this.pointA, B = this.pointB, C = this.pointC) {
+    getCircumCenter(A = this.pointA, B = this.pointB, C = this.pointC) {
         // Line AB is represented as ax + by = c
         let resA = this.lineFromNodes(A, B);
         let oa = resA.a;
@@ -125,7 +153,7 @@ export class Triangle {
             console.log("The circumcenter of the triangle PQR is: ");
             console.log(circumcenter.x, circumcenter.y);
         }
-
+        return circumcenter
     }
 }
 
@@ -164,10 +192,14 @@ export default function sketch(p) {
         if (p.nodes) {
             for (let i = 0; i < p.nodes.length; i++) {
                 p.ellipse(p.nodes[i].x, p.nodes[i].y, 6, 6);
-                p.text('Node ' + (i + 1) + '', p.nodes[i].x - 16, p.nodes[i].y + 15);
+                p.text('Node ' + (i) + '', p.nodes[i].x - 16, p.nodes[i].y + 15);
                 p.stroke('black');
-                p.fill('rgba(0,255,0, 0.25)')
-                p.circle(p.nodes[i].x, p.nodes[i].y, p.nodes[i].sensingRate)
+                p.fill('rgba(0,255,0, 0.25)');
+                p.circle(p.nodes[i].x, p.nodes[i].y, p.nodes[i].sensingRate*2);
+                if(p.nodes[i].isReference){
+                    p.fill('rgba(163, 255, 232, 0.25)');
+                    p.circle(p.nodes[i].x, p.nodes[i].y, 2*p.nodes[i].sensingRate*2)
+                }
             }
         }
     };

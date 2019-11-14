@@ -121,6 +121,10 @@ class SideBar extends Component {
         this.props.addingNodesCreator()
     };
 
+    getNodeNeighbors = (referenceNode, nodes) => {
+        const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, "message");
+    }
+
     getNeighbors = () => {
         this.props.neighborDiscoveryPhaseCreator();
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
@@ -143,7 +147,7 @@ class SideBar extends Component {
         this.props.neighborDiscoveryPhaseCreator();
     };
 
-    coverageHoleDetection = () => {
+    coverageHoleDetectionProofOfConcept = () => {
         this.props.coverageHoleDetectionPhaseCreator();
         // console.log("Init coverage hole detection phase");
         // console.log("I think this is one of the most important phases of the algorithm :)");
@@ -160,9 +164,9 @@ class SideBar extends Component {
         // const n1 = nodes[neighbors[0]];
         // const n2 = nodes[neighbors[1]];
         // TEST FORMULAS :)
-        const A = new Node(3,2,0);
-        const B = new Node(1,4,1);
-        const C = new Node(5,4,2);
+        const A = new Node(3, 2, 0);
+        const B = new Node(1, 4, 1);
+        const C = new Node(5, 4, 2);
         const triangle = new Triangle(A, B, C);
         // const triangle = new Triangle(referenceNode, n1, n2);
         console.log("Triangle");
@@ -170,14 +174,143 @@ class SideBar extends Component {
         console.log("Area of triangle");
         console.log(triangle.getArea());
         console.log("Triangle sides");
-        console.log(triangle.getDistanceAB());
-        console.log(triangle.getDistanceAC());
-        console.log(triangle.getDistanceBC());
+        console.log("Distance A", triangle.getDistanceAB());
+        console.log("Distance B", triangle.getDistanceBC());
+        console.log("Distance C", triangle.getDistanceAC());
+
         console.log("Triangle circum radius");
         console.log(triangle.getCircumRadius());
         console.log("Triangle circum center");
-        triangle.findCircumCenter()
+        triangle.getCircumCenter();
+        console.log("Angle A", triangle.getAngleA());
+        console.log("Angle B", triangle.getAngleB());
+        console.log("Angle C", triangle.getAngleC());
 
+
+        this.props.coverageHoleDetectionPhaseCreator();
+    };
+
+    coverageHoleDetection = () => {
+        this.props.coverageHoleDetectionPhaseCreator();
+        const nodes = this.props.nodes;
+        // Step 1: Select any node X randomly as a reference node;
+        const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
+        const X = referenceNodes[0];
+        // Step 2: Find one and two-hop neighbors of X;
+        const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(X, nodes, true, "Hello");
+        // Assign those nodes to set N
+        const N = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
+        const nodeX = nodes[X];
+
+        // Step 3: Select nodes from set N whose y-coordinate >= b; Assign those nodes to set Nu
+        const N_u = N.map((val) => nodes[val]).filter((val) => val.y <= nodeX.y);
+
+        // Step 4: Arrange nodes of Nu with their x-coordinate in ascending order and put them in a new set Nux,
+        const N_uX = N_u.sort(function (a, b) {
+            return a.x - b.x
+        });
+
+        // Step 5: Select nodes from set N whose y-coordinate < b; Assign those nodes to set Nd;
+        const N_d = N.map((val) => nodes[val]).filter((val) => val.y > nodeX.y);
+
+        // Step 6: Arrange nodes of Nd with their x-coordinate in descending order and put them in a new set Ndx
+        const N_dX = N_d.sort(function (a, b) {
+            return b.x - a.x
+        });
+
+        // Step 7: Select 1st two nodes Ai and Aj from Nux such that x-coordinate of Ai < Aj
+        let isFirstTime = true;
+        do {
+            let Ai = N_uX[0];
+            let Aj = N_uX[1];
+            // Step 8: Compute circum radius R and circum center Z of triangle XAiAj;
+            const triangle = new Triangle(nodeX, Ai, Aj);
+            const R = triangle.getCircumRadius();
+            const Z = triangle.getCircumCenter();
+            // Step 9: Verify if XAiAj is an acute or obtuse triangle;
+            const isObtuse = triangle.isObtuse();
+            const isAcute = triangle.isAcute();
+            // Step 10: If (X forms an acute triangle with its neighbors Ai and Aj)
+            if (isAcute) {
+                if (R < nodeX.sensingRate) {
+                    console.log("No hole exists around the reference node X")
+                } else {
+                    console.log("There exists a hole around the reference node X")
+                }
+            }
+            // Step 11: If (X forms an obtuse triangle with its neighbors Ai and Aj)
+            if (isObtuse) {
+                if (R < nodeX.sensingRate) {
+                    console.log("No hole exists around the reference node X")
+                } else {
+                    // Check if circum center Z is covered by any other sensor
+                    let response = false;
+                    nodes.forEach((node, index) => {
+                        if (checkPointInsideCircle(Z, node, node.sensingRate)) {
+                            response = true
+                        }
+                    });
+                    if (response) {
+                        console.log("No hole exists around the reference node X")
+                    } else {
+                        console.log("There exists a hole around the reference node X")
+                    }
+                }
+            }
+            // Step 13: Update Nux’Nux􏰁fAig
+            N_uX.shift()
+
+        } while (N_uX.length !== 1);
+        // Step 14: Choose the 1st node Ai of Ndx and last balance node Aj of Nux;
+        do {
+            let Ai = 0;
+            let Aj = 0;
+            if (isFirstTime) {
+                Ai = N_dX[0];
+                Aj = N_uX[0];
+                isFirstTime = false
+            } else {
+                Ai = N_dX[0];
+                Aj = N_dX[1];
+            }
+            // Step 8: Compute circum radius R and circum center Z of triangle XAiAj;
+            const triangle = new Triangle(nodeX, Ai, Aj);
+            const R = triangle.getCircumRadius();
+            const Z = triangle.getCircumCenter();
+            // Step 9: Verify if XAiAj is an acute or obtuse triangle;
+            const isObtuse = triangle.isObtuse();
+            const isAcute = triangle.isAcute();
+            // Step 10: If (X forms an acute triangle with its neighbors Ai and Aj)
+            if (isAcute) {
+                if (R < nodeX.sensingRate) {
+                    console.log("No hole exists around the reference node X")
+                } else {
+                    console.log("There exists a hole around the reference node X")
+                }
+            }
+            // Step 11: If (X forms an obtuse triangle with its neighbors Ai and Aj)
+            if (isObtuse) {
+                if (R < nodeX.sensingRate) {
+                    console.log("No hole exists around the reference node X")
+                } else {
+                    // Check if circum center Z is covered by any other sensor
+                    let response = false;
+                    nodes.forEach((node, index) => {
+                        if (checkPointInsideCircle(node, Z, node.sensingRate)) {
+                            response = true
+                        }
+                    });
+                    if (response) {
+                        console.log("No hole exists around the reference node X")
+                    } else {
+                        console.log("There exists a hole around the reference node X")
+                    }
+                }
+            }
+            // Step 13: Update Ndx
+            N_dX.shift()
+
+        } while (N_dX.length !== 0);
 
         this.props.coverageHoleDetectionPhaseCreator();
     };
@@ -202,14 +335,14 @@ class SideBar extends Component {
 
 
     componentDidMount() {
-        console.log("Props Card Item")
+        console.log("Props Card Item");
         console.log(this.props)
     }
 
     render() {
         const {classes, neighborDiscoveryPhase, addingNodes} = this.props;
         console.log("NEIGHBOR DISCOVERY PHASE");
-        console.log(neighborDiscoveryPhase)
+        console.log(neighborDiscoveryPhase);
 
         return (
             <div className={classes.root}>
