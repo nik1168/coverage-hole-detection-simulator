@@ -1,4 +1,5 @@
 {
+  "homepage": "http://nik1168.github.io/coverage-hole-detection-simulator",
   "name": "coverage-hole-detection",
   "version": "0.1.0",
   "private": true,
@@ -36,7 +37,12 @@
     "redux-thunk": "^2.2.0",
     "sort-by": "^1.2.0"
   },
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
+  },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
