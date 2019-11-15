@@ -215,23 +215,26 @@ export default function sketch(p) {
     p.draw = function () {
         p.background(200);
         if (p.nodes) {
-            for (let i = 0; i < p.nodes.length; i++) {
-                p.ellipse(p.nodes[i].x, p.nodes[i].y, 6, 6);
-                p.text('Node ' + (i) + '', p.nodes[i].x - 16, p.nodes[i].y + 15);
-                p.stroke('black');
-                p.fill('rgba(0,255,0, 0.25)');
-                p.circle(p.nodes[i].x, p.nodes[i].y, p.nodes[i].sensingRate*2);
-                if(p.nodes[i].isReference){
-                    p.fill('rgba(163, 255, 232, 0.25)');
-                    p.circle(p.nodes[i].x, p.nodes[i].y, 2*p.nodes[i].sensingRate*2)
+            p.nodes.forEach((node,i)=>{
+                if(node.active){
+                    p.ellipse(node.x, node.y, 6, 6);
+                    p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
+                    p.stroke('black');
+                    p.fill('rgba(0,255,0, 0.25)');
+
+                    p.circle(node.x, node.y, node.sensingRate*2);
+                    if(node.isReference){
+                        p.fill('rgba(163, 255, 232, 0.25)');
+                        p.circle(node.x, node.y, 2*node.sensingRate*2)
+                    }
+                    if(node.coverageHolesAroundNode.length > 0){
+                        node.coverageHolesAroundNode.forEach((val,index)=>{
+                            p.ellipse(val.x, val.y, 6, 6);
+                            p.text('cc: '+index+'', val.x - 16, val.y + 15);
+                        })
+                    }
                 }
-                if(p.nodes[i].coverageHolesAroundNode.length > 0){
-                    p.nodes[i].coverageHolesAroundNode.forEach((val,index)=>{
-                        p.ellipse(val.x, val.y, 6, 6);
-                        p.text('cc: '+index+'', val.x - 16, val.y + 15);
-                    })
-                }
-            }
+            });
         }
         if(p.circumCenter){
             // p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
