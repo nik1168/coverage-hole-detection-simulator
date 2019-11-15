@@ -3,6 +3,7 @@ import {
     ADD_NODE_ONE_HOPE_NEIGHBORS,
     ADD_NODE_TWO_HOPE_NEIGHBORS,
     ADD_SENSING_RATE,
+    ADD_COVERAGE_HOLE,
     ADDING_NODES,
     NEIGHBOR_DISCOVERY_PHASE,
     COVERAGE_HOLE_DETECTION_PHASE,
@@ -22,9 +23,9 @@ export const demo = (state = {
     coverageHoleDetectionPhase: false,
     coverageHoles: [],
     referenceNodes: [],
-    circumCenter : new Point(0,0)
+    circumCenter: new Point(0, 0)
 }, action) => {
-    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter} = action;
+    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, hole} = action;
 
     switch (action.type) {
         case GET_NODES:
@@ -57,6 +58,12 @@ export const demo = (state = {
             };
             copy.nodes.push(node);
             return copy;
+        case ADD_COVERAGE_HOLE:
+            let prevStateHole = {
+                ...state,
+            };
+            prevStateHole.nodes[referenceNode].coverageHolesAroundNode.push(hole);
+            return prevStateHole;
         case SET_REFERENCE_NODES:
             return {
                 ...state,

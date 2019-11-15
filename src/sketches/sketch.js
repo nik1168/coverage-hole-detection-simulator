@@ -9,6 +9,7 @@ export class Node {
         this.sensingRate = sensingRate;
         this.oneHopeNeighbors = [];
         this.twoHopeNeighbors = [];
+        this.coverageHolesAroundNode = [];
         this.active = isActive;
         this.isReference = isReference;
         this.id = id
@@ -224,11 +225,17 @@ export default function sketch(p) {
                     p.fill('rgba(163, 255, 232, 0.25)');
                     p.circle(p.nodes[i].x, p.nodes[i].y, 2*p.nodes[i].sensingRate*2)
                 }
+                if(p.nodes[i].coverageHolesAroundNode.length > 0){
+                    p.nodes[i].coverageHolesAroundNode.forEach((val,index)=>{
+                        p.ellipse(val.x, val.y, 6, 6);
+                        p.text('cc: '+index+'', val.x - 16, val.y + 15);
+                    })
+                }
             }
         }
         if(p.circumCenter){
-            p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
-            p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
+            // p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
+            // p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
         }
     };
 
@@ -236,7 +243,7 @@ export default function sketch(p) {
         if (checkClickInside(p.mouseX, p.mouseY, div1.offsetWidth - 60, 600)) {
             p.sendCoords(p.mouseX, p.mouseY);
         }
-    }
+    };
 
     p.windowResized = function () {
         let div1 = document.getElementById("paper");
