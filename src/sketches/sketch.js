@@ -1,3 +1,5 @@
+import {squareDistanceBetweenPoints} from "../utils/geometryUtils";
+
 export let timesClicked = 0;
 
 export class Node {
@@ -60,17 +62,35 @@ export class Triangle {
         return Math.asin(this.getDistanceBC() / (2 * this.getCircumRadius()))
     }
 
+    getAngles(){
+        const a2 = squareDistanceBetweenPoints(this.pointB,this.pointC);
+        const b2 = squareDistanceBetweenPoints(this.pointA,this.pointC);
+        const c2 = squareDistanceBetweenPoints(this.pointA,this.pointB);
+
+        const a = Math.sqrt(a2);
+        const b = Math.sqrt(b2);
+        const c = Math.sqrt(c2);
+
+        const alpha = Math.acos((b2 + c2 - a2)/(2*b*c));
+        const betta = Math.acos((a2 + c2 - b2)/(2*a*c));
+        const gamma = Math.acos((a2 + b2 - c2)/(2*a*b));
+        return {alpha, betta, gamma}
+    }
+
     isObtuse() {
-        const isA = this.getAngleA() > this.rightAngle;
-        const isB = this.getAngleB() > this.rightAngle;
-        const isC = this.getAngleC() > this.rightAngle;
+        const {alpha, betta, gamma} = this.getAngles();
+        const isA = alpha > this.rightAngle;
+        const isB = betta > this.rightAngle;
+        const isC = gamma > this.rightAngle;
+
         return isA || isB || isC
     }
 
     isAcute() {
-        const isA = this.getAngleA() < this.rightAngle;
-        const isB = this.getAngleB() < this.rightAngle;
-        const isC = this.getAngleC() < this.rightAngle;
+        const {alpha, betta, gamma} = this.getAngles();
+        const isA = alpha < this.rightAngle;
+        const isB = betta < this.rightAngle;
+        const isC = gamma < this.rightAngle;
         return isA && isB && isC
     }
 
@@ -176,6 +196,7 @@ export default function sketch(p) {
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         console.log("myCustomRedrawAccordingToNewPropsHandler");
+        console.log(props)
         if (props.getCoords) {
             p.sendCoords = props.getCoords;
         }
@@ -184,6 +205,9 @@ export default function sketch(p) {
         }
         if (props.addingNodes !== undefined) {
             p.addingNodes = props.addingNodes
+        }
+        if(props.circumCenter){
+            p.circumCenter = props.circumCenter
         }
     };
 
@@ -201,6 +225,10 @@ export default function sketch(p) {
                     p.circle(p.nodes[i].x, p.nodes[i].y, 2*p.nodes[i].sensingRate*2)
                 }
             }
+        }
+        if(p.circumCenter){
+            p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
+            p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
         }
     };
 

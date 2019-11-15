@@ -12,6 +12,7 @@ export const SET_REFERENCE = 'SET_REFERENCE';
 export const SET_NEIGHBORS = 'SET_NEIGHBORS';
 export const ADD_NODE_ONE_HOPE_NEIGHBORS = 'ADD_NODE_ONE_HOPE_NEIGHBORS';
 export const ADD_NODE_TWO_HOPE_NEIGHBORS = 'ADD_NODE_TWO_HOPE_NEIGHBORS';
+export const DRAW_CIRCUM_CENTER = 'DRAW_CIRCUM_CENTER';
 
 export const getNodes = () => ({
     type: GET_NODES,
@@ -69,5 +70,9 @@ export const addNodeTwoHopeNeighborCreator = (node, neighbors) => ({
 export const setReferenceCreator = (node) => ({
     type: SET_REFERENCE,
     referenceNode : node,
+});
+export const drawCircumCenterCreator = (node) => ({
+    type: DRAW_CIRCUM_CENTER,
+    circumCenter : node,
 });
 

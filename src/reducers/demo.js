@@ -9,8 +9,10 @@ import {
     GET_NODES,
     GET_SENSING_RATE,
     SET_REFERENCE,
-    SET_REFERENCE_NODES
+    SET_REFERENCE_NODES,
+    DRAW_CIRCUM_CENTER
 } from "../actions/demo";
+import {Point} from "../sketches/sketch";
 
 export const demo = (state = {
     nodes: [],
@@ -19,9 +21,10 @@ export const demo = (state = {
     neighborDiscoveryPhase: false,
     coverageHoleDetectionPhase: false,
     coverageHoles: [],
-    referenceNodes: []
+    referenceNodes: [],
+    circumCenter : new Point(0,0)
 }, action) => {
-    const {node, sensingRate, referenceNodes, neighbors, referenceNode} = action;
+    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter} = action;
 
     switch (action.type) {
         case GET_NODES:
@@ -58,6 +61,11 @@ export const demo = (state = {
             return {
                 ...state,
                 ['referenceNodes']: referenceNodes
+            };
+        case DRAW_CIRCUM_CENTER:
+            return {
+                ...state,
+                circumCenter
             };
         case ADD_NODE_ONE_HOPE_NEIGHBORS:
             let prevStateOneHop = {

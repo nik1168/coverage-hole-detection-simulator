@@ -91,7 +91,7 @@ class SimulatorContainer extends Component {
             <div className={classes.root}>
                 <Paper className={classes.paper} id={'paper'}>
                     <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes}
-                               addingNodes={this.props.addingNodes}/>
+                               addingNodes={this.props.addingNodes} circumCenter={this.props.circumCenter} />
                 </Paper>
             </div>
         )
@@ -102,7 +102,8 @@ function mapStateToProps(state) {
     return {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
-        addingNodes: state.demo.addingNodes
+        addingNodes: state.demo.addingNodes,
+        circumCenter: state.demo.circumCenter
     }
 }
 
