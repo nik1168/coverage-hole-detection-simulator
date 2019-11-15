@@ -234,6 +234,13 @@ export default function sketch(p) {
                         })
                     }
                 }
+                else{
+                    p.ellipse(node.x, node.y, 6, 6);
+                    p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
+                    p.stroke('black');
+                    p.fill('rgba(255,0,0, 0.25)');
+                    p.circle(node.x, node.y, node.sensingRate*2);
+                }
             });
         }
         if(p.circumCenter){

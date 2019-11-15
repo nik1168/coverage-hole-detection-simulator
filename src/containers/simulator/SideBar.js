@@ -118,15 +118,15 @@ class SideBar extends Component {
     };
 
     handleAddNodes = () => {
-        this.props.addingNodesCreator();
-        // this.props.addNodeCreator(new Node(469.4566699123661, 244.0703125, 0, 80, true, true));
-        // this.props.addNodeCreator(new Node(413.4021421616358, 224.0703125, 1));
-        // this.props.addNodeCreator(new Node(374.36416747809153, 138.0703125, 2));
-        // this.props.addNodeCreator(new Node(577.5618305744888, 196.0703125, 3));
-        // this.props.addNodeCreator(new Node(588.572541382668, 305.0703125, 4));
-        // this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
-        // this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
-        // this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
+        // this.props.addingNodesCreator();
+        this.props.addNodeCreator(new Node(469.4566699123661, 244.0703125, 0, 80, true, true));
+        this.props.addNodeCreator(new Node(413.4021421616358, 224.0703125, 1,80,false));
+        this.props.addNodeCreator(new Node(374.36416747809153, 138.0703125, 2));
+        this.props.addNodeCreator(new Node(577.5618305744888, 196.0703125, 3));
+        this.props.addNodeCreator(new Node(588.572541382668, 305.0703125, 4));
+        this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
+        this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
+        this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
     };
 
     getNodeNeighbors = (referenceNode, nodes) => {
@@ -136,7 +136,7 @@ class SideBar extends Component {
     getNeighbors = () => {
         this.props.neighborDiscoveryPhaseCreator();
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
-        const nodes = this.props.nodes;
+        const nodes = this.props.nodes.filter((val)=>val.active);
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
         console.log("There are two ways of finding one and two hope neighbors");
@@ -203,7 +203,7 @@ class SideBar extends Component {
     coverageHoleDetection = () => {
         let i = 0;
         this.props.coverageHoleDetectionPhaseCreator();
-        const nodes = this.props.nodes;
+        const nodes = this.props.nodes.filter((node)=>node.active);
         // Step 1: Select any node X randomly as a reference node;
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
         const X = referenceNodes[0];
@@ -220,7 +220,7 @@ class SideBar extends Component {
         const N_uX = N_u.sort(function (a, b) {
             return a.x - b.x
         });
-        const firstN_uX = N_uX.length > 0 ? N_uX[0] : 0
+        const firstN_uX = N_uX.length > 0 ? N_uX[0] : 0;
 
         // Step 5: Select nodes from set N whose y-coordinate < b; Assign those nodes to set Nd;
         const N_d = N.map((val) => nodes[val]).filter((val) => val.y > nodeX.y);
