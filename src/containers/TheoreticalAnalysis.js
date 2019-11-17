@@ -1,6 +1,6 @@
-import React,  { Component } from 'react';
+import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import { withRouter, Link } from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -15,8 +15,7 @@ import Loading from './common/Loading';
 
 import Topbar from './Topbar';
 import MathNotation from "../components/MathNotation";
-import SwipeDialog from "./dialogs/SwipeDialog";
-import InstructionDialog from "./dialogs/InstructionDialog";
+import Lemma1 from "./dialogs/proofs/Lemma1";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -103,20 +102,40 @@ const monthRange = Months;
 
 class TheoreticalAnalysis extends Component {
 
-  state = {
-    loading: true,
-    amount: 15000,
-    period: 3,
-    start: 0,
-    monthlyInterest: 0,
-    totalInterest: 0,
-    monthlyPayment: 0,
-    totalPayment: 0,
-    data: []
-  };
+    state = {
+        loading: true,
+        modals: {
+            active: false,
+            lemma1: {
+                active: false,
+                content: ''
+            },
+            lemma2: false,
+            lemma3: false,
+            lemma4: false,
+            lemma5: false,
+            lemma6: false,
+            lemma7: false,
+            lemma8: false,
+            lemma9: false,
+            theorem1: false,
+            theorem2: false,
+            theorem3: false
+        }
+    };
 
-  componentDidMount() {
-  }
+    componentDidMount() {
+    }
+
+    dialogClose = (lt) => {
+        this.setState({modals: {[lt]: {['active']: false}}})
+    };
+
+    openDialog = (lt) => {
+        console.log("Open dialog")
+        // this.setState({modals: {[lt]: true}})
+        this.setState({modals: {[lt]: {['active']: true}}})
+    };
 
     render() {
         const {classes} = this.props;
@@ -136,7 +155,9 @@ class TheoreticalAnalysis extends Component {
                                                     Axiom 1
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    The triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two- hop) must be enclosed within the effective sensing range of those three nodes.
+                                                    The triangle (acute, right or obtuse) formed by a reference node
+                                                    with any pair of its neighbors (one-hop or two- hop) must be
+                                                    enclosed within the effective sensing range of those three nodes.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -156,7 +177,9 @@ class TheoreticalAnalysis extends Component {
                                                     Axiom 2
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    The circum radius (R) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be either rRs or 4Rs.
+                                                    The circum radius (R) of the triangle (acute, right or obtuse)
+                                                    formed by a reference node with any pair of its neighbors (one-hop
+                                                    or two-hop) must be either rRs or 4Rs.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -176,7 +199,10 @@ class TheoreticalAnalysis extends Component {
                                                     Axiom 3
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    The circum center (Z) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be located inside or outside the sensing range of those three sensors.
+                                                    The circum center (Z) of the triangle (acute, right or obtuse)
+                                                    formed by a reference node with any pair of its neighbors (one-hop
+                                                    or two-hop) must be located inside or outside the sensing range of
+                                                    those three sensors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -191,7 +217,7 @@ class TheoreticalAnalysis extends Component {
                             </Grid>
 
                             <Grid spacing={4} container item xs={12}>
-                                <Grid  item xs={6}>
+                                <Grid item xs={6}>
                                     <Paper className={classes.paper}>
                                         <div>
                                             <div className={classes.box}>
@@ -199,12 +225,15 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 1
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an acute triangle is formed by a reference node with its one-hop neighbors, then no coverage hole exists within those three sensors.
+                                                    If an acute triangle is formed by a reference node with its one-hop
+                                                    neighbors, then no coverage hole exists within those three sensors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
-                                                <Button color='primary' variant="contained"
-                                                        className={classes.actionButtom}>
+                                                <Button
+                                                    onClick={() => this.openDialog('lemma1')}
+                                                    color='primary' variant="contained"
+                                                    className={classes.actionButtom}>
                                                     Proof
                                                 </Button>
                                             </div>
@@ -219,7 +248,9 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 2
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R r Rs , then no hole exists within those sensors.
+                                                    If an obtuse triangle is formed by a reference node with its one-hop
+                                                    neighbors such that its circum radius R r Rs , then no hole exists
+                                                    within those sensors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -239,7 +270,10 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 3
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R4Rs, and circum center (Z) is not covered by any of its neighbors, then there must be a hole besides those sensors.
+                                                    If an obtuse triangle is formed by a reference node with its one-hop
+                                                    neighbors such that its circum radius R4Rs, and circum center (Z) is
+                                                    not covered by any of its neighbors, then there must be a hole
+                                                    besides those sensors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -259,7 +293,10 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 4
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an acute triangle is formed by a reference node with its two-hop neighbors and its circum radius R 4 Rs , then there must be a coverage hole within those sensors, otherwise no coverage hole exists
+                                                    If an acute triangle is formed by a reference node with its two-hop
+                                                    neighbors and its circum radius R 4 Rs , then there must be a
+                                                    coverage hole within those sensors, otherwise no coverage hole
+                                                    exists
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -279,7 +316,8 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 5
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an obtuse triangle is formed by a reference node with its two-hop neighbors such that the angle subtended at the reference
+                                                    If an obtuse triangle is formed by a reference node with its two-hop
+                                                    neighbors such that the angle subtended at the reference
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -299,7 +337,9 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 6
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an obtuse triangle is formed by a reference node with its two-hop neighbors and the angle subtended at the reference node is obtuse, coverage hole exists in between those two-hop neighbors.
+                                                    If an obtuse triangle is formed by a reference node with its two-hop
+                                                    neighbors and the angle subtended at the reference node is obtuse,
+                                                    coverage hole exists in between those two-hop neighbors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -319,7 +359,9 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 7
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an acute triangle is formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors, no hole exists if R r Rs , otherwise, coverage hole exists within them.
+                                                    If an acute triangle is formed by a reference node with one of its
+                                                    one-hop neighbor and another one with its two-hop neighbors, no hole
+                                                    exists if R r Rs , otherwise, coverage hole exists within them.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -339,7 +381,11 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 8
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If an obtuse triangle is formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors, such that angle subtended at the reference node is acute, no hole exists within them if RrRs, otherwise a hole must exist if circum center Z is not covered by any other sensor.
+                                                    If an obtuse triangle is formed by a reference node with one of its
+                                                    one-hop neighbor and another one with its two-hop neighbors, such
+                                                    that angle subtended at the reference node is acute, no hole exists
+                                                    within them if RrRs, otherwise a hole must exist if circum center Z
+                                                    is not covered by any other sensor.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -359,7 +405,10 @@ class TheoreticalAnalysis extends Component {
                                                     Lemma 9
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    If the triangle formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors subtends an obtuse angle at the reference node, hole exists within those neighbors.
+                                                    If the triangle formed by a reference node with one of its one-hop
+                                                    neighbor and another one with its two-hop neighbors subtends an
+                                                    obtuse angle at the reference node, hole exists within those
+                                                    neighbors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
@@ -388,7 +437,7 @@ class TheoreticalAnalysis extends Component {
                                             <div className={classes.alignRight}>
                                                 <Button color='primary' variant="contained"
                                                         className={classes.actionButtom}>
-                                                    Learn more
+                                                    Proof
                                                 </Button>
                                             </div>
                                         </div>
@@ -402,13 +451,14 @@ class TheoreticalAnalysis extends Component {
                                                     Theorem 2
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    Coverage hole may or may not exist in the network, if an obtuse triangle is formed by a reference node with its neighbors.
+                                                    Coverage hole may or may not exist in the network, if an obtuse
+                                                    triangle is formed by a reference node with its neighbors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
                                                 <Button color='primary' variant="contained"
                                                         className={classes.actionButtom}>
-                                                    Learn more
+                                                    Proof
                                                 </Button>
                                             </div>
                                         </div>
@@ -422,13 +472,14 @@ class TheoreticalAnalysis extends Component {
                                                     Theorem 3
                                                 </Typography>
                                                 <Typography variant="body1" gutterBottom>
-                                                    Presence or absence of coverage hole in the network depends on the nature of angle formed by a reference node with its neighbors.
+                                                    Presence or absence of coverage hole in the network depends on the
+                                                    nature of angle formed by a reference node with its neighbors.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
                                                 <Button color='primary' variant="contained"
                                                         className={classes.actionButtom}>
-                                                    Learn more
+                                                    Proof
                                                 </Button>
                                             </div>
                                         </div>
@@ -437,6 +488,10 @@ class TheoreticalAnalysis extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <Lemma1
+                        open={this.state.modals.lemma1.active}
+                        identifier={'lemma1'}
+                        onClose={this.dialogClose}/>
                 </div>
             </React.Fragment>
         )
