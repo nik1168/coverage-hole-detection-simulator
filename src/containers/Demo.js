@@ -120,7 +120,7 @@ class Demo extends Component {
     findHoleBetweenReferenceNodeAndPairNeighbors = (referenceNode, Ai, Aj) => {
 
         const triangle = new Triangle(referenceNode, Ai, Aj);
-        const {nodes,sensingRate} = this.props;
+        const {nodes, sensingRate} = this.props;
         console.log("--------------------------------------------");
         console.log("Triangle between reference node and points:");
         console.log(referenceNode.id);
@@ -194,7 +194,7 @@ class Demo extends Component {
         const N_dX = N_d.sort(function (a, b) {
             return b.x - a.x
         });
-        const combiNUx = getCombinations(N_u,2);
+        const combiNUx = getCombinations(N_u, 2);
         console.log("combiNUx")
         console.log(combiNUx)
 
@@ -228,7 +228,7 @@ class Demo extends Component {
                     Ai = N_dX[0];
                     Aj = N_uX[0];
                     this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
-                } else if(N_dX.length > 1) {
+                } else if (N_dX.length > 1) {
                     Ai = N_dX[0];
                     Aj = N_dX[1];
                     this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
@@ -279,10 +279,15 @@ class Demo extends Component {
         return response
     };
 
+    componentDidMount() {
+        console.log("DEMO COMPONENT");
+    }
+
 
     render() {
+        console.log("RE RENDER COMPONENT DEMO");
         const {classes} = this.props;
-        const currentPath = this.props.location.pathname
+        const currentPath = this.props.location.pathname;
 
         return (
             <React.Fragment>
@@ -300,6 +305,7 @@ class Demo extends Component {
                                     handleCoverage={this.handleCoverageDetectionPhase}
                                     handleNodeError={this.handleNodeError}
                                     handleHelp={this.handleHelp}
+                                    learnMoredialog = {this.state.learnMoredialog}
                                 />
                             </Grid>
                             <Grid item xs={12} id={'gridNetworks'}>

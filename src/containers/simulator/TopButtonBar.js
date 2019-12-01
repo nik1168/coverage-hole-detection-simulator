@@ -121,13 +121,14 @@ class TopButtonBar extends Component {
 
 
     componentDidMount() {
-        console.log("Props Card Item");
+        console.log("TOP BUTTON BAR");
         console.log(this.props)
     }
 
     render() {
+        console.log("RENDER TOP BUTTON BAR COMPONENT");
         const {classes, neighborDiscoveryPhase, addingNodes, nodes} = this.props;
-        const areThereReferenceNodes = nodes.filter((val) => val.isReference).length > 0
+        const areThereReferenceNodes = nodes.filter((val) => val.isReference).length > 0;
         console.log("NEIGHBOR DISCOVERY PHASE");
         console.log(neighborDiscoveryPhase);
 
