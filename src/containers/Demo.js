@@ -11,7 +11,7 @@ import * as demoActions from "../actions/demo";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {Node, Point, Triangle} from "../sketches/sketch";
-import {joinArrays} from "../utils/generalUtils";
+import {getCombinations, joinArrays} from "../utils/generalUtils";
 import {checkPointInsideCircle} from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
 
@@ -120,7 +120,7 @@ class Demo extends Component {
     findHoleBetweenReferenceNodeAndPairNeighbors = (referenceNode, Ai, Aj) => {
 
         const triangle = new Triangle(referenceNode, Ai, Aj);
-        const {nodes} = this.props;
+        const {nodes,sensingRate} = this.props;
         console.log("--------------------------------------------");
         console.log("Triangle between reference node and points:");
         console.log(referenceNode.id);
@@ -130,6 +130,9 @@ class Demo extends Component {
         // Step 8: Compute circum radius R and circum center Z of triangle XAiAj;
         const R = triangle.getCircumRadius();
         const Z = triangle.getCircumCenter();
+        console.log("Circum center: ", Z);
+        console.log("Circum Raduis: ", R);
+        console.log("Sensing rate: ", sensingRate);
         this.props.drawCircumCenterCreator(Z);
         this.props.addCoverageHole(referenceNode.id, Z);
         // Step 9: Verify if XAiAj is an acute or obtuse triangle;
@@ -191,6 +194,9 @@ class Demo extends Component {
         const N_dX = N_d.sort(function (a, b) {
             return b.x - a.x
         });
+        const combiNUx = getCombinations(N_u,2);
+        console.log("combiNUx")
+        console.log(combiNUx)
 
         // Step 7: Select 1st two nodes Ai and Aj from Nux such that x-coordinate of Ai < Aj
         let isFirstTime = true;
@@ -218,14 +224,16 @@ class Demo extends Component {
             do {
                 let Ai = 0;
                 let Aj = 0;
-                if (isFirstTime) {
+                if (isFirstTime && N_uX.length > 0) {
                     Ai = N_dX[0];
                     Aj = N_uX[0];
-                } else {
+                    this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                } else if(N_dX.length > 1) {
                     Ai = N_dX[0];
                     Aj = N_dX[1];
+                    this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
                 }
-                this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+
                 if (isFirstTime) {
                     isFirstTime = false
                 } else {
