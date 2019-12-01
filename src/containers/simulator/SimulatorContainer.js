@@ -71,7 +71,6 @@ const styles = theme => ({
         marginRight: theme.spacing(2)
     }
 });
-export let pointsSegment1 = [];
 
 
 class SimulatorContainer extends Component {
@@ -91,7 +90,7 @@ class SimulatorContainer extends Component {
             <div className={classes.root}>
                 <Paper className={classes.paper} id={'paper'}>
                     <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes}
-                               addingNodes={this.props.addingNodes} circumCenter={this.props.circumCenter} />
+                               addingNodes={this.props.addingNodes} circumCenter={this.props.circumCenter}/>
                 </Paper>
             </div>
         )

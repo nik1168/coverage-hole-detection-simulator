@@ -10,7 +10,7 @@ import {bindActionCreators} from "redux";
 import * as demoActions from "../actions/demo";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {Node, Triangle} from "../sketches/sketch";
+import {Node, Point, Triangle} from "../sketches/sketch";
 import {joinArrays} from "../utils/generalUtils";
 import {checkPointInsideCircle} from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
@@ -36,7 +36,7 @@ const styles = theme => ({
         marginBottom: theme.spacing(4),
         width: 500
     }
-})
+});
 
 class Demo extends Component {
     state = {
@@ -56,16 +56,16 @@ class Demo extends Component {
     };
 
     handleAddNodes = () => {
-        console.log("Handle Add Nodess")
-        // this.props.addingNodesCreator();
-        this.props.addNodeCreator(new Node(469.4566699123661, 244.0703125, 0, 80, true, true));
-        this.props.addNodeCreator(new Node(413.4021421616358, 224.0703125, 1,80,false));
-        this.props.addNodeCreator(new Node(374.36416747809153, 138.0703125, 2));
-        this.props.addNodeCreator(new Node(577.5618305744888, 196.0703125, 3));
-        this.props.addNodeCreator(new Node(588.572541382668, 305.0703125, 4));
-        this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
-        this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
-        this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
+        console.log("Handle Add Nodess");
+        this.props.addingNodesCreator();
+        // this.props.addNodeCreator(new Node(469.4566699123661, 244.0703125, 0, 80, true, true));
+        // this.props.addNodeCreator(new Node(413.4021421616358, 224.0703125, 1, 80, false));
+        // this.props.addNodeCreator(new Node(374.36416747809153, 138.0703125, 2));
+        // this.props.addNodeCreator(new Node(577.5618305744888, 196.0703125, 3));
+        // this.props.addNodeCreator(new Node(588.572541382668, 305.0703125, 4));
+        // this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
+        // this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
+        // this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
     };
 
     handleStartSimulation = () => {
@@ -98,7 +98,7 @@ class Demo extends Component {
     getNeighbors = () => {
         this.props.neighborDiscoveryPhaseCreator();
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
-        const nodes = this.props.nodes.filter((val)=>val.active);
+        const nodes = this.props.nodes.filter((val) => val.active);
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
         console.log("There are two ways of finding one and two hope neighbors");
@@ -139,22 +139,22 @@ class Demo extends Component {
         // Step 10: If (X forms an acute triangle with its neighbors Ai and Aj)
         if (isAcute) {
             if (R < referenceNode.sensingRate) {
-                console.log("%cNo hole exists around the reference node "+referenceNode.id+"", "color: green; font-size:15px;")
+                console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
-                console.log("%cThere exists a hole around the reference node "+referenceNode.id+"", "color: red; font-size:15px;");
+                console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
                 this.props.addCoverageHole(referenceNode.id, Z);
             }
         }
         if (isObtuse) {
             if (R < referenceNode.sensingRate) {
-                console.log("%cNo hole exists around the reference node "+referenceNode.id+"", "color: green; font-size:15px;")
+                console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 // Check if circum center Z is covered by any other sensor
                 let noHoleDetected = this.nodesThatCoverCircumCenter(Z, nodes).length > 0;
                 if (noHoleDetected) {
-                    console.log("No hole exists around the reference node "+referenceNode.id+"", "color: green; font-size:15px;")
+                    console.log("No hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
                 } else {
-                    console.log("%cThere exists a hole around the reference node "+referenceNode.id+"", "color: red; font-size:15px;");
+                    console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
                     this.props.addCoverageHole(referenceNode.id, Z);
                 }
             }
@@ -165,7 +165,7 @@ class Demo extends Component {
     coverageHoleDetection = () => {
         let i = 0;
         this.props.coverageHoleDetectionPhaseCreator();
-        const nodes = this.props.nodes.filter((node)=>node.active);
+        const nodes = this.props.nodes.filter((node) => node.active);
         // Step 1: Select any node X randomly as a reference node;
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
         const X = referenceNodes[0];
@@ -194,7 +194,7 @@ class Demo extends Component {
 
         // Step 7: Select 1st two nodes Ai and Aj from Nux such that x-coordinate of Ai < Aj
         let isFirstTime = true;
-        if (N_uX.length > 0) {
+        if (N_uX.length >= 2) {
             do {
                 console.log("Entro!!");
                 let Ai = N_uX[0];
@@ -205,6 +205,12 @@ class Demo extends Component {
                 const whileCond = N_uX.length !== 1;
                 i++;
             } while (N_uX.length !== 1);
+        } else {
+            console.log("X");
+            console.log(nodeX)
+            const Z = new Point(0, 0)
+            console.log("%cThere exists a hole around the reference node " + nodeX.id + "", "color: red; font-size:15px;");
+            this.props.addCoverageHole(nodeX.id, Z);
         }
 
         // Step 14: Choose the 1st node Ai of Ndx and last balance node Aj of Nux;
@@ -229,7 +235,10 @@ class Demo extends Component {
 
             } while (N_dX.length !== 1);
         }
-        this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, N_dX[0], firstN_uX);
+        if (N_dX.length > 0) {
+            this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, N_dX[0], firstN_uX);
+        }
+
 
         this.props.coverageHoleDetectionPhaseCreator();
     };
@@ -253,15 +262,14 @@ class Demo extends Component {
     };
 
     nodesThatCoverCircumCenter = (circumCenter, nodes) => {
-        let response = []
+        let response = [];
         nodes.forEach((node) => {
             if (checkPointInsideCircle(node, circumCenter, node.sensingRate)) {
                 response.push(node)
             }
-        })
+        });
         return response
     };
-
 
 
     render() {
@@ -300,6 +308,7 @@ class Demo extends Component {
         )
     }
 }
+
 function mapStateToProps(state) {
     return {
         nodes: state.demo.nodes,

@@ -89,7 +89,7 @@ const styles = theme => ({
     backButton: {
         marginRight: theme.spacing(2)
     }
-})
+});
 
 const theme = createMuiTheme({
     palette: {
@@ -100,22 +100,22 @@ const theme = createMuiTheme({
 
 
 class TopButtonBar extends Component {
-    handleAddNodes = ()=>{
+    handleAddNodes = () => {
         this.props.handleAddNodes()
     };
-    handleSimulation = ()=>{
+    handleSimulation = () => {
         this.props.handleSimulation()
     };
-    handleNeighbors = ()=>{
+    handleNeighbors = () => {
         this.props.handleNeighbor()
     };
-    handleCoverageHole = ()=>{
+    handleCoverageHole = () => {
         this.props.handleCoverage()
     };
-    handleNodeError = ()=>{
+    handleNodeError = () => {
         this.props.handleNodeError()
     };
-    handleHelp = ()=>{
+    handleHelp = () => {
         this.props.handleHelp()
     };
 
