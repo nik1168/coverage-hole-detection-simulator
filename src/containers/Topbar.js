@@ -92,11 +92,11 @@ class Topbar extends Component {
 
   mobileMenuOpen = (event) => {
     this.setState({ menuDrawer: true });
-  }
+  };
 
   mobileMenuClose = (event) => {
     this.setState({ menuDrawer: false });
-  }
+  };
 
   componentDidMount() {
     window.scrollTo(0, 0);

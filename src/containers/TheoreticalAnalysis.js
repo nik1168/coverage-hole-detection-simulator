@@ -98,8 +98,6 @@ const styles = theme => ({
     }
 });
 
-const monthRange = Months;
-
 class TheoreticalAnalysis extends Component {
 
     state = {
@@ -139,10 +137,11 @@ class TheoreticalAnalysis extends Component {
 
     render() {
         const {classes} = this.props;
+        const currentPath = this.props.location.pathname
         return (
             <React.Fragment>
                 <CssBaseline/>
-                <Topbar/>
+                <Topbar currentPath={currentPath}/>
                 <div className={classes.root}>
                     <Grid container justify="center">
                         <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>

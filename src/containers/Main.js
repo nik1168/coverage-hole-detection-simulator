@@ -105,19 +105,19 @@ class Main extends Component {
 
     openDialog = (event) => {
         this.setState({learnMoredialog: true});
-    }
+    };
 
     dialogClose = (event) => {
         this.setState({learnMoredialog: false});
-    }
+    };
 
     openGetStartedDialog = (event) => {
         this.setState({getStartedDialog: true});
-    }
+    };
 
     closeGetStartedDialog = (event) => {
         this.setState({getStartedDialog: false});
-    }
+    };
 
     render() {
         const {classes} = this.props;
