@@ -12,7 +12,11 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {Node, Point, Triangle} from "../sketches/sketch";
 import {getCombinations, joinArrays} from "../utils/generalUtils";
-import {checkPointInsideCircle} from "../utils/geometryUtils";
+import {
+    checkPointInsideCircle,
+    nodesThatCoverCircumCenter,
+    nodesThatListenedMessageWithRespectToRadius
+} from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
 
 const backgroundShape = require('../images/shape.svg');
@@ -107,7 +111,7 @@ class Demo extends Component {
             console.log("We iterate for every node that is not the reference node and we send a message");
             console.log("Nodes that listened to my message :)");
             const message = "HELLO!!";
-            const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
+            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
             console.log("Just for testing purposes, let's see the union");
             const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
             console.log(union);
@@ -153,7 +157,7 @@ class Demo extends Component {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 // Check if circum center Z is covered by any other sensor
-                let noHoleDetected = this.nodesThatCoverCircumCenter(Z, nodes).length > 0;
+                let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes).length > 0;
                 if (noHoleDetected) {
                     console.log("No hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
                 } else {
@@ -173,7 +177,7 @@ class Demo extends Component {
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
         const X = referenceNodes[0];
         // Step 2: Find one and two-hop neighbors of X;
-        const {oneHopeNeighbors, twoHopeNeighbors} = this.nodesThatListenedMessageWithRespectToRadius(X, nodes, true, "Hello");
+        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, true, "Hello");
         // Assign those nodes to set N
         const N = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
         const nodeX = nodes[X];
@@ -195,8 +199,8 @@ class Demo extends Component {
             return b.x - a.x
         });
         const combiNUx = getCombinations(N_u, 2);
-        console.log("combiNUx")
-        console.log(combiNUx)
+        console.log("combiNUx");
+        console.log(combiNUx);
 
         // Step 7: Select 1st two nodes Ai and Aj from Nux such that x-coordinate of Ai < Aj
         let isFirstTime = true;
@@ -213,8 +217,8 @@ class Demo extends Component {
             } while (N_uX.length !== 1);
         } else {
             console.log("X");
-            console.log(nodeX)
-            const Z = new Point(0, 0)
+            console.log(nodeX);
+            const Z = new Point(0, 0);
             console.log("%cThere exists a hole around the reference node " + nodeX.id + "", "color: red; font-size:15px;");
             this.props.addCoverageHole(nodeX.id, Z);
         }
@@ -251,33 +255,6 @@ class Demo extends Component {
         this.props.coverageHoleDetectionPhaseCreator();
     };
 
-    nodesThatListenedMessageWithRespectToRadius = (referenceNode, nodes, oneHop, message) => {
-        let response = {
-            oneHopeNeighbors: [],
-            twoHopeNeighbors: []
-        };
-        nodes.forEach((node, index) => {
-            if (referenceNode !== index) {
-                if (checkPointInsideCircle(nodes[referenceNode], node, node.sensingRate)) {
-                    response.oneHopeNeighbors.push(index)
-                }
-                if (checkPointInsideCircle(nodes[referenceNode], node, 2 * node.sensingRate)) {
-                    response.twoHopeNeighbors.push(index)
-                }
-            }
-        });
-        return response
-    };
-
-    nodesThatCoverCircumCenter = (circumCenter, nodes) => {
-        let response = [];
-        nodes.forEach((node) => {
-            if (checkPointInsideCircle(node, circumCenter, node.sensingRate)) {
-                response.push(node)
-            }
-        });
-        return response
-    };
 
     componentDidMount() {
         console.log("DEMO COMPONENT");
@@ -305,7 +282,7 @@ class Demo extends Component {
                                     handleCoverage={this.handleCoverageDetectionPhase}
                                     handleNodeError={this.handleNodeError}
                                     handleHelp={this.handleHelp}
-                                    learnMoredialog = {this.state.learnMoredialog}
+                                    learnMoredialog={this.state.learnMoredialog}
                                 />
                             </Grid>
                             <Grid item xs={12} id={'gridNetworks'}>

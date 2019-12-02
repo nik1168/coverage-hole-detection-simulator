@@ -13,6 +13,7 @@ import Topbar from './Topbar';
 import {bindActionCreators} from "redux";
 import * as theoremsActions from "../actions/theoretical";
 import MathNotation from "../components/MathNotation";
+import { fadeIn } from 'react-animations'
 
 const backgroundShape = require('../images/shape.svg');
 
