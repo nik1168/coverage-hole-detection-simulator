@@ -30,7 +30,9 @@ class BounceNode extends Component {
             <div id="outerContainer">
                 <div id="container">
                     <div className="item">
-                        <img src="https://png.pngtree.com/svg/20170906/sensor_609853.png"/>
+                        <img src="https://png.pngtree.com/svg/20170906/sensor_609853.png"
+                             style={{backgroundColor : 'rgba(255,255,255,0.6)',
+                             borderRadius : '110px'}}/>
                     </div>
                     {/*<div className="circle" style="animation-delay: 0s"></div>*/}
                     {/*<div className="circle" style="animation-delay: 1s"></div>*/}

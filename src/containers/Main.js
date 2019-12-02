@@ -139,17 +139,17 @@ class Main extends Component {
                                     <Paper className={classes.paper}>
                                         <div>
                                             <div className={classes.box2}>
-                                                <Typography color='secondary' gutterBottom>
-                                                    Full box
+                                                <Typography color='secondary' variant="h5" gutterBottom>
+                                                    Welcome!
                                                 </Typography>
-                                                <Typography variant="body1" gutterBottom>
-                                                    This is an example of a full-width box
+                                                <Typography variant="h6" gutterBottom>
+                                                    The following project is an implementation of an algorithm that applies computational geometry in order to find coverage holes in wireless sensor networks
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
                                                 <Button color='primary' variant="contained"
                                                         className={classes.actionButtom}>
-                                                    Learn more
+                                                    Go to Demo!!
                                                 </Button>
                                             </div>
                                         </div>
