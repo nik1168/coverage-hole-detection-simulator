@@ -13,7 +13,8 @@ import Topbar from './Topbar';
 import {bindActionCreators} from "redux";
 import * as theoremsActions from "../actions/theoretical";
 import MathNotation from "../components/MathNotation";
-import { fadeIn } from 'react-animations'
+import {fadeIn} from 'react-animations'
+import BounceNode from "../components/BounceNode";
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -68,7 +69,11 @@ const styles = theme => ({
     },
     box: {
         marginBottom: 40,
-        height: 65
+        height: 180
+    },
+    box2: {
+        marginBottom: 40,
+        height: 80
     },
     inlining: {
         display: 'inline-block',
@@ -129,68 +134,11 @@ class Main extends Component {
                 <div className={classes.root}>
                     <Grid container justify="center">
                         <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
-                            <Grid item xs={12} md={4}>
-                                <Paper className={classes.paper}>
-                                    <div className={classes.box}>
-                                        <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                                            First title :) :P
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            Let's try a math equation :P
-                                            <br/> <MathNotation text={"hola"} inline={true}/>
-                                        </Typography>
-                                    </div>
-                                    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                        <Button color='primary' variant="contained" className={classes.actionButtom}>
-                                            Learn more
-                                        </Button>
-                                    </div>
-                                </Paper>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <Paper className={classes.paper}>
-                                    <div className={classes.box}>
-                                        <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                                            Another box
-                                        </Typography>
-                                        <Typography variant="body1" gutterBottom>
-                                            A default box
-                                        </Typography>
-                                    </div>
-                                    <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                        <Button color='primary' variant="contained" className={classes.actionButtom}>
-                                            Learn more
-                                        </Button>
-                                    </div>
-                                </Paper>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <Paper className={classes.paper}>
-                                    <div className={classes.box}>
-                                        <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                                            A box with a carousel
-                                        </Typography>
-                                        <Typography variant="body1" gutterBottom>
-                                            If you click in Getting Started, you will see a nice carousel
-                                        </Typography>
-                                    </div>
-                                    <div className={classes.alignRight}>
-                                        <Button onClick={this.openDialog} variant="outlined"
-                                                className={classes.actionButtom}>
-                                            Learn more
-                                        </Button>
-                                        <Button onClick={this.openGetStartedDialog} color='primary' variant="contained"
-                                                className={classes.actionButtom}>
-                                            Dashboard
-                                        </Button>
-                                    </div>
-                                </Paper>
-                            </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
                                     <Paper className={classes.paper}>
                                         <div>
-                                            <div className={classes.box}>
+                                            <div className={classes.box2}>
                                                 <Typography color='secondary' gutterBottom>
                                                     Full box
                                                 </Typography>
@@ -208,15 +156,31 @@ class Main extends Component {
                                     </Paper>
                                 </Grid>
                             </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={3}>
+                                    <div>
+                                        <div className={classes.box}>
+                                            <BounceNode/>
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <div>
+                                        <div className={classes.box} style={{paddingTop:'15px'}}>
+                                            <BounceNode />
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <div>
+                                        <div className={classes.box}>
+                                            <BounceNode/>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
-                    <SwipeDialog
-                        open={this.state.learnMoredialog}
-                        onClose={this.dialogClose}/>
-                    <InstructionDialog
-                        open={this.state.getStartedDialog}
-                        onClose={this.closeGetStartedDialog}
-                    />
                 </div>
             </React.Fragment>
         )
