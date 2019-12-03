@@ -21,6 +21,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import {DATA_THEO} from "../data/theo";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -119,6 +120,8 @@ class DefinitionsAndNotations extends Component {
 
     state = {
         loading: true,
+        selectedImage: "",
+        selectedTest: "",
         modals: {
             active: false,
             lemma1: {
@@ -143,129 +146,78 @@ class DefinitionsAndNotations extends Component {
     }
 
     dialogClose = (lt) => {
-        this.setState({modals: {[lt]: {['active']: false}}})
+        this.setState({modals: {['lemma1']: {['active']: false}}})
     };
 
-    openDialog = (lt) => {
+    openDialog = (proof) => {
         console.log("Open dialog");
         // this.setState({modals: {[lt]: true}})
-        this.setState({modals: {[lt]: {['active']: true}}})
+        this.setState({
+            modals: {['lemma1']: {['active']: true}},
+            selectedImage: proof['img'],
+            selectedTest: proof['description']
+        })
     };
 
     render() {
         const {classes} = this.props;
         const currentPath = this.props.location.pathname;
-        const data = [
-            {
-                img: "https://png.pngtree.com/svg/20170906/sensor_609853.png",
-                title: 'Image',
-                author: 'author',
-            },
-            {
-                img: "https://png.pngtree.com/svg/20170906/sensor_609853.png",
-                title: 'Image',
-                author: 'author',
-            },
-            {
-                img: "https://png.pngtree.com/svg/20170906/sensor_609853.png",
-                title: 'Image',
-                author: 'author',
-            },
-            {
-                img: "https://png.pngtree.com/svg/20170906/sensor_609853.png",
-                title: 'Image',
-                author: 'author',
-            }
-        ];
+        const keys = Object.keys(DATA_THEO);
         return (
             <React.Fragment>
                 <CssBaseline/>
                 <Topbar currentPath={currentPath}/>
                 <div className={classes.root}>
-                    <Grid container justify="center">
-                        <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
-                            <GridList className={classes.gridList} cols={2.5} spacing={10}>
-                                {data.map(tile => (
-                                    <GridListTile key={tile.img}>
-                                        <Paper className={classes.paper}>
-                                            <div>
-                                                <div className={classes.box}>
-                                                    <Typography color='secondary' gutterBottom>
-                                                        Axiom 1
-                                                    </Typography>
-                                                    <Typography variant="body1" gutterBottom>
-                                                        The triangle (acute, right or obtuse) formed by a reference node
-                                                        with any pair of its neighbors (one-hop or two- hop) must be
-                                                        enclosed within the effective sensing range of those three nodes.
-                                                    </Typography>
-                                                </div>
-                                                <div className={classes.alignRight}>
-                                                    <Button color='primary' variant="contained"
-                                                            className={classes.actionButtom}>
-                                                        Learn more
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </Paper>
-                                        {/*<GridListTileBar*/}
-                                        {/*    title={tile.title}*/}
-                                        {/*    classes={{*/}
-                                        {/*        root: classes.titleBar,*/}
-                                        {/*        title: classes.title,*/}
-                                        {/*    }}*/}
-                                        {/*    actionIcon={*/}
-                                        {/*        <IconButton aria-label={`star ${tile.title}`}>*/}
-                                        {/*            <StarBorderIcon className={classes.title}/>*/}
-                                        {/*        </IconButton>*/}
-                                        {/*    }*/}
-                                        {/*/>*/}
-                                    </GridListTile>
-                                ))}
-                            </GridList>
-                        </Grid>
-                    </Grid>
-                    <Grid container justify="center">
-                        <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
-                            <GridList className={classes.gridList} cols={2.5}>
-                                {data.map(tile => (
-                                    <GridListTile key={tile.img}>
-                                        <Paper className={classes.paper}>
-                                            <div>
-                                                <div className={classes.box}>
-                                                    <Typography color='secondary' gutterBottom>
-                                                        Axiom 1
-                                                    </Typography>
-                                                    <Typography variant="body1" gutterBottom>
-                                                        The triangle (acute, right or obtuse) formed by a reference node
-                                                        with any pair of its neighbors (one-hop or two- hop) must be
-                                                        enclosed within the effective sensing range of those three nodes.
-                                                    </Typography>
-                                                </div>
-                                                <div className={classes.alignRight}>
-                                                    <Button color='primary' variant="contained"
-                                                            className={classes.actionButtom}>
-                                                        Learn more
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </Paper>
-                                        {/*<GridListTileBar*/}
-                                        {/*    title={tile.title}*/}
-                                        {/*    classes={{*/}
-                                        {/*        root: classes.titleBar,*/}
-                                        {/*        title: classes.title,*/}
-                                        {/*    }}*/}
-                                        {/*    actionIcon={*/}
-                                        {/*        <IconButton aria-label={`star ${tile.title}`}>*/}
-                                        {/*            <StarBorderIcon className={classes.title}/>*/}
-                                        {/*        </IconButton>*/}
-                                        {/*    }*/}
-                                        {/*/>*/}
-                                    </GridListTile>
-                                ))}
-                            </GridList>
-                        </Grid>
-                    </Grid>
+                    {
+                        keys.map((key) => (
+                            <Grid container justify="center">
+                                <Grid spacing={4} alignItems="center" justify="left" container className={classes.grid}>
+                                    <Typography color='secondary' variant="h4" gutterBottom>
+                                        {key}
+                                    </Typography>
+                                    <GridList className={classes.gridList} cols={2.5} spacing={20}>
+                                        {DATA_THEO[key].map((axiom, indx) => (
+                                            <GridListTile key={indx}>
+                                                <Paper className={classes.paper}>
+                                                    <div>
+                                                        <div className={classes.box}>
+                                                            <Typography color='secondary' gutterBottom>
+                                                                {axiom.title}
+                                                            </Typography>
+                                                            <Typography variant="body1" gutterBottom>
+                                                                {axiom.description}
+                                                            </Typography>
+                                                        </div>
+                                                        {
+                                                            axiom['proof'] && (
+                                                                <div className={classes.alignRight}>
+                                                                    <Button color='primary' variant="contained"
+                                                                            className={classes.actionButtom}
+                                                                            onClick={() => {
+                                                                                this.openDialog(axiom['proof'])
+                                                                            }}
+                                                                    >
+                                                                        Proof!
+                                                                    </Button>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        <div style={{paddingTop: 8}}></div>
+                                                    </div>
+                                                </Paper>
+                                            </GridListTile>
+                                        ))}
+                                    </GridList>
+                                </Grid>
+                            </Grid>
+                        ))
+                    }
+                    <Lemma1
+                        open={this.state.modals.lemma1.active}
+                        identifier={'lemma1'}
+                        img={this.state.selectedImage}
+                        description={this.state.selectedTest}
+                        onClose={this.dialogClose}/>
                 </div>
             </React.Fragment>
         )

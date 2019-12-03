@@ -38,28 +38,27 @@ class Lemma1 extends Component {
 
   state = {
     activeStep: 0
-  }
+  };
 
   handleClose = () => {
     this.props.onClose(this.props.identifier)
   };
 
   render() {
-    const { identifier,classes } = this.props;
+    const { identifier,classes, img, description } = this.props;
     const { activeStep } = this.state;
     return (
       <BaseDialog {...this.props}>
         <div className={classes.container}>
           <div className={classes.gutterBottom}>
-            <img width={100} src={logo} alt="" />
+            <img width={100} src={img} alt="" />
           </div>
           <div className={classes.stepsContainer}>
             <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
               Proof :)
             </Typography>
             <Typography variant="body2" gutterBottom>
-              Let an acute triangle be formed by a reference node A with its one pair of one-hop neighbors as shown in Fig. 5.
-              The maximum acute angle of that triangle must be lower than pi/2
+              {description}
             </Typography>
           </div>
 
