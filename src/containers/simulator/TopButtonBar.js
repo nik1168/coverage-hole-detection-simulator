@@ -8,7 +8,6 @@ import SettingsInputAntennaIcon from '@material-ui/icons/SettingsInputAntenna';
 import AddIcon from '@material-ui/icons/Add';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
-import {Node, timesClicked, Triangle} from '../../sketches/sketch';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
@@ -18,9 +17,6 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {ThemeProvider as MuiThemeProvider} from '@material-ui/core/styles';
 import {red} from "@material-ui/core/colors";
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
-import SwipeDialog from "../dialogs/SwipeDialog";
-import {checkPointInsideCircle} from "../../utils/geometryUtils";
-import {joinArrays} from "../../utils/generalUtils";
 
 
 const styles = theme => ({

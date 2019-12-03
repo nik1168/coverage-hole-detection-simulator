@@ -1,12 +1,12 @@
-import React,  { Component } from 'react';
+import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import CardItem from './simulator/CardItem';
 import Topbar from './Topbar';
 import SectionHeader from './typo/SectionHeader';
+
 const backgroundShape = require('../images/shape.svg');
-import P5Wrapper from 'react-p5-wrapper';
 
 const styles = theme => ({
   root: {
@@ -36,7 +36,7 @@ class Cards extends Component {
         <CssBaseline />
         <Topbar currentPath={currentPath} />
         <div className={classes.root}>
-          <Grid container justify="center"> 
+          <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
               <Grid item xs={12}>
                 <SectionHeader title="Cards" subtitle="One page with a list of a collection" />

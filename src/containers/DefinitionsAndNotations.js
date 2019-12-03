@@ -1,26 +1,16 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import SimpleLineChart from '../components/SimpleLineChart';
-import Months from './common/Months';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import Loading from './common/Loading';
 
 import Topbar from './Topbar';
-import MathNotation from "../components/MathNotation";
 import Lemma1 from "./dialogs/proofs/Lemma1";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import {DATA_THEO} from "../data/theo";
 
 const numeral = require('numeral');
@@ -127,18 +117,7 @@ class DefinitionsAndNotations extends Component {
             lemma1: {
                 active: false,
                 content: ''
-            },
-            lemma2: false,
-            lemma3: false,
-            lemma4: false,
-            lemma5: false,
-            lemma6: false,
-            lemma7: false,
-            lemma8: false,
-            lemma9: false,
-            theorem1: false,
-            theorem2: false,
-            theorem3: false
+            }
         }
     };
 

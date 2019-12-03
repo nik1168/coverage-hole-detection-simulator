@@ -6,14 +6,10 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import InstructionDialog from './dialogs/InstructionDialog';
-import SwipeDialog from './dialogs/SwipeDialog';
 import {connect} from 'react-redux'
 import Topbar from './Topbar';
 import {bindActionCreators} from "redux";
 import * as theoremsActions from "../actions/theoretical";
-import MathNotation from "../components/MathNotation";
-import {fadeIn} from 'react-animations'
 import BounceNode from "../components/BounceNode";
 
 const backgroundShape = require('../images/shape.svg');

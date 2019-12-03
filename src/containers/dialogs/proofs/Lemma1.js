@@ -63,11 +63,6 @@ class Lemma1 extends Component {
           </div>
 
         </div>
-        {/*<div>*/}
-        {/*  <Button variant='contained' onClick={this.handleClose} color="primary" autoFocus>*/}
-        {/*    Ok*/}
-        {/*  </Button>*/}
-        {/*</div>*/}
         <div className={classes.buttonOk}>
           <Button variant='contained' onClick={this.handleClose} color="primary" autoFocus>
             Ok

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     circle: {
@@ -19,7 +18,7 @@ const styles = theme => ({
     spaceTop: {
         marginTop: 20
     }
-})
+});
 
 class BounceNode extends Component {
 
@@ -34,12 +33,6 @@ class BounceNode extends Component {
                              style={{backgroundColor : 'rgba(255,255,255,0.6)',
                              borderRadius : '110px'}}/>
                     </div>
-                    {/*<div className="circle" style="animation-delay: 0s"></div>*/}
-                    {/*<div className="circle" style="animation-delay: 1s"></div>*/}
-                    {/*<div className="circle" style="animation-delay: 2s"></div>*/}
-                    {/*<div className="circle" style="animation-delay: 3s"></div>*/}
-
-                    {/*<div className="circle" style={{animationDelay: '-3s'}}></div>*/}
                     <div className="circle" style={{animationDelay: '-2s'}}/>
                     <div className="circle" style={{animationDelay: '-1s'}}/>
                     <div className="circle" style={{animationDelay: '0s'}}/>
