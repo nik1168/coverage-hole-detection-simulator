@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -59,6 +59,11 @@ const styles = theme => ({
         textTransform: 'uppercase',
         margin: theme.spacing(1),
         width: 152
+    },
+    actionButtomR: {
+        textTransform: 'uppercase',
+        margin: theme.spacing(1),
+        // width: 152
     },
     blockCenter: {
         padding: theme.spacing(2),
@@ -143,12 +148,18 @@ class Main extends Component {
                                                     Welcome!
                                                 </Typography>
                                                 <Typography variant="h6" gutterBottom>
-                                                    The following project is an implementation of an algorithm that applies computational geometry in order to find coverage holes in wireless sensor networks
+                                                    The following project is an implementation of an algorithm that
+                                                    applies computational geometry in order to find coverage holes in
+                                                    wireless sensor networks
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
-                                                <Button color='primary' variant="contained"
-                                                        className={classes.actionButtom}>
+                                                <Button component={Link} to='/definitions'  color='primary' variant="outlined"
+                                                        className={classes.actionButtomR}>
+                                                    Take me to some definitions!
+                                                </Button>
+                                                <Button component={Link} to='/demo' variant='contained' onClick={() => {
+                                                }} color="primary" className={classes.actionButtomR} autoFocus>
                                                     Go to Demo!!
                                                 </Button>
                                             </div>
@@ -166,8 +177,8 @@ class Main extends Component {
                                 </Grid>
                                 <Grid item xs={3}>
                                     <div>
-                                        <div className={classes.box} style={{paddingTop:'15px'}}>
-                                            <BounceNode />
+                                        <div className={classes.box} style={{paddingTop: '15px'}}>
+                                            <BounceNode/>
                                         </div>
                                     </div>
                                 </Grid>

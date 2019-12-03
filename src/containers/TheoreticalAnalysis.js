@@ -130,7 +130,7 @@ class TheoreticalAnalysis extends Component {
     };
 
     openDialog = (lt) => {
-        console.log("Open dialog")
+        console.log("Open dialog");
         // this.setState({modals: {[lt]: true}})
         this.setState({modals: {[lt]: {['active']: true}}})
     };

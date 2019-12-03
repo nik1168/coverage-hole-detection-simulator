@@ -4,12 +4,12 @@ const Menu = [
     pathname: "/"
   },
   {
-    label: "Theoretical Analysis",
-    pathname: "/tanalysis"
-  },
-  {
     label: "Definitions and Notations",
     pathname: "/definitions"
+  },
+  {
+    label: "Theoretical Analysis",
+    pathname: "/tanalysis"
   },
   {
     label: "Demo",
