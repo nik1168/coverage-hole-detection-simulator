@@ -92,11 +92,11 @@ class Topbar extends Component {
 
   mobileMenuOpen = (event) => {
     this.setState({ menuDrawer: true });
-  }
+  };
 
   mobileMenuClose = (event) => {
     this.setState({ menuDrawer: false });
-  }
+  };
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -107,10 +107,10 @@ class Topbar extends Component {
       return 0
     }
     if(this.props.currentPath === '/tanalysis') {
-      return 1
+      return 2
     }
     if(this.props.currentPath === '/definitions') {
-      return 2
+      return 1
     }
     if(this.props.currentPath === '/demo') {
       return 3

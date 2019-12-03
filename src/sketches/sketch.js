@@ -24,7 +24,7 @@ export class Point {
 }
 
 export class Triangle {
-    rightAngle = 1.571 // 90 degrees equivalence
+    rightAngle = 1.571; // 90 degrees equivalence
     constructor(nodeA, nodeB, nodeC) {
         this.pointA = nodeA;
         this.pointB = nodeB;
@@ -63,18 +63,18 @@ export class Triangle {
         return Math.asin(this.getDistanceBC() / (2 * this.getCircumRadius()))
     }
 
-    getAngles(){
-        const a2 = squareDistanceBetweenPoints(this.pointB,this.pointC);
-        const b2 = squareDistanceBetweenPoints(this.pointA,this.pointC);
-        const c2 = squareDistanceBetweenPoints(this.pointA,this.pointB);
+    getAngles() {
+        const a2 = squareDistanceBetweenPoints(this.pointB, this.pointC);
+        const b2 = squareDistanceBetweenPoints(this.pointA, this.pointC);
+        const c2 = squareDistanceBetweenPoints(this.pointA, this.pointB);
 
         const a = Math.sqrt(a2);
         const b = Math.sqrt(b2);
         const c = Math.sqrt(c2);
 
-        const alpha = Math.acos((b2 + c2 - a2)/(2*b*c));
-        const betta = Math.acos((a2 + c2 - b2)/(2*a*c));
-        const gamma = Math.acos((a2 + b2 - c2)/(2*a*b));
+        const alpha = Math.acos((b2 + c2 - a2) / (2 * b * c));
+        const betta = Math.acos((a2 + c2 - b2) / (2 * a * c));
+        const gamma = Math.acos((a2 + b2 - c2) / (2 * a * b));
         return {alpha, betta, gamma}
     }
 
@@ -197,7 +197,7 @@ export default function sketch(p) {
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
         console.log("myCustomRedrawAccordingToNewPropsHandler");
-        console.log(props)
+        console.log(props);
         if (props.getCoords) {
             p.sendCoords = props.getCoords;
         }
@@ -207,7 +207,7 @@ export default function sketch(p) {
         if (props.addingNodes !== undefined) {
             p.addingNodes = props.addingNodes
         }
-        if(props.circumCenter){
+        if (props.circumCenter) {
             p.circumCenter = props.circumCenter
         }
     };
@@ -215,35 +215,35 @@ export default function sketch(p) {
     p.draw = function () {
         p.background(200);
         if (p.nodes) {
-            p.nodes.forEach((node,i)=>{
-                if(node.active){
+            p.nodes.forEach((node, i) => {
+                if (node.active) {
                     p.ellipse(node.x, node.y, 6, 6);
                     p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
                     p.fill('rgba(0,255,0, 0.25)');
 
-                    p.circle(node.x, node.y, node.sensingRate*2);
-                    if(node.isReference){
+                    p.circle(node.x, node.y, node.sensingRate * 2);
+                    if (node.isReference) {
                         p.fill('rgba(163, 255, 232, 0.25)');
-                        p.circle(node.x, node.y, 2*node.sensingRate*2)
+                        p.circle(node.x, node.y, 2 * node.sensingRate * 2)
                     }
-                    if(node.coverageHolesAroundNode.length > 0){
-                        node.coverageHolesAroundNode.forEach((val,index)=>{
+                    if (node.coverageHolesAroundNode.length > 0) {
+                        // console.log("coverage holes!!!")
+                        node.coverageHolesAroundNode.forEach((val, index) => {
                             p.ellipse(val.x, val.y, 6, 6);
-                            p.text('cc: '+index+'', val.x - 16, val.y + 15);
+                            p.text('cc: ' + index + '', val.x - 16, val.y + 15);
                         })
                     }
-                }
-                else{
+                } else {
                     p.ellipse(node.x, node.y, 6, 6);
                     p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
                     p.fill('rgba(255,0,0, 0.25)');
-                    p.circle(node.x, node.y, node.sensingRate*2);
+                    p.circle(node.x, node.y, node.sensingRate * 2);
                 }
             });
         }
-        if(p.circumCenter){
+        if (p.circumCenter) {
             // p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
             // p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
         }

@@ -17,7 +17,7 @@ import {Point} from "../sketches/sketch";
 
 export const demo = (state = {
     nodes: [],
-    sensingRate: 4,
+    sensingRate: 80,
     addingNodes: false,
     neighborDiscoveryPhase: false,
     coverageHoleDetectionPhase: false,
