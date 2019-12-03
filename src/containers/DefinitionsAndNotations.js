@@ -155,7 +155,7 @@ class DefinitionsAndNotations extends Component {
     render() {
         const {classes} = this.props;
         const currentPath = this.props.location.pathname;
-        const tileData = [
+        const data = [
             {
                 img: "https://png.pngtree.com/svg/20170906/sensor_609853.png",
                 title: 'Image',
@@ -185,7 +185,7 @@ class DefinitionsAndNotations extends Component {
                     <Grid container justify="center">
                         <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
                             <GridList className={classes.gridList} cols={2.5} spacing={10}>
-                                {tileData.map(tile => (
+                                {data.map(tile => (
                                     <GridListTile key={tile.img}>
                                         <Paper className={classes.paper}>
                                             <div>
@@ -227,7 +227,7 @@ class DefinitionsAndNotations extends Component {
                     <Grid container justify="center">
                         <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
                             <GridList className={classes.gridList} cols={2.5}>
-                                {tileData.map(tile => (
+                                {data.map(tile => (
                                     <GridListTile key={tile.img}>
                                         <Paper className={classes.paper}>
                                             <div>

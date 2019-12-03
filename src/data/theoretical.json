@@ -1,0 +1,27 @@
+{
+  "axioms": [
+    {
+      "title": "Axiom 1",
+      "description": "The triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two- hop) must be enclosed within the effective sensing range of those three nodes."
+    },
+    {
+      "title": "Axiom 2",
+      "description": "The circum radius (R) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be either rRs or 4Rs."
+    },
+    {
+      "title": "Axiom 3",
+      "description": "The circum center (Z) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be located inside or outside the sensing range of those three sensors."
+    }
+  ],
+  "theorems": [
+
+  ],
+  "lemmas": [{
+    "title": "Lemma 1",
+    "description": "If an acute triangle is formed by a reference node with its one-hop neighbors, then no coverage hole exists within those three sensors.",
+    "proof": {
+      "img": "",
+      "description": ""
+    }
+  }]
+}
