@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button';
 
 import Topbar from './Topbar';
 import Lemma1 from "./dialogs/proofs/Lemma1";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import {DATA_THEO} from "../data/theo";
+import P5Wrapper from "react-p5-wrapper";
+import sketch_ch_definition from "../sketches/CoverageHoleDefinition";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -78,9 +78,9 @@ const styles = theme => ({
     block: {
         padding: theme.spacing(2),
     },
-    box: {
+    box1: {
         marginBottom: 40,
-        height: 65
+        height: 400
     },
     inlining: {
         display: 'inline-block',
@@ -147,56 +147,36 @@ class DefinitionsAndNotations extends Component {
                 <CssBaseline/>
                 <Topbar currentPath={currentPath}/>
                 <div className={classes.root}>
-                    {
-                        keys.map((key) => (
-                            <Grid container justify="center">
-                                <Grid spacing={4} alignItems="center" justify="left" container className={classes.grid}>
-                                    <Typography color='secondary' variant="h4" gutterBottom>
-                                        {key}
-                                    </Typography>
-                                    <GridList className={classes.gridList} cols={2.5} spacing={20}>
-                                        {DATA_THEO[key].map((axiom, indx) => (
-                                            <GridListTile key={indx}>
-                                                <Paper className={classes.paper}>
-                                                    <div>
-                                                        <div className={classes.box}>
-                                                            <Typography color='secondary' gutterBottom>
-                                                                {axiom.title}
-                                                            </Typography>
-                                                            <Typography variant="body1" gutterBottom>
-                                                                {axiom.description}
-                                                            </Typography>
-                                                        </div>
-                                                        {
-                                                            axiom['proof'] && (
-                                                                <div className={classes.alignRight}>
-                                                                    <Button color='primary' variant="contained"
-                                                                            className={classes.actionButtom}
-                                                                            onClick={() => {
-                                                                                this.openDialog(axiom['proof'])
-                                                                            }}
-                                                                    >
-                                                                        Proof!
-                                                                    </Button>
-                                                                </div>
-                                                            )
-                                                        }
-                                                        <div style={{paddingTop: 8}}></div>
-                                                    </div>
-                                                </Paper>
-                                            </GridListTile>
-                                        ))}
-                                    </GridList>
+                    <Grid container justify="center">
+                        <Grid spacing={4} alignItems="center" justify="left" container className={classes.grid}>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1}>
+                                        <Typography color='secondary' variant="h4" gutterBottom>
+                                            Coverage Hole
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+                                            In a wireless sensor network, a coverage hole can be defined as an area
+                                            within the network that is not covered by any
+                                            sensor node, this can result in lack of monitoring of that specific area.
+                                            What we define as coverage depends on the context
+                                            of the application. For instance, in the art gallery problem, where the main
+                                            objective is to get the minimum number of "cameras"
+                                            that cover an art gallery room such that every point is seen by at least one
+                                            camera. In this context, the coverage is determined by
+                                            the visibility of the observers. As mentioned above, the coverage of a
+                                            point, in the context of WSN, denotes that the point is located within de
+                                            sensing range
+                                            of a node. In the example below, there is a coverage hole in the red colored area
+                                        </Typography>
+                                        <div style={{textAlign:'left'}}>
+                                            <P5Wrapper sketch={sketch_ch_definition}/>
+                                        </div>
+                                    </div>
                                 </Grid>
                             </Grid>
-                        ))
-                    }
-                    <Lemma1
-                        open={this.state.modals.lemma1.active}
-                        identifier={'lemma1'}
-                        img={this.state.selectedImage}
-                        description={this.state.selectedTest}
-                        onClose={this.dialogClose}/>
+                        </Grid>
+                    </Grid>
                 </div>
             </React.Fragment>
         )
