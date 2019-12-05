@@ -12,6 +12,12 @@ import Lemma1 from "./dialogs/proofs/Lemma1";
 import {DATA_THEO} from "../data/theo";
 import P5Wrapper from "react-p5-wrapper";
 import sketch_ch_definition from "../sketches/CoverageHoleDefinition";
+import MathNotation from "../components/MathNotation";
+import MathJax from "react-mathjax";
+import sketchSensingRate from "../sketches/SensingRate";
+import sketchReferenceNode from "../sketches/ReferenceNode";
+import sketchNeighborNode from "../sketches/Neighbors";
+import sketchCircumRadiusCenterNode from "../sketches/CircumRadiusCenter";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -80,7 +86,7 @@ const styles = theme => ({
     },
     box1: {
         marginBottom: 40,
-        height: 400
+        height: 450
     },
     inlining: {
         display: 'inline-block',
@@ -167,10 +173,130 @@ class DefinitionsAndNotations extends Component {
                                             the visibility of the observers. As mentioned above, the coverage of a
                                             point, in the context of WSN, denotes that the point is located within de
                                             sensing range
-                                            of a node. In the example below, there is a coverage hole in the red colored area
+                                            of a node. In the example below, there is a coverage hole in the red colored
+                                            area.
                                         </Typography>
-                                        <div style={{textAlign:'left'}}>
+                                        <div style={{textAlign: 'left'}}>
                                             <P5Wrapper sketch={sketch_ch_definition}/>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1}>
+                                        <Typography color='secondary' variant="h4" gutterBottom>
+                                            Sensing and Communication Range (<MathNotation inline={true} text={"R_s"}/>)
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+                                            The sensing range of a node is the circumference of radius <MathNotation
+                                            inline={true} text={"R_s"}/>
+                                            represented as a disk around the node. Any object that falls within this
+                                            area can be detected by
+                                            the node. For this particular case, the communication range <MathNotation
+                                            inline={true} text={"R_c"}/> of a sensor will have the same value as the
+                                            sensing rate. In the example below, the sensing rate of "Node 0" is
+                                            represented by the green area.
+                                        </Typography>
+                                        <div style={{textAlign: 'left'}}>
+                                            <P5Wrapper sketch={sketchSensingRate}/>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1}>
+                                        <Typography color='secondary' variant="h4" gutterBottom>
+                                            Reference Node (<MathNotation inline={true} text={"RN"}/>)
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+                                            A Reference Node <MathNotation inline={true} text={"RN"}/>, is in charge of
+                                            initializing the coverage hole detection algorithm.
+                                            It does this by first finding its neighbors information in a range
+                                            of <MathNotation inline={true} text={"2R_s"}/>. In the example below, "Node
+                                            0" is a reference node and Nodes 1, 2 and 3 are its neighbors.
+
+                                        </Typography>
+                                        <div style={{textAlign: 'left'}}>
+                                            <P5Wrapper sketch={sketchReferenceNode}/>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1}>
+                                        <Typography color='secondary' variant="h4" gutterBottom>
+                                            Neighbors
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+
+                                            If Node 0 and Node 1 are two nodes where the distance between them is lower
+                                            or equal than the sensing range (<MathNotation inline={true}
+                                                                                           text={"distance(AB) \\leq\t R_s"}/>),
+                                            then Node 0 and 1 are one-hope neighbors.
+                                            On the other hand if the distance between them is lower or equal than twice
+                                            the sensing range <MathNotation inline={true}
+                                                                            text={"distance(AB) \\leq\t 2R_s"}/>, then
+                                            they are two-hop neighbors.
+                                            In the example below, Node 3 is a one hope neighbor of Node 0 since the
+                                            distance between them is lower or equal than the sensing range of Node 0,
+                                            whereas Nodes 1 and 2 are two-hop neighbors of Node 0 since the distance
+                                            between
+                                            them and is lower or equal than twice the sensing range of Node 0.
+
+                                        </Typography>
+                                        <div style={{textAlign: 'left'}}>
+                                            <P5Wrapper sketch={sketchNeighborNode}/>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1}>
+                                        <Typography color='secondary' variant="h4" gutterBottom>
+                                            Circum Radius (<MathNotation inline={true} text={"R"}/>) and Circum Center (<MathNotation
+                                            inline={true} text={"Z"}/>)
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+
+                                            Circum Radius <MathNotation inline={true} text={"R"}/> is denoted as the
+                                            radius of the circum circle denoted by the location of three nodes as the
+                                            vertices of a triangle.
+                                            In the example below, <MathNotation inline={true} text={"R"}/> is the circum
+                                            radius of the triangle <MathNotation inline={true} text={"T"}/> formed by
+                                            NODE0-NODE1-NODE2.
+                                            Let <MathNotation inline={true} text={"p"}/>, <MathNotation inline={true}
+                                                                                                        text={"q"}/> and <MathNotation
+                                            inline={true} text={"r"}/> denote de length of each side of the
+                                            triangle <MathNotation inline={true} text={"T"}/> and <MathNotation
+                                            inline={true} text={"\\Delta\t"}/> be its area,
+                                            then <MathNotation inline={true} text={"R = \\frac{pqr}{4\\Delta\t}\t"}/>
+                                            <br/>
+                                            <br/>
+
+                                            Circum Center <MathNotation inline={true} text={"Z"}/> is denoted as the
+                                            center of the circum circle formed by the location of three nodes as the
+                                            vertices of a triangle.
+                                            In the example below, <MathNotation inline={true} text={"R"}/> is the circum
+                                            radius of the triangle <MathNotation inline={true} text={"T"}/> formed by
+                                            NODE0-NODE1-NODE2.
+                                            Let <MathNotation inline={true} text={"(x_1,y_1)"}/> , <MathNotation
+                                            inline={true} text={"(x_2,y_2)"}/> and <MathNotation inline={true}
+                                                                                               text={"(x_3,y_3)"}/> be the
+                                            coordinates of the vertices of triangle <MathNotation inline={true} text={"T"}/> then the coordinates
+                                            <MathNotation inline={true} text={"(x_0,y_0)"}/>  of <MathNotation inline={true} text={"Z"}/> can be found by
+                                            solving the following linear equations: <br/>
+                                            <MathNotation inline={true} text={"x_0(x_2 -x_1) + y_0(y_2 - y_1) + c1"}/>
+                                            <br/>
+                                            <MathNotation inline={true} text={"x_0(x_3 -x_2) + y_0(y_3 - y_1) + c2"}/>
+
+
+                                        </Typography>
+                                        <div style={{textAlign: 'left'}}>
+                                            <P5Wrapper sketch={sketchCircumRadiusCenterNode}/>
                                         </div>
                                     </div>
                                 </Grid>
