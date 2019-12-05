@@ -8,6 +8,10 @@ const Menu = [
     pathname: "/definitions"
   },
   {
+    label: "Algorithm",
+    pathname: "/algorithm"
+  },
+  {
     label: "Theoretical Analysis",
     pathname: "/tanalysis"
   },

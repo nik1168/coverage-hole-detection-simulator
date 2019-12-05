@@ -257,6 +257,7 @@ class Demo extends Component {
 
     componentDidMount() {
         console.log("DEMO COMPONENT");
+        this.props.reset();
     }
 
 
