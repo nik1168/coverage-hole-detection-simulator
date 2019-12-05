@@ -10,12 +10,11 @@ import {bindActionCreators} from "redux";
 import * as demoActions from "../actions/demo";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {Node, Point, Triangle} from "../sketches/sketch";
 import {getCombinations, joinArrays} from "../utils/generalUtils";
 import {
     checkPointInsideCircle,
     nodesThatCoverCircumCenter,
-    nodesThatListenedMessageWithRespectToRadius
+    nodesThatListenedMessageWithRespectToRadius, Point, Triangle
 } from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
 

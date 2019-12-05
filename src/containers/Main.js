@@ -146,7 +146,7 @@ class Main extends Component {
                                                 <Typography variant="h6" gutterBottom>
                                                     The following project is an implementation of an algorithm that
                                                     applies computational geometry in order to find coverage holes in
-                                                    wireless sensor networks
+                                                    wireless sensor networks.
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>

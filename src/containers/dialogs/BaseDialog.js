@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
     container: {
-        maxWidth: 600,
+        maxWidth: 800,
         flexGrow: 1,
         textAlign: 'center',
         display: 'flex',

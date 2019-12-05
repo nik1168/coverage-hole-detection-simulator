@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import P5Wrapper from 'react-p5-wrapper';
-import sketch, {Node} from '../../sketches/sketch';
+import sketch from '../../sketches/sketch';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import * as demoActions from "../../actions/demo";
+import {Node
+} from "../../utils/geometryUtils";
 
 const styles = theme => ({
     paper: {

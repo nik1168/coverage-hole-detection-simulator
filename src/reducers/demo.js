@@ -13,7 +13,8 @@ import {
     SET_REFERENCE_NODES,
     DRAW_CIRCUM_CENTER
 } from "../actions/demo";
-import {Point} from "../sketches/sketch";
+import {Point} from "../utils/geometryUtils";
+
 
 export const demo = (state = {
     nodes: [],

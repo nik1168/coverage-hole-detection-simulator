@@ -2,12 +2,13 @@ import {squareDistanceBetweenPoints} from "../utils/geometryUtils";
 
 export let timesClicked = 0;
 
+
+
 function checkClickInside(mouseX, mouseY, canvasWidth, canvasHeight) {
     return mouseX > 0 && mouseX < canvasWidth && mouseY > 0 && mouseY < canvasHeight
 }
 
 export default function sketch(p) {
-    let div1 = document.getElementById("paper");
     p.setup = function () {
 
         console.log("div1 width");
