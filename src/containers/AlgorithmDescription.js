@@ -2,22 +2,18 @@ import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import {withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 
 import Topbar from './Topbar';
-import Lemma1 from "./dialogs/proofs/Lemma1";
 import {DATA_THEO} from "../data/theo";
 import P5Wrapper from "react-p5-wrapper";
-import sketch_ch_definition from "../sketches/CoverageHoleDefinition";
 import MathNotation from "../components/MathNotation";
-import MathJax from "react-mathjax";
 import sketchSensingRate from "../sketches/SensingRate";
 import sketchReferenceNode from "../sketches/ReferenceNode";
 import sketchNeighborNode from "../sketches/Neighbors";
 import sketchCircumRadiusCenterNode from "../sketches/CircumRadiusCenter";
+import exampleAlgo from "../sketches/Example";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -166,7 +162,7 @@ class AlgorithmDescription extends Component {
                                             In order to explain both phases the following example will be used:
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={sketch_ch_definition}/>
+                                            <P5Wrapper sketch={exampleAlgo}/>
                                         </div>
                                     </div>
                                 </Grid>
