@@ -2,22 +2,18 @@ import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import {withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 
 import Topbar from './Topbar';
-import Lemma1 from "./dialogs/proofs/Lemma1";
 import {DATA_THEO} from "../data/theo";
 import P5Wrapper from "react-p5-wrapper";
-import sketch_ch_definition from "../sketches/CoverageHoleDefinition";
 import MathNotation from "../components/MathNotation";
-import MathJax from "react-mathjax";
 import sketchSensingRate from "../sketches/SensingRate";
 import sketchReferenceNode from "../sketches/ReferenceNode";
 import sketchNeighborNode from "../sketches/Neighbors";
 import sketchCircumRadiusCenterNode from "../sketches/CircumRadiusCenter";
+import exampleAlgo from "../sketches/Example";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -112,7 +108,7 @@ const styles = theme => ({
     }
 });
 
-class DefinitionsAndNotations extends Component {
+class AlgorithmDescription extends Component {
 
     state = {
         loading: true,
@@ -159,25 +155,14 @@ class DefinitionsAndNotations extends Component {
                                 <Grid item xs={12}>
                                     <div className={classes.box1}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
-                                            Coverage Hole
+                                            Description
                                         </Typography>
                                         <Typography variant="body1" gutterBottom>
-                                            In a wireless sensor network, a coverage hole can be defined as an area
-                                            within the network that is not covered by any
-                                            sensor node, this can result in lack of monitoring of that specific area.
-                                            What we define as coverage depends on the context
-                                            of the application. For instance, in the art gallery problem, where the main
-                                            objective is to get the minimum number of "cameras"
-                                            that cover an art gallery room such that every point is seen by at least one
-                                            camera. In this context, the coverage is determined by
-                                            the visibility of the observers. As mentioned above, the coverage of a
-                                            point, in the context of WSN, denotes that the point is located within de
-                                            sensing range
-                                            of a node. In the example below, there is a coverage hole in the red colored
-                                            area.
+                                            The algorithm proposed in [1] is divided in two parts, a neighbor discovery phase and a hole discovery phase.
+                                            In order to explain both phases the following example will be used:
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={sketch_ch_definition}/>
+                                            <P5Wrapper sketch={exampleAlgo}/>
                                         </div>
                                     </div>
                                 </Grid>
@@ -309,4 +294,4 @@ class DefinitionsAndNotations extends Component {
     }
 }
 
-export default withRouter(withStyles(styles)(DefinitionsAndNotations));
+export default withRouter(withStyles(styles)(AlgorithmDescription));

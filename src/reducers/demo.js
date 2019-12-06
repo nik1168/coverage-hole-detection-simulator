@@ -11,12 +11,11 @@ import {
     GET_SENSING_RATE,
     SET_REFERENCE,
     SET_REFERENCE_NODES,
-    DRAW_CIRCUM_CENTER
+    DRAW_CIRCUM_CENTER, RESET
 } from "../actions/demo";
 import {Point} from "../utils/geometryUtils";
 
-
-export const demo = (state = {
+const initialState = {
     nodes: [],
     sensingRate: 80,
     addingNodes: false,
@@ -25,10 +24,14 @@ export const demo = (state = {
     coverageHoles: [],
     referenceNodes: [],
     circumCenter: new Point(0, 0)
-}, action) => {
+};
+
+export const demo = (state = initialState, action) => {
     const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, hole} = action;
 
     switch (action.type) {
+        case RESET:
+            return initialState
         case GET_NODES:
             return {
                 ...state
