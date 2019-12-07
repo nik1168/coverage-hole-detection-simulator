@@ -3,7 +3,7 @@ import {
     distanceBetweenTwoPoints,
     nodesThatListenedMessageWithRespectToRadius,
     Point,
-    squareDistanceBetweenPoints
+    squareDistanceBetweenPoints, Triangle
 } from "../utils/geometryUtils";
 import {
     Node
@@ -15,17 +15,6 @@ export default function TriangleSketch(p) {
     const sensingRate = 60;
     const paddingx = 150;
     const paddingy = 70;
-    let firstTime = true;
-    let nodes = [
-        new Node(469.4566699123661 - paddingx, 244.0703125 - paddingy, 0, sensingRate, true, true),
-        new Node(430 - paddingx, 224.0703125 - paddingy, 1, sensingRate, true),
-        new Node(395 - paddingx, 160 - paddingy, 2, sensingRate),
-        new Node(550 - paddingx, 196.0703125 - paddingy, 3, sensingRate),
-        new Node(560 - paddingx, 285 - paddingy, 4, sensingRate),
-        new Node(495 - paddingx, 330 - paddingy, 5, sensingRate),
-        new Node(400 - paddingx, 327 - paddingy, 6, sensingRate),
-        new Node(370 - paddingx, 261 - paddingy, 7, sensingRate),
-    ];
 
     p.setup = function () {
         console.log("Coverage Holes");
@@ -35,22 +24,41 @@ export default function TriangleSketch(p) {
     };
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        if (props.clickOnNodes) {
-            p.clickOnNodes = props.clickOnNodes;
+        console.log("Will recevive props");
+        console.log(props);
+        if (props.triangle) {
+            p.triangle = props.triangle;
+            p.nodes = [p.triangle.pointA, p.triangle.pointB, p.triangle.pointC]
         }
-        if (props.sendNeighbors) {
-            p.sendNeighbors = props.sendNeighbors;
+        if (props.computeCircumData && p.nodes && p.nodes.length > 2) {
+            p.computeCircumData = props.computeCircumData;
+            p.R = p.triangle.getCircumRadius();
+            p.Z = p.triangle.getCircumCenter();
+            p.isObtuse = p.triangle.isObtuse();
+            p.isAcute = p.triangle.isAcute();
+            p.angles = p.triangle.getAngles();
+        }
+        if (props.drawTriangle) {
+            p.drawTriangle = props.drawTriangle;
+            // p.nodes.forEach((n) => n.y += props.padding)
+        }
+        if (props.drawCircle) {
+            p.drawCircle = props.drawCircle;
+            // p.nodes.forEach((n) => n.y += props.padding)
+        }
+        if (props.otherNodes) {
+            p.nodes = props.otherNodes
         }
     };
 
     p.draw = function () {
         p.background(200);
-        if (nodes) {
-            nodes.forEach((node, i) => {
+        if (p.triangle && p.nodes) {
+            p.nodes.forEach((node, i) => {
                 if (node.active) {
                     p.fill('rgba(0,0,0, 1)');
                     p.ellipse(node.x, node.y, 6, 6);
-                    p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
+                    p.text('Node ' + (node.id) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
                     p.fill('rgba(0,255,0, 0.15)');
 
@@ -75,40 +83,23 @@ export default function TriangleSketch(p) {
                 }
             });
         }
-        if (p.circumCenter) {
-            // p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
-            // p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
+        if (p.computeCircumData) {
+            p.ellipse(p.Z.x, p.Z.y, 6, 6);
+            p.text('Z', p.Z.x - 16, p.Z.y + 15);
+            p.fill('rgba(0,255,0, 0.00)');
+            if (p.drawCircle) {
+                p.circle(p.Z.x, p.Z.y, 2 * p.R);
+                p.line(p.nodes[1].x, p.nodes[1].y, p.Z.x, p.Z.y);
+            }
         }
-        if (firstTime && p.sendNeighbors) {
-            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(0, nodes, true, "Hello");
-            p.sendNeighbors(nodes[0], oneHopeNeighbors.map((val) => nodes[val]), twoHopeNeighbors.map((val) => nodes[val]));
-            firstTime = false
+        if (p.drawTriangle) {
+            p.line(p.nodes[0].x, p.nodes[0].y, p.nodes[1].x, p.nodes[1].y);
+            p.line(p.nodes[1].x, p.nodes[1].y, p.nodes[2].x, p.nodes[2].y);
+            p.line(p.nodes[2].x, p.nodes[2].y, p.nodes[0].x, p.nodes[0].y);
         }
     };
 
     p.mousePressed = function () {
-        if (p.clickOnNodes) {
-            if (checkClickInside(p.mouseX, p.mouseY, 600, 350)) {
-                let point = new Point(p.mouseX, p.mouseY);
-                let min = 1000000000;
-                let i = 0;
-                nodes.forEach((node, index) => {
-                    const distance = distanceBetweenTwoPoints(node, point);
-                    if (distance < min) {
-                        min = distance;
-                        i = index
-                    }
-                });
-                if (min < 20) {
-                    nodes.forEach((node, index) => {
-                        node.isReference = false;
-                    });
-                    nodes[i].isReference = true;
-                    const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(i, nodes, true, "Hello");
-                    p.sendNeighbors(nodes[i], oneHopeNeighbors.map((val) => nodes[val]), twoHopeNeighbors.map((val) => nodes[val]));
-                }
-            }
-        }
 
     };
 

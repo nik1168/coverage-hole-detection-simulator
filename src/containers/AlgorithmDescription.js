@@ -16,8 +16,9 @@ import sketchCircumRadiusCenterNode from "../sketches/CircumRadiusCenter";
 import exampleAlgo from "../sketches/Example";
 import {joinArrays} from "../utils/generalUtils";
 import {
-    Node
+    Node, Point, Triangle
 } from "../utils/geometryUtils";
+import TriangleSketch from "../sketches/Triangle";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -158,14 +159,23 @@ class AlgorithmDescription extends Component {
         const currentPath = this.props.location.pathname;
         const keys = Object.keys(DATA_THEO);
         const N = joinArrays(this.state.oneHopeNeighbors, this.state.twoHopeNeighbors);
+        const nodes = N.concat(this.state.referenceNode);
+        console.log("nodes");
+        console.log(nodes)
         const N_u = N.filter((val) => val.y <= this.state.referenceNode.y);
         const N_uX = N_u.sort(function (a, b) {
             return a.x - b.x
         });
+        console.log("Reference Node");
+        console.log(this.state.referenceNode);
+        console.log("N_uX");
+        console.log(N_uX);
         const N_d = N.filter((val) => val.y > this.state.referenceNode.y);
         const N_dX = N_d.sort(function (a, b) {
             return b.x - a.x
         });
+        const triangle = new Triangle(this.state.referenceNode, N_uX[0], N_uX[1]);
+        // const {alpha, betta, gamma} = triangle.getAngles();
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -193,7 +203,7 @@ class AlgorithmDescription extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1} style={{height: 600}}>
+                                    <div className={classes.box1} style={{height: 670}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Neighbor Discovery phase
                                         </Typography>
@@ -250,7 +260,7 @@ class AlgorithmDescription extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1} style={{height: 600}}>
+                                    <div className={classes.box1} style={{height: 700}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Hole detection phase
                                         </Typography>
@@ -273,14 +283,161 @@ class AlgorithmDescription extends Component {
                                             <b>5.- Sort N_d in descending order by x coordinate and assign it to a new
                                                 set N_dX </b><br/>
                                             N_dX = {N_dX.map((s) => s.id.toString() + ' ')}<br/>
-                                            <b>5.- Select first two nodes A_i and A_j from set N_uX </b><br/>
+                                            <b>6.- Select first two nodes A_i and A_j from set N_uX </b><br/>
 
+                                            {
+                                                N_uX.length >= 2 && (
+                                                    <P5Wrapper sketch={TriangleSketch}
+                                                               clickOnNodes={false}
+                                                               triangle={triangle}
+                                                               nodes={[this.state.referenceNode, N_uX[0], N_uX[1]]}/>
+                                                )
+                                            }
+                                        </Typography>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1} style={{height: 850}}>
+                                        <Typography variant="body1" gutterBottom>
+                                            <b>7.- Compute the circum radius R and circum center Z of triangle formed by
+                                                the reference node and A_i, A_j; </b><br/>
+                                            {
+                                                N_uX.length >= 2 && (
+                                                    <P5Wrapper sketch={TriangleSketch}
+                                                               clickOnNodes={false}
+                                                               triangle={triangle}
+                                                               drawCircle={true}
+                                                               computeCircumData={true}/>
+                                                )
+                                            }
+                                            <b>8.- Verify if the triangle formed by A_i, A_j and the reference node
+                                                forms an obtuse or acute triangle </b><br/>
+                                            {
+                                                N_uX.length >= 2 && (
+                                                    <P5Wrapper sketch={TriangleSketch}
+                                                               clickOnNodes={false}
+                                                               triangle={triangle}
+                                                               drawCircle={true}
+                                                               drawTriangle={true}
+                                                               computeCircumData={false}/>
+                                                )
+                                            }
+                                            {
+
+                                                N_uX.length >= 2 && (
+                                                    <span>
+                                                        Angles: <br/>
+                                                        <MathNotation inline={true}
+                                                                      text={"\\alpha\t"}/> : {triangle.getAngles().alpha * (180 / Math.PI)}
+                                                        <br/>
+                                                   <MathNotation inline={true}
+                                                                 text={"\\beta\t"}/> : {triangle.getAngles().betta * (180 / Math.PI)}
+                                                        <br/>
+                                                   <MathNotation inline={true}
+                                                                 text={"\\gamma\t"}/> : {triangle.getAngles().gamma * (180 / Math.PI)}
+                                                        <br/>
+                                                        {
+                                                            triangle.isAcute() && (
+                                                                <span>Triangle is acute (All angles have a value less than 90°)</span>
+                                                            )
+                                                        }
+                                                        {
+                                                            triangle.isObtuse() && (
+                                                                <span>Triangle is obtuse (One angle is greater than 90°)</span>
+                                                            )
+                                                        }
+                                                    </span>
+
+                                                )
+                                            }
 
 
                                         </Typography>
-
                                     </div>
                                 </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                {
+                                    N_uX.length >= 2 && triangle.isObtuse() && (
+                                        <Grid item xs={12}>
+                                            <div className={classes.box1} style={{height: 750}}>
+                                                <Typography variant="body1" gutterBottom>
+
+                                                    <b>8.- If the triangle was acute we would have had to check the sensing
+                                                        range <MathNotation inline={true} text={"R_s"}/> with the circum
+                                                        raduis <MathNotation inline={true} text={"R"}/>,
+                                                        If <MathNotation inline={true} text={"R_s"}/> was smaller
+                                                        than <MathNotation inline={true} text={"R_s"}/>, then there is not a
+                                                        coverage hole around the reference node and A_i, A_j.</b>
+                                                    <b> In this case the triangle is obtuse, therefore we need to first
+                                                        compare <MathNotation inline={true} text={"R_s"}/> with <MathNotation
+                                                            inline={true} text={"R"}/>. </b><br/>
+                                                    {
+                                                        N_uX.length >= 2 && (
+                                                            <span>
+                                                 <b>R: </b> {triangle.getCircumRadius()} <br/>
+                                            <b>R_s: </b>{this.state.referenceNode.sensingRate} <br/>
+
+                                            <b>If <MathNotation inline={true} text={"R \\leq\t R_s"}/> then there is not
+                                                a coverage hole around the reference node and A_i, A_j </b><br/>
+                                                                {
+                                                                    triangle.getCircumRadius() <= this.state.referenceNode.sensingRate && (
+                                                                        <span>
+                                                                 No coverage hole detected
+                                                                 </span>
+                                                                    )
+                                                                }
+                                                                {
+                                                                    triangle.getCircumRadius() > this.state.referenceNode.sensingRate && (
+                                                                        <span>
+                                                            <b>Since this statement is not true for this case, we have to get the circum center Z of the triangle</b>
+                                                        <P5Wrapper sketch={TriangleSketch}
+                                                                   clickOnNodes={false}
+                                                                   drawCircle={false}
+                                                                   drawTriangle={false}
+                                                                   otherNodes={nodes}
+                                                                   triangle={triangle}
+                                                                   computeCircumData={true}/>
+                                            <b>If Z is not covered by any other sensor then there is a coverage hole around the reference node</b>
+                                                        </span>
+                                                                    )
+                                                                }
+
+                                                                {/*<b>Since this statement is not true for this case, we have to get the circum center Z of the triangle</b>*/}
+                                                                {/*            <P5Wrapper sketch={TriangleSketch}*/}
+                                                                {/*                       clickOnNodes={false}*/}
+                                                                {/*                       drawCircle={false}*/}
+                                                                {/*                       drawTriangle={false}*/}
+                                                                {/*                       otherNodes={nodes}*/}
+                                                                {/*                       triangle={triangle}*/}
+                                                                {/*                       computeCircumData={true}/>*/}
+                                                                {/*<b>If Z is not covered by any other sensor then there is a coverage hole around the reference node</b>*/}
+                                            </span>
+
+                                                        )
+                                                    }
+
+
+                                                </Typography>
+                                            </div>
+                                        </Grid>
+                                    )
+                                }
+                                {
+                                    N_uX.length >= 2 && triangle.isAcute() &&  (
+                                        <span>
+                                            <b>R: </b> {triangle.getCircumRadius()} <br/>
+                                            <b>R_s: </b>{this.state.referenceNode.sensingRate} <br/>
+
+                                            <b>9.- If <MathNotation inline={true} text={"R \\leq\t R_s"}/> then there is not
+                                                a coverage hole around the reference node and A_i, A_j </b><br/>
+                                        </span>
+                                    )
+                                }
+
+
                             </Grid>
                         </Grid>
                     </Grid>
