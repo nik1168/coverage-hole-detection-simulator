@@ -14,6 +14,10 @@ import sketchReferenceNode from "../sketches/ReferenceNode";
 import sketchNeighborNode from "../sketches/Neighbors";
 import sketchCircumRadiusCenterNode from "../sketches/CircumRadiusCenter";
 import exampleAlgo from "../sketches/Example";
+import {joinArrays} from "../utils/generalUtils";
+import {
+    Node
+} from "../utils/geometryUtils";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -110,10 +114,14 @@ const styles = theme => ({
 
 class AlgorithmDescription extends Component {
 
+
     state = {
         loading: true,
         selectedImage: "",
         selectedTest: "",
+        oneHopeNeighbors: [],
+        twoHopeNeighbors: [],
+        referenceNode: new Node(0, 0, 0),
         modals: {
             active: false,
             lemma1: {
@@ -124,6 +132,7 @@ class AlgorithmDescription extends Component {
     };
 
     componentDidMount() {
+
     }
 
     dialogClose = (lt) => {
@@ -140,10 +149,23 @@ class AlgorithmDescription extends Component {
         })
     };
 
+    receiveNeighbors = (referenceNode, oneHopeNeighbors, twoHopeNeighbors) => {
+        this.setState({oneHopeNeighbors, twoHopeNeighbors, referenceNode: referenceNode})
+    };
+
     render() {
         const {classes} = this.props;
         const currentPath = this.props.location.pathname;
         const keys = Object.keys(DATA_THEO);
+        const N = joinArrays(this.state.oneHopeNeighbors, this.state.twoHopeNeighbors);
+        const N_u = N.filter((val) => val.y <= this.state.referenceNode.y);
+        const N_uX = N_u.sort(function (a, b) {
+            return a.x - b.x
+        });
+        const N_d = N.filter((val) => val.y > this.state.referenceNode.y);
+        const N_dX = N_d.sort(function (a, b) {
+            return b.x - a.x
+        });
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -158,131 +180,105 @@ class AlgorithmDescription extends Component {
                                             Description
                                         </Typography>
                                         <Typography variant="body1" gutterBottom>
-                                            The algorithm proposed in [1] is divided in two parts, a neighbor discovery phase and a hole discovery phase.
+                                            The algorithm proposed in [1] is divided in two parts, a neighbor discovery
+                                            phase and a hole discovery phase.
                                             In order to explain both phases the following example will be used:
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={exampleAlgo}/>
+                                            <P5Wrapper sketch={exampleAlgo} clickOnNodes={false}/>
                                         </div>
+
                                     </div>
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1}>
+                                    <div className={classes.box1} style={{height: 600}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
-                                            Sensing and Communication Range (<MathNotation inline={true} text={"R_s"}/>)
+                                            Neighbor Discovery phase
                                         </Typography>
                                         <Typography variant="body1" gutterBottom>
-                                            The sensing range of a node is the circumference of radius <MathNotation
-                                            inline={true} text={"R_s"}/>
-                                            represented as a disk around the node. Any object that falls within this
-                                            area can be detected by
-                                            the node. For this particular case, the communication range <MathNotation
-                                            inline={true} text={"R_c"}/> of a sensor will have the same value as the
-                                            sensing rate. In the example below, the sensing rate of "Node 0" is
-                                            represented by the green area.
-                                        </Typography>
-                                        <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={sketchSensingRate}/>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={12}>
-                                    <div className={classes.box1}>
-                                        <Typography color='secondary' variant="h4" gutterBottom>
-                                            Reference Node (<MathNotation inline={true} text={"RN"}/>)
-                                        </Typography>
-                                        <Typography variant="body1" gutterBottom>
-                                            A Reference Node <MathNotation inline={true} text={"RN"}/>, is in charge of
-                                            initializing the coverage hole detection algorithm.
-                                            It does this by first finding its neighbors information in a range
-                                            of <MathNotation inline={true} text={"2R_s"}/>. In the example below, "Node
-                                            0" is a reference node and Nodes 1, 2 and 3 are its neighbors.
+                                            In order to execute this phase, a reference node <MathNotation inline={true}
+                                                                                                           text={"RN"}/>
+                                            must be selected (Node 0 for the present example). <MathNotation
+                                            inline={true} text={"RN"}/> broadcasts a message <MathNotation
+                                            inline={true} text={"M_1"}/>
+                                            which contains its coordinates. Each node that receives the message
+                                            calculates
+                                            the distance <MathNotation inline={true} text={"d_a"}/> between themselves
+                                            and the
+                                            reference node. If &nbsp;
+                                            <MathNotation inline={true} text={"d_a \\leq\t R_s"}/>, then that node sets
+                                            itself as
+                                            a one-hop neighbor of <MathNotation inline={true} text={"RN"}/> and unicast
+                                            its coordinates
+                                            and ID to <MathNotation inline={true} text={"RN"}/>. Next, all one-hop
+                                            neighbors broadcast a
+                                            message <MathNotation inline={true} text={"M_2"}/> that contains the
+                                            coordinates of <MathNotation inline={true} text={"RN"}/>.
+                                            The same process is applied with the nodes that receive the
+                                            message <MathNotation inline={true} text={"M_2"}/>.
+                                            Each node computes the distance <MathNotation inline={true}
+                                                                                          text={"d_b"}/> between
+                                            themselves and <MathNotation inline={true} text={"RN"}/>.
+                                            If &nbsp; <MathNotation inline={true} text={"d_b \\leq\t 2R_s"}/>, then that
+                                            node sets itself as a
+                                            two hop-neighbor of <MathNotation inline={true} text={"RN"}/>. After the
+                                            process is completed the reference node
+                                            has information about its one and two hop neighbors.
+                                            This process has to be completed by each node in the neighbor in a
+                                            distributed manner.
 
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={sketchReferenceNode}/>
+                                            <P5Wrapper sketch={exampleAlgo} clickOnNodes={true}
+                                                       sendNeighbors={this.receiveNeighbors}/>
+
                                         </div>
-                                    </div>
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={12}>
-                                    <div className={classes.box1}>
-                                        <Typography color='secondary' variant="h4" gutterBottom>
-                                            Neighbors
-                                        </Typography>
                                         <Typography variant="body1" gutterBottom>
-
-                                            If Node 0 and Node 1 are two nodes where the distance between them is lower
-                                            or equal than the sensing range (<MathNotation inline={true}
-                                                                                           text={"distance(AB) \\leq\t R_s"}/>),
-                                            then Node 0 and 1 are one-hope neighbors.
-                                            On the other hand if the distance between them is lower or equal than twice
-                                            the sensing range <MathNotation inline={true}
-                                                                            text={"distance(AB) \\leq\t 2R_s"}/>, then
-                                            they are two-hop neighbors.
-                                            In the example below, Node 3 is a one hope neighbor of Node 0 since the
-                                            distance between them is lower or equal than the sensing range of Node 0,
-                                            whereas Nodes 1 and 2 are two-hop neighbors of Node 0 since the distance
-                                            between
-                                            them and is lower or equal than twice the sensing range of Node 0.
-
-                                        </Typography>
-                                        <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={sketchNeighborNode}/>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={12}>
-                                    <div className={classes.box1}>
-                                        <Typography color='secondary' variant="h4" gutterBottom>
-                                            Circum Radius (<MathNotation inline={true} text={"R"}/>) and Circum Center (<MathNotation
-                                            inline={true} text={"Z"}/>)
-                                        </Typography>
-                                        <Typography variant="body1" gutterBottom>
-
-                                            Circum Radius <MathNotation inline={true} text={"R"}/> is denoted as the
-                                            radius of the circum circle denoted by the location of three nodes as the
-                                            vertices of a triangle.
-                                            In the example below, <MathNotation inline={true} text={"R"}/> is the circum
-                                            radius of the triangle <MathNotation inline={true} text={"T"}/> formed by
-                                            NODE0-NODE1-NODE2.
-                                            Let <MathNotation inline={true} text={"p"}/>, <MathNotation inline={true}
-                                                                                                        text={"q"}/> and <MathNotation
-                                            inline={true} text={"r"}/> denote de length of each side of the
-                                            triangle <MathNotation inline={true} text={"T"}/> and <MathNotation
-                                            inline={true} text={"\\Delta\t"}/> be its area,
-                                            then <MathNotation inline={true} text={"R = \\frac{pqr}{4\\Delta\t}\t"}/>
+                                            <b>INSTRUCTIONS :</b> Click on a node to set it as reference and compute its
+                                            neighbors <br/>
+                                            <b>Reference Node :</b> {this.state.referenceNode.id} <br/>
+                                            <b>One-hop neighbors
+                                                :</b> {this.state.oneHopeNeighbors.map((s) => s.id.toString() + ' ')}
                                             <br/>
-                                            <br/>
+                                            <b>Two-hop neighbors
+                                                :</b> {this.state.twoHopeNeighbors.map((s) => s.id.toString() + ' ')}
+                                        </Typography>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12}>
+                                <Grid item xs={12}>
+                                    <div className={classes.box1} style={{height: 600}}>
+                                        <Typography color='secondary' variant="h4" gutterBottom>
+                                            Hole detection phase
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+                                            This phase can be executed in a distributed way once every node knows its
+                                            one and two hop neighbors.
+                                            The algorithm is as follows:<br/>
+                                            <b>1.- Get one and two hop neighbors of the Reference node and assign them
+                                                to a set N </b><br/>
+                                            N = {N.map((s) => s.id.toString() + ' ')} <br/>
+                                            <b>2.- Get nodes from N whose y-coordinate is greater or equal than the
+                                                y-coordinate of the reference node and assign them to set N_u </b><br/>
+                                            N_u = {N_u.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>3.- Sort N_u in ascending order by x coordinate and assign it to a new
+                                                set N_uX </b><br/>
+                                            N_uX = {N_uX.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>4.- Get nodes from N whose y-coordinate is lower than the y-coordinate of
+                                                the reference node and assign them to set N_d</b><br/>
+                                            N_d = {N_d.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>5.- Sort N_d in descending order by x coordinate and assign it to a new
+                                                set N_dX </b><br/>
+                                            N_dX = {N_dX.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>5.- Select first two nodes A_i and A_j from set N_uX </b><br/>
 
-                                            Circum Center <MathNotation inline={true} text={"Z"}/> is denoted as the
-                                            center of the circum circle formed by the location of three nodes as the
-                                            vertices of a triangle.
-                                            In the example below, <MathNotation inline={true} text={"R"}/> is the circum
-                                            radius of the triangle <MathNotation inline={true} text={"T"}/> formed by
-                                            NODE0-NODE1-NODE2.
-                                            Let <MathNotation inline={true} text={"(x_1,y_1)"}/> , <MathNotation
-                                            inline={true} text={"(x_2,y_2)"}/> and <MathNotation inline={true}
-                                                                                               text={"(x_3,y_3)"}/> be the
-                                            coordinates of the vertices of triangle <MathNotation inline={true} text={"T"}/> then the coordinates
-                                            <MathNotation inline={true} text={"(x_0,y_0)"}/>  of <MathNotation inline={true} text={"Z"}/> can be found by
-                                            solving the following linear equations: <br/>
-                                            <MathNotation inline={true} text={"x_0(x_2 -x_1) + y_0(y_2 - y_1) + c1"}/>
-                                            <br/>
-                                            <MathNotation inline={true} text={"x_0(x_3 -x_2) + y_0(y_3 - y_1) + c2"}/>
 
 
                                         </Typography>
-                                        <div style={{textAlign: 'left'}}>
-                                            <P5Wrapper sketch={sketchCircumRadiusCenterNode}/>
-                                        </div>
+
                                     </div>
                                 </Grid>
                             </Grid>

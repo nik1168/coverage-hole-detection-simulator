@@ -11,11 +11,11 @@ import {
 import {joinArrays} from "../utils/generalUtils";
 
 
-export default function exampleAlgo(p) {
+export default function TriangleSketch(p) {
     const sensingRate = 60;
     const paddingx = 150;
     const paddingy = 70;
-    let firstTime = true
+    let firstTime = true;
     let nodes = [
         new Node(469.4566699123661 - paddingx, 244.0703125 - paddingy, 0, sensingRate, true, true),
         new Node(430 - paddingx, 224.0703125 - paddingy, 1, sensingRate, true),
@@ -79,7 +79,7 @@ export default function exampleAlgo(p) {
             // p.ellipse(p.circumCenter.x, p.circumCenter.y, 6, 6);
             // p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
         }
-        if(firstTime && p.sendNeighbors){
+        if (firstTime && p.sendNeighbors) {
             const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(0, nodes, true, "Hello");
             p.sendNeighbors(nodes[0], oneHopeNeighbors.map((val) => nodes[val]), twoHopeNeighbors.map((val) => nodes[val]));
             firstTime = false
