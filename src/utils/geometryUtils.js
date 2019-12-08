@@ -90,25 +90,18 @@ export class Triangle {
     }
 
     isObtuse() {
-        console.log("Check is obtuse");
         const {alpha, betta, gamma} = this.getAngles();
-        console.log(alpha, betta, gamma)
         const isA = alpha > this.rightAngle;
         const isB = betta > this.rightAngle;
         const isC = gamma > this.rightAngle;
-        console.log(isA, isB, isC);
-
         return isA || isB || isC
     }
 
     isAcute() {
-        console.log("Check accute");
         const {alpha, betta, gamma} = this.getAngles();
-        console.log(alpha, betta, gamma)
         const isA = alpha < this.rightAngle;
         const isB = betta < this.rightAngle;
         const isC = gamma < this.rightAngle;
-        console.log(isA, isB, isC)
         return isA && isB && isC
     }
 

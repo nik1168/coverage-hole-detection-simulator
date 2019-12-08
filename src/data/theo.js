@@ -1,16 +1,18 @@
+import MathNotation from "../components/MathNotation";
+
 export const DATA_THEO = {
     "Axioms": [
         {
             "title": "Axiom 1",
-            "description": "The triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two- hop) must be enclosed within the effective sensing range of those three nodes."
+            "description": "A triangle formed by a reference node with any pair of its neighbors must be covered by the sensing range of those three nodes [1]."
         },
         {
             "title": "Axiom 2",
-            "description": "The circum radius (R) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be either rRs or 4Rs."
+            "description": "Let T be the triangle formed by a reference node RN and with a pair of neighbors, the circum radius (R) of T must be either <= R_s or >R_s where R_s is the sensing range of a node [1]."
         },
         {
             "title": "Axiom 3",
-            "description": "The circum center (Z) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be located inside or outside the sensing range of those three sensors."
+            "description": "Let T be the triangle formed by a reference node RN and with a pair of neighbors, the circum center (Z) of T must be located inside or outside the sensing range of those three sensors [1]."
         }
     ],
     "Theorems": [
@@ -42,35 +44,45 @@ export const DATA_THEO = {
     "Lemmas": [
         {
             "title": "Lemma 1",
-            "description": "If an acute triangle is formed by a reference node with its one-hop neighbors, then no coverage hole exists within those three sensors.",
+            "description": "\"If an acute triangle is formed by a reference node with its one-hop neighbors, then no coverage hole exists within those three sensors\" Extracted as it is from [1].",
             "proof": {
                 "img": "",
-                "description": "Let an acute triangle be formed by a reference node A with its one pair of one-hop neighbors as shown in Fig. 5.\n" +
-                    "The maximum acute angle of that triangle must be rp=2"
+                "description": "- Let T be a triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. " +
+                    "</br> - The maximum acute angle of T must be at most &pi;/2" +
+                    "- Circum center Z  has to be located at most at one side of T, (see example above) <br>" +
+                    "- Circum Radius (R) is lower or equal than the sensing range (R_s), therefore there exists a common sensing region" +
+                    "- There isn't a coverage hole within those nodes"
             }
         },
         {
             "title": "Lemma 2",
-            "description": "If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R r Rs , then no hole exists within those sensors.",
+            "description": "\"If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R <= Rs , then no hole exists within those sensors.\" Extracted as it is from [1].",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. Suppose R <= Rs </br>" +
+                    "- Circum center Z has to be covered by a sensor, this is clear since R <= Rs, therefore no coverage hole exists between those nodes"
             }
         },
         {
             "title": "Lemma 3",
-            "description": "If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R4Rs, and circum center (Z) is not covered by any of its neighbors, then there must be a hole besides those sensors.",
+            "description": "\"If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R>Rs, and circum center (Z) is not covered by any of its neighbors, then there must be a hole besides those sensors.\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. Suppose R > Rs </br>" +
+                    "- Circum center Z is not covered by any of the three sensors </br>" +
+                    "- A coverage hole exits if Z is not covered by any other sensor"
             }
         },
         {
             "title": "Lemma 4",
-            "description": "If an acute triangle is formed by a reference node with its two-hop neighbors and its circum radius R 4 Rs , then there must be a coverage hole within those sensors, otherwise no coverage hole exists",
+            "description": "If an acute triangle is formed by a reference node with its two-hop neighbors and its circum radius R > Rs , then there must be a coverage hole within those sensors, otherwise no coverage hole exists",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>acute</b> triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. </br>" +
+                    "- For contradiction purposes, let's assume that circum radius R is lower or equal than the sensing rate Rs (R <= Rs) </br>" +
+                    "- As a consequence of Lemma 1, there must be a common sensing region within the three nodes that form T, therefore there is not a coverage hole </br>" +
+                    "- However, if there is no common sensing range as it can be seen in the example above then we have that R > Rs, therefore Z must be located outside the sensing region " +
+                    "leading to a coverage hole"
             }
         },
         {

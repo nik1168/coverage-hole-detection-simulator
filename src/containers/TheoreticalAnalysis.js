@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import MathNotation from "../components/MathNotation";
 
 import Topbar from './Topbar';
 import Lemma1 from "./dialogs/proofs/Lemma1";
@@ -112,6 +113,7 @@ class TheoreticalAnalysis extends Component {
         loading: true,
         selectedImage: "",
         selectedTest: "",
+        identifier : "",
         modals: {
             active: false,
             lemma1: {
@@ -128,13 +130,15 @@ class TheoreticalAnalysis extends Component {
         this.setState({modals: {['lemma1']: {['active']: false}}})
     };
 
-    openDialog = (proof) => {
+    openDialog = (axiom) => {
         console.log("Open dialog");
         // this.setState({modals: {[lt]: true}})
         this.setState({
             modals: {['lemma1']: {['active']: true}},
-            selectedImage: proof['img'],
-            selectedTest: proof['description']
+            selectedImage: axiom.proof['img'],
+            identifier : axiom['title'],
+            selectedTest: axiom.proof['description'],
+            des : axiom.description
         })
     };
 
@@ -164,7 +168,7 @@ class TheoreticalAnalysis extends Component {
                                                                 {axiom.title}
                                                             </Typography>
                                                             <Typography variant="body1" gutterBottom>
-                                                                {axiom.description}
+                                                                { axiom.description}
                                                             </Typography>
                                                         </div>
                                                         {
@@ -173,7 +177,7 @@ class TheoreticalAnalysis extends Component {
                                                                     <Button color='primary' variant="contained"
                                                                             className={classes.actionButtom}
                                                                             onClick={() => {
-                                                                                this.openDialog(axiom['proof'])
+                                                                                this.openDialog(axiom)
                                                                             }}
                                                                     >
                                                                         Proof!
@@ -193,8 +197,9 @@ class TheoreticalAnalysis extends Component {
                     }
                     <Lemma1
                         open={this.state.modals.lemma1.active}
-                        identifier={'lemma1'}
+                        identifier={this.state.identifier}
                         img={this.state.selectedImage}
+                        des={this.state.des}
                         description={this.state.selectedTest}
                         onClose={this.dialogClose}/>
                 </div>
