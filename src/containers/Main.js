@@ -150,6 +150,10 @@ class Main extends Component {
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
+                                                <Button component={Link} to='/algorithm' variant='text' onClick={() => {
+                                                }} color="primary" className={classes.actionButtomR} autoFocus>
+                                                    Algorithm explanation!
+                                                </Button>
                                                 <Button component={Link} to='/definitions'  color='primary' variant="outlined"
                                                         className={classes.actionButtomR}>
                                                     Take me to some definitions!

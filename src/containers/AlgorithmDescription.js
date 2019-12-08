@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import withStyles from '@material-ui/styles/withStyles';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -16,9 +16,11 @@ import sketchCircumRadiusCenterNode from "../sketches/CircumRadiusCenter";
 import exampleAlgo from "../sketches/Example";
 import {joinArrays} from "../utils/generalUtils";
 import {
-    Node, Point, Triangle
+    Node, nodesThatCoverCircumCenter, Point, Triangle
 } from "../utils/geometryUtils";
 import TriangleSketch from "../sketches/Triangle";
+import Button from "@material-ui/core/Button";
+import PseudoDescription from "./dialogs/pseudoDescription";
 
 const numeral = require('numeral');
 numeral.defaultFormat('0,000');
@@ -120,9 +122,10 @@ class AlgorithmDescription extends Component {
         loading: true,
         selectedImage: "",
         selectedTest: "",
-        oneHopeNeighbors: [],
+        oneHopeNeighbors: [new Node(2, 2, 1), new Node(3, 3, 2)],
         twoHopeNeighbors: [],
         referenceNode: new Node(0, 0, 0),
+        pseudoDescription: false,
         modals: {
             active: false,
             lemma1: {
@@ -137,16 +140,12 @@ class AlgorithmDescription extends Component {
     }
 
     dialogClose = (lt) => {
-        this.setState({modals: {['lemma1']: {['active']: false}}})
+        this.setState({pseudoDescription: false})
     };
 
-    openDialog = (proof) => {
-        console.log("Open dialog");
-        // this.setState({modals: {[lt]: true}})
+    openDialog = () => {
         this.setState({
-            modals: {['lemma1']: {['active']: true}},
-            selectedImage: proof['img'],
-            selectedTest: proof['description']
+            pseudoDescription: true
         })
     };
 
@@ -157,25 +156,21 @@ class AlgorithmDescription extends Component {
     render() {
         const {classes} = this.props;
         const currentPath = this.props.location.pathname;
-        const keys = Object.keys(DATA_THEO);
         const N = joinArrays(this.state.oneHopeNeighbors, this.state.twoHopeNeighbors);
         const nodes = N.concat(this.state.referenceNode);
-        console.log("nodes");
-        console.log(nodes)
         const N_u = N.filter((val) => val.y <= this.state.referenceNode.y);
-        const N_uX = N_u.sort(function (a, b) {
+        let N_uX = N_u.sort(function (a, b) {
             return a.x - b.x
         });
-        console.log("Reference Node");
-        console.log(this.state.referenceNode);
-        console.log("N_uX");
-        console.log(N_uX);
+        N_uX = N_uX.length >= 2 ? N_uX : [new Node(2, 2, -1), new Node(3, 3, -2)]
         const N_d = N.filter((val) => val.y > this.state.referenceNode.y);
         const N_dX = N_d.sort(function (a, b) {
             return b.x - a.x
         });
         const triangle = new Triangle(this.state.referenceNode, N_uX[0], N_uX[1]);
-        // const {alpha, betta, gamma} = triangle.getAngles();
+        const R = triangle.getCircumRadius();
+        const Z = triangle.getCircumCenter();
+        let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes).length > 0;
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -185,7 +180,7 @@ class AlgorithmDescription extends Component {
                         <Grid spacing={4} alignItems="center" justify="left" container className={classes.grid}>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1}>
+                                    <div className={classes.box1} style={{height: 400}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Description
                                         </Typography>
@@ -203,7 +198,7 @@ class AlgorithmDescription extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1} style={{height: 670}}>
+                                    <div className={classes.box1} style={{height: 600}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Neighbor Discovery phase
                                         </Typography>
@@ -260,33 +255,41 @@ class AlgorithmDescription extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1} style={{height: 700}}>
+                                    <div className={classes.box1} style={{height: N_uX[0].id !== -1 ? 700 : 270}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Hole detection phase
                                         </Typography>
                                         <Typography variant="body1" gutterBottom>
+                                            <Button
+                                                    onClick={this.openDialog}
+                                                    color='contained'
+                                                    variant="outlined"
+                                                    className={classes.actionButtomR}>
+                                                See pseudo code
+                                            </Button> <br/>
                                             This phase can be executed in a distributed way once every node knows its
                                             one and two hop neighbors.
                                             The algorithm is as follows:<br/>
                                             <b>1.- Get one and two hop neighbors of the Reference node and assign them
-                                                to a set N </b><br/>
-                                            N = {N.map((s) => s.id.toString() + ' ')} <br/>
-                                            <b>2.- Get nodes from N whose y-coordinate is greater or equal than the
-                                                y-coordinate of the reference node and assign them to set N_u </b><br/>
-                                            N_u = {N_u.map((s) => s.id.toString() + ' ')}<br/>
-                                            <b>3.- Sort N_u in ascending order by x coordinate and assign it to a new
-                                                set N_uX </b><br/>
-                                            N_uX = {N_uX.map((s) => s.id.toString() + ' ')}<br/>
-                                            <b>4.- Get nodes from N whose y-coordinate is lower than the y-coordinate of
-                                                the reference node and assign them to set N_d</b><br/>
-                                            N_d = {N_d.map((s) => s.id.toString() + ' ')}<br/>
-                                            <b>5.- Sort N_d in descending order by x coordinate and assign it to a new
-                                                set N_dX </b><br/>
-                                            N_dX = {N_dX.map((s) => s.id.toString() + ' ')}<br/>
-                                            <b>6.- Select first two nodes A_i and A_j from set N_uX </b><br/>
+                                                to a set M </b><br/>
+                                            M = {N.map((s) => s.id.toString() + ' ')} <br/>
+                                            <b>2.- Get nodes from M whose y-coordinate is greater or equal than the
+                                                y-coordinate of the reference node and assign them to set M_u </b><br/>
+                                            M_u = {N_u.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>3.- Sort M_u in ascending order by x coordinate and assign it to a new
+                                                set M_uX </b><br/>
+                                            M_uX = {N_uX.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>4.- Get nodes from M whose y-coordinate is lower than the y-coordinate of
+                                                the reference node and assign them to set M_d</b><br/>
+                                            M_d = {N_d.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>5.- Sort M_d in descending order by x coordinate and assign it to a new
+                                                set M_dX </b><br/>
+                                            M_dX = {N_dX.map((s) => s.id.toString() + ' ')}<br/>
+                                            <b>6.- Select first two nodes A_i (Node {N_uX[0].id}) and A_j
+                                                (Node {N_uX[1].id}) from set M_uX </b><br/>
 
                                             {
-                                                N_uX.length >= 2 && (
+                                                N_uX.length >= 2 && N_uX[0].id !== -1 && (
                                                     <P5Wrapper sketch={TriangleSketch}
                                                                clickOnNodes={false}
                                                                triangle={triangle}
@@ -299,12 +302,14 @@ class AlgorithmDescription extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1} style={{height: 850}}>
+                                    <div className={classes.box1} style={{height: N_uX[0].id !== -1 ? 815 : 200}}>
                                         <Typography variant="body1" gutterBottom>
                                             <b>7.- Compute the circum radius R and circum center Z of triangle formed by
-                                                the reference node and A_i, A_j; </b><br/>
+                                                the reference node (Node {this.state.referenceNode.id}) and A_i
+                                                (Node {N_uX[0].id}),
+                                                A_j (Node {N_uX[1].id}) </b><br/>
                                             {
-                                                N_uX.length >= 2 && (
+                                                N_uX.length >= 2 && N_uX[0].id !== -1 && (
                                                     <P5Wrapper sketch={TriangleSketch}
                                                                clickOnNodes={false}
                                                                triangle={triangle}
@@ -312,10 +317,12 @@ class AlgorithmDescription extends Component {
                                                                computeCircumData={true}/>
                                                 )
                                             }
-                                            <b>8.- Verify if the triangle formed by A_i, A_j and the reference node
+                                            <b>8.- Verify if the triangle formed by A_i (Node {N_uX[0].id}),
+                                                A_j (Node {N_uX[1].id}) and the reference node
+                                                (Node{this.state.referenceNode.id})
                                                 forms an obtuse or acute triangle </b><br/>
                                             {
-                                                N_uX.length >= 2 && (
+                                                N_uX.length >= 2 && N_uX[0].id !== -1 && (
                                                     <P5Wrapper sketch={TriangleSketch}
                                                                clickOnNodes={false}
                                                                triangle={triangle}
@@ -326,7 +333,7 @@ class AlgorithmDescription extends Component {
                                             }
                                             {
 
-                                                N_uX.length >= 2 && (
+                                                N_uX.length >= 2 && N_uX[0].id !== -1 && (
                                                     <span>
                                                         Angles: <br/>
                                                         <MathNotation inline={true}
@@ -353,67 +360,74 @@ class AlgorithmDescription extends Component {
                                                 )
                                             }
 
-
+                                            <br/>
                                         </Typography>
                                     </div>
                                 </Grid>
                             </Grid>
                             <Grid container item xs={12}>
                                 {
-                                    N_uX.length >= 2 && triangle.isObtuse() && (
+                                    N_uX.length >= 2 && N_uX[0].id !== -1 && triangle.isObtuse() && (
                                         <Grid item xs={12}>
                                             <div className={classes.box1} style={{height: 750}}>
                                                 <Typography variant="body1" gutterBottom>
-
-                                                    <b>8.- If the triangle was acute we would have had to check the sensing
-                                                        range <MathNotation inline={true} text={"R_s"}/> with the circum
-                                                        raduis <MathNotation inline={true} text={"R"}/>,
-                                                        If <MathNotation inline={true} text={"R_s"}/> was smaller
-                                                        than <MathNotation inline={true} text={"R_s"}/>, then there is not a
-                                                        coverage hole around the reference node and A_i, A_j.</b>
-                                                    <b> In this case the triangle is obtuse, therefore we need to first
-                                                        compare <MathNotation inline={true} text={"R_s"}/> with <MathNotation
+                                                    <br/>
+                                                    <b> 9.- In this case the triangle is obtuse, therefore we need to
+                                                        first
+                                                        compare <MathNotation inline={true}
+                                                                              text={"R_s"}/> with <MathNotation
                                                             inline={true} text={"R"}/>. </b><br/>
                                                     {
                                                         N_uX.length >= 2 && (
                                                             <span>
-                                                 <b>R: </b> {triangle.getCircumRadius()} <br/>
-                                            <b>R_s: </b>{this.state.referenceNode.sensingRate} <br/>
+
 
                                             <b>If <MathNotation inline={true} text={"R \\leq\t R_s"}/> then there is not
-                                                a coverage hole around the reference node and A_i, A_j </b><br/>
+                                                a coverage hole around the reference node (Node {this.state.referenceNode.id}) and A_i (Node {N_uX[0].id}), A_j (Node {N_uX[1].id}) </b><br/>
+                                                <b>R: </b> {R} <br/>
+                                            <b>R_s: </b>{this.state.referenceNode.sensingRate} <br/>
                                                                 {
-                                                                    triangle.getCircumRadius() <= this.state.referenceNode.sensingRate && (
+                                                                    R <= this.state.referenceNode.sensingRate && (
                                                                         <span>
-                                                                 No coverage hole detected
+                                                                 No coverage hole detected around reference node (Node {this.state.referenceNode.id}) and A_i (Node {N_uX[0].id}), A_j (Node {N_uX[1].id})
+                                                                    <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
                                                                  </span>
                                                                     )
                                                                 }
                                                                 {
-                                                                    triangle.getCircumRadius() > this.state.referenceNode.sensingRate && (
+                                                                    R > this.state.referenceNode.sensingRate && (
                                                                         <span>
-                                                            <b>Since this statement is not true for this case, we have to get the circum center Z of the triangle</b>
-                                                        <P5Wrapper sketch={TriangleSketch}
-                                                                   clickOnNodes={false}
-                                                                   drawCircle={false}
-                                                                   drawTriangle={false}
-                                                                   otherNodes={nodes}
-                                                                   triangle={triangle}
-                                                                   computeCircumData={true}/>
-                                            <b>If Z is not covered by any other sensor then there is a coverage hole around the reference node</b>
+                                                                            In this case, <MathNotation inline={true}
+                                                                                                        text={"R > R_s"}/>, therefore we need to check if Z is covered by any other node.
+                                                                            <P5Wrapper sketch={TriangleSketch}
+                                                                                       clickOnNodes={false}
+                                                                                       drawCircle={false}
+                                                                                       drawTriangle={false}
+                                                                                       otherNodes={nodes}
+                                                                                       triangle={triangle}
+                                                                                       computeCircumData={true}/>
+                                                                            {
+                                                                                !noHoleDetected && (
+                                                                                    <span>
+                                                                                        <b>There is a coverage hole since Z is not covered by any other node</b>
+                                                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                                                    </span>
+
+                                                                                )
+                                                                            }
+                                                                            {
+                                                                                noHoleDetected && (
+                                                                                    <span>
+                                                                                        <b>There is not a coverage hole since Z is covered by a node</b>
+                                                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                                                    </span>
+
+                                                                                )
+                                                                            }
+
                                                         </span>
                                                                     )
                                                                 }
-
-                                                                {/*<b>Since this statement is not true for this case, we have to get the circum center Z of the triangle</b>*/}
-                                                                {/*            <P5Wrapper sketch={TriangleSketch}*/}
-                                                                {/*                       clickOnNodes={false}*/}
-                                                                {/*                       drawCircle={false}*/}
-                                                                {/*                       drawTriangle={false}*/}
-                                                                {/*                       otherNodes={nodes}*/}
-                                                                {/*                       triangle={triangle}*/}
-                                                                {/*                       computeCircumData={true}/>*/}
-                                                                {/*<b>If Z is not covered by any other sensor then there is a coverage hole around the reference node</b>*/}
                                             </span>
 
                                                         )
@@ -426,21 +440,42 @@ class AlgorithmDescription extends Component {
                                     )
                                 }
                                 {
-                                    N_uX.length >= 2 && triangle.isAcute() &&  (
+                                    N_uX.length >= 2 && N_uX[0].id !== -1 && triangle.isAcute() && (
                                         <span>
-                                            <b>R: </b> {triangle.getCircumRadius()} <br/>
-                                            <b>R_s: </b>{this.state.referenceNode.sensingRate} <br/>
+
 
                                             <b>9.- If <MathNotation inline={true} text={"R \\leq\t R_s"}/> then there is not
-                                                a coverage hole around the reference node and A_i, A_j </b><br/>
+                                                a coverage hole around the reference node {this.state.referenceNode.id} and Node {N_uX[0].id}, Node {N_uX[1].id} </b><br/>
+                                                <b>R: </b> {R} <br/>
+                                            <b>R_s: </b>{this.state.referenceNode.sensingRate} <br/>
+                                            {
+                                                R <= this.state.referenceNode.sensingRate && (
+                                                    <span>
+                                                        Since <MathNotation inline={true}
+                                                                            text={"" + R + " \\leq\t " + this.state.referenceNode.sensingRate + ""}/>, there is not
+                                                        a coverage hole around the reference node {this.state.referenceNode.id} and Node {N_uX[0].id}, Node {N_uX[1].id}
+                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                    </span>
+                                                )
+                                            }
+                                            {
+                                                R > this.state.referenceNode.sensingRate && (
+                                                    <span>
+                                                        Since <MathNotation inline={true}
+                                                                            text={"" + R + " > " + this.state.referenceNode.sensingRate + ""}/>, there is a coverage hole around the reference node {this.state.referenceNode.id} and Node {N_uX[0].id}, Node {N_uX[1].id}
+                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                    </span>
+                                                )
+                                            }
                                         </span>
                                     )
                                 }
-
-
                             </Grid>
                         </Grid>
                     </Grid>
+                    <PseudoDescription
+                        open={this.state.pseudoDescription}
+                        onClose={this.dialogClose}/>
                 </div>
             </React.Fragment>
         )

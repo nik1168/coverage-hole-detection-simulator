@@ -15,7 +15,7 @@ export default function exampleAlgo(p) {
     const sensingRate = 60;
     const paddingx = 150;
     const paddingy = 70;
-    let firstTime = true
+    let firstTime = true;
     let nodes = [
         new Node(469.4566699123661 - paddingx, 244.0703125 - paddingy, 0, sensingRate, true, true),
         new Node(430 - paddingx, 224.0703125 - paddingy, 1, sensingRate, true),
@@ -83,6 +83,9 @@ export default function exampleAlgo(p) {
             const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(0, nodes, true, "Hello");
             p.sendNeighbors(nodes[0], oneHopeNeighbors.map((val) => nodes[val]), twoHopeNeighbors.map((val) => nodes[val]));
             firstTime = false
+        }
+        if (p.clickOnNodes) {
+            p.text('Click on a node to set it as reference node', 10, 15);
         }
     };
 
