@@ -62,6 +62,18 @@ export class Triangle {
         return Math.asin(this.getDistanceBC() / (2 * this.getCircumRadius()))
     }
 
+    getAngleADegree() {
+        return Math.asin(this.getDistanceAB() / (2 * this.getCircumRadius())) * (180 / Math.PI)
+    }
+
+    getAngleCDegree() {
+        return Math.asin(this.getDistanceAC() / (2 * this.getCircumRadius())) * (180 / Math.PI)
+    }
+
+    getAngleBDegree() {
+        return Math.asin(this.getDistanceBC() / (2 * this.getCircumRadius())) * (180 / Math.PI)
+    }
+
     getAngles() {
         const a2 = squareDistanceBetweenPoints(this.pointB, this.pointC);
         const b2 = squareDistanceBetweenPoints(this.pointA, this.pointC);
@@ -78,19 +90,25 @@ export class Triangle {
     }
 
     isObtuse() {
+        console.log("Check is obtuse");
         const {alpha, betta, gamma} = this.getAngles();
+        console.log(alpha, betta, gamma)
         const isA = alpha > this.rightAngle;
         const isB = betta > this.rightAngle;
         const isC = gamma > this.rightAngle;
+        console.log(isA, isB, isC);
 
         return isA || isB || isC
     }
 
     isAcute() {
+        console.log("Check accute");
         const {alpha, betta, gamma} = this.getAngles();
+        console.log(alpha, betta, gamma)
         const isA = alpha < this.rightAngle;
         const isB = betta < this.rightAngle;
         const isC = gamma < this.rightAngle;
+        console.log(isA, isB, isC)
         return isA && isB && isC
     }
 
@@ -187,6 +205,11 @@ export function squareDistanceBetweenPoints(nodeA, nodeB) {
     return Math.pow((nodeA.x - nodeB.x), 2) + Math.pow((nodeA.y - nodeB.y), 2)
 }
 
+export function distanceBetweenTwoPoints(pointA, pointB) {
+    return Math.hypot(pointA.x - pointB.x, pointA.y - pointB.y);
+}
+
+
 export function nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, oneHop, message) {
     let response = {
         oneHopeNeighbors: [],
@@ -215,6 +238,14 @@ export function nodesThatCoverCircumCenter(circumCenter, nodes) {
     return response
 };
 
+export function checkClickInside(mouseX, mouseY, canvasWidth, canvasHeight) {
+    return mouseX > 0 && mouseX < canvasWidth && mouseY > 0 && mouseY < canvasHeight
+}
+
+function getDegree(pointA,pointB){
+    const a2 = squareDistanceBetweenPoints(pointA, pointB);
+    return Math.sqrt(a2)
+}
 
 //
 // export function coverageHoleDetection(nodeList) {

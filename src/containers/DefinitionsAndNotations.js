@@ -157,7 +157,7 @@ class DefinitionsAndNotations extends Component {
                         <Grid spacing={4} alignItems="center" justify="left" container className={classes.grid}>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1}>
+                                    <div className={classes.box1} style={{height:370}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Coverage Hole
                                         </Typography>
@@ -184,7 +184,7 @@ class DefinitionsAndNotations extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1}>
+                                    <div className={classes.box1} style={{height:350}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Sensing and Communication Range (<MathNotation inline={true} text={"R_s"}/>)
                                         </Typography>
@@ -206,7 +206,7 @@ class DefinitionsAndNotations extends Component {
                             </Grid>
                             <Grid container item xs={12}>
                                 <Grid item xs={12}>
-                                    <div className={classes.box1}>
+                                    <div className={classes.box1} style={{height:450}}>
                                         <Typography color='secondary' variant="h4" gutterBottom>
                                             Reference Node (<MathNotation inline={true} text={"RN"}/>)
                                         </Typography>
