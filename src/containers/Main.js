@@ -11,6 +11,8 @@ import Topbar from './Topbar';
 import {bindActionCreators} from "redux";
 import * as theoremsActions from "../actions/theoretical";
 import BounceNode from "../components/BounceNode";
+import PseudoDescription from "./dialogs/pseudoDescription";
+import References from "./dialogs/References";
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -74,7 +76,7 @@ const styles = theme => ({
     },
     box2: {
         marginBottom: 40,
-        height: 80
+        height: 100
     },
     inlining: {
         display: 'inline-block',
@@ -103,7 +105,7 @@ const styles = theme => ({
 class Main extends Component {
 
     state = {
-        learnMoredialog: false,
+        references: false,
         getStartedDialog: false
     };
 
@@ -111,11 +113,11 @@ class Main extends Component {
     }
 
     openDialog = (event) => {
-        this.setState({learnMoredialog: true});
+        this.setState({references: true});
     };
 
     dialogClose = (event) => {
-        this.setState({learnMoredialog: false});
+        this.setState({references: false});
     };
 
     openGetStartedDialog = (event) => {
@@ -150,9 +152,12 @@ class Main extends Component {
                                                 </Typography>
                                             </div>
                                             <div className={classes.alignRight}>
+                                                <Button onClick={this.openDialog} variant='text' color="primary" className={classes.actionButtomR} autoFocus>
+                                                    References
+                                                </Button>
                                                 <Button component={Link} to='/algorithm' variant='text' onClick={() => {
                                                 }} color="primary" className={classes.actionButtomR} autoFocus>
-                                                    Algorithm explanation!
+                                                    Algorithm explanation
                                                 </Button>
                                                 <Button component={Link} to='/definitions'  color='primary' variant="outlined"
                                                         className={classes.actionButtomR}>
@@ -192,6 +197,9 @@ class Main extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <References
+                        open={this.state.references}
+                        onClose={this.dialogClose}/>
                 </div>
             </React.Fragment>
         )
