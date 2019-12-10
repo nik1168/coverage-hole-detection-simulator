@@ -21,24 +21,13 @@ import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 
 const styles = theme => ({
     paper: {
-        padding: theme.spacing(3),
+        padding: theme.spacing(2.5),
         textAlign: 'left',
         color: theme.palette.text.secondary
     },
     outlinedButtom: {
         textTransform: 'uppercase',
         margin: theme.spacing(1)
-    },
-    avatar: {
-        margin: 10,
-        backgroundColor: theme.palette.grey['200'],
-        color: theme.palette.text.primary,
-    },
-    avatarContainer: {
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: 0,
-            marginBottom: theme.spacing(4)
-        }
     },
     itemContainer: {
         display: 'flex',
@@ -52,7 +41,7 @@ const styles = theme => ({
     },
     baseline: {
         alignSelf: 'baseline',
-        marginLeft: theme.spacing(4),
+        marginLeft: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             display: 'flex',
             flexDirection: 'column',
@@ -66,7 +55,7 @@ const styles = theme => ({
     },
     inline: {
         display: 'inline-block',
-        marginLeft: theme.spacing(4),
+        // marginLeft: theme.spacing(4),
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0
         }
@@ -201,6 +190,7 @@ class TopButtonBar extends Component {
                             <div className={classes.inline}>
                                 <Button
                                     variant="contained"
+                                    size="medium"
                                     color="default"
                                     onClick={this.handleHelp}
                                     className={classes.outlinedButtom}

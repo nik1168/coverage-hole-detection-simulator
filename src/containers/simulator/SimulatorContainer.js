@@ -7,8 +7,30 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import * as demoActions from "../../actions/demo";
-import {Node
+import {
+    Node
 } from "../../utils/geometryUtils";
+import Typography from "@material-ui/core/Typography";
+import Slider from '@material-ui/core/Slider';
+
+const marks = [
+    {
+        value: 10,
+        label: '0°C',
+    },
+    {
+        value: 20,
+        label: '20°C',
+    },
+    {
+        value: 30,
+        label: '37°C',
+    },
+    {
+        value: 40,
+        label: '100°C',
+    },
+];
 
 const styles = theme => ({
     paper: {
@@ -63,6 +85,9 @@ const styles = theme => ({
     }
 });
 
+function valuetext(value) {
+    return `${value}°C`;
+}
 
 class SimulatorContainer extends Component {
     getCoords = (x, y) => {
@@ -71,15 +96,40 @@ class SimulatorContainer extends Component {
         }
     };
 
+
     componentDidMount() {
     }
 
     render() {
         const {classes} = this.props;
+        let instruction = '';
+        if (this.props.addingNodes){
+            instruction = "Click on screen to start adding nodes :)"
+        }
+        else{
+            instruction = ""
+        }
 
         return (
             <div className={classes.root}>
                 <Paper className={classes.paper} id={'paper'}>
+
+                    <Typography color='secondary' variant="h6" gutterBottom>
+                        {instruction}
+                    </Typography>
+                    <div style={{width : 300}}>
+                        {/*<Slider*/}
+                        {/*    defaultValue={30}*/}
+                        {/*    getAriaValueText={valuetext}*/}
+                        {/*    aria-labelledby="discrete-slider"*/}
+                        {/*    valueLabelDisplay="auto"*/}
+                        {/*    step={10}*/}
+                        {/*    marks*/}
+                        {/*    min={10}*/}
+                        {/*    max={110}*/}
+                        {/*/>*/}
+                    </div>
+
                     <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes}
                                addingNodes={this.props.addingNodes} circumCenter={this.props.circumCenter}/>
                 </Paper>
