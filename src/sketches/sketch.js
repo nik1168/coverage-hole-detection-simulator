@@ -13,7 +13,7 @@ export default function sketch(p) {
         console.log("div1 width");
         console.log(div1.offsetWidth - 90);
         // p.createCanvas(div1.offsetWidth, div1.offsetHeight);
-        p.createCanvas(div1.offsetWidth - 60, 600);
+        p.createCanvas(div1.offsetWidth - 60, 450);
         p.fill('black');
         // let canvas = p.createCanvas(canvasWidth, canvasHeight);
         // canvas.parent('sketchH1');

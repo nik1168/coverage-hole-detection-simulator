@@ -26,12 +26,12 @@ const styles = theme => ({
         flexGrow: 1,
         backgroundColor: theme.palette.grey['A500'],
         overflow: 'hidden',
-        background: `url(${backgroundShape}) no-repeat`,
-        backgroundSize: 'cover',
-        backgroundPosition: '0 400px',
-        marginTop: 20,
-        padding: 20,
-        paddingBottom: 200
+        // background: `url(${backgroundShape}) no-repeat`,
+        // backgroundSize: 'cover',
+        // backgroundPosition: '0 400px',
+        // marginTop: 20,
+        padding: 10,
+        // paddingBottom: 200
     },
     grid: {},
     gridSide: {
@@ -274,7 +274,6 @@ class Demo extends Component {
                     <Grid container direction="row" justify="center" spacing={2}>
                         <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
                             <Grid item xs={12} id={'gridNetworks'}>
-                                <SectionHeader title="Simulator" subtitle="Coverage holes detection"/>
                                 <TopButtonBar
                                     handleAddNodes={this.handleAddNodes}
                                     handleSimulation={this.handleStartSimulation}
