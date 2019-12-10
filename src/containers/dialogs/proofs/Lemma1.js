@@ -10,6 +10,7 @@ import {autoPlay} from 'react-swipeable-views-utils';
 import TriangleSketch from "../../../sketches/Triangle";
 import P5Wrapper from "react-p5-wrapper";
 import {Node, Triangle} from "../../../utils/geometryUtils";
+import Grid from "@material-ui/core/Grid";
 
 const logo = require('../../../images/logo.svg');
 
@@ -77,8 +78,31 @@ class Lemma1 extends Component {
             new Node(205 - padding, 130 - padding + py, 'Y', sensingRate),
         ];
         const triangleLemma4 = new Triangle(nodesLemma4[0], nodesLemma4[1], nodesLemma4[2]);
-        console.log("triangle 4 is acute?");
-        console.log(triangleLemma4.isAcute())
+        let nodesLemma5 = [
+            new Node(160 - padding, 110 - padding + py, 'RN', sensingRate, true, false),
+            new Node(210 - padding, 170 - padding + py, 'X', sensingRate),
+            new Node(150 - padding, 220 - padding + py, 'Y', sensingRate),
+        ];
+        const triangleLemma5 = new Triangle(nodesLemma5[0], nodesLemma5[1], nodesLemma5[2]);
+        let nodesLemma5_a = [
+            new Node(150 - padding, 170 - padding + py, 'RN', sensingRate, true, false),
+            new Node(250 - padding, 170 - padding + py, 'X', sensingRate),
+            new Node(220 - padding, 190 - padding + py, 'Y', sensingRate),
+        ];
+        const triangleLemma5_a = new Triangle(nodesLemma5_a[0], nodesLemma5_a[1], nodesLemma5_a[2]);
+        let nodesLemma6 = [
+            new Node(200 - padding, 100 - padding + py, 'RN', sensingRate, true, false),
+            new Node(135 - padding, 150 - padding + py, 'X', sensingRate),
+            new Node(290 - padding, 150 - padding + py, 'Y', sensingRate),
+        ];
+        const triangleLemma6 = new Triangle(nodesLemma6[0], nodesLemma6[1], nodesLemma6[2]);
+        let nodesLemma7 = [
+            new Node(200 - padding, 200 - padding + py, 'RN', sensingRate, true, false),
+            new Node(165 - padding, 200 - padding + py, 'X', sensingRate),
+            new Node(185 - padding, 130 - padding + py, 'Y', sensingRate),
+        ];
+        const triangleLemma7 = new Triangle(nodesLemma7[0], nodesLemma7[1], nodesLemma7[2]);
+
         return (
             <BaseDialog {...this.props}>
                 <div className={classes.container}>
@@ -137,12 +161,73 @@ class Lemma1 extends Component {
                                            triangle={triangleLemma4}/>
                             )
                         }
+                        {
+                            identifier === "Lemma 5" && (
+                                <div>
+                                    <Grid container justify="center">
+                                        <Grid spacing={4} alignItems="center" justify="center" container>
+                                            <Grid container item xs={12}>
+                                                <Grid item xs={6}>
+                                                    <P5Wrapper sketch={TriangleSketch}
+                                                               modal={true}
+                                                               drawCircle={false}
+                                                               drawRadiusLine={true}
+                                                               idLine={1}
+                                                               drawTriangle={true}
+                                                               computeCircumData={true}
+                                                               clickOnNodes={false}
+                                                               triangle={triangleLemma5}/>
+
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <P5Wrapper sketch={TriangleSketch}
+                                                               modal={true}
+                                                               drawCircle={false}
+                                                               drawRadiusLine={true}
+                                                               idLine={0}
+                                                               drawTriangle={true}
+                                                               computeCircumData={true}
+                                                               clickOnNodes={false}
+                                                               triangle={triangleLemma5_a}/>
+                                                </Grid>
+                                            </Grid>
+
+                                        </Grid>
+                                    </Grid>
+                                </div>
+
+                            )
+                        }
+                        {
+                            identifier === "Lemma 6" && (
+                                <P5Wrapper sketch={TriangleSketch}
+                                           modal={true}
+                                           drawCircle={false}
+                                           drawRadiusLine={true}
+                                           drawTriangle={true}
+                                           computeCircumData={true}
+                                           clickOnNodes={false}
+                                           triangle={triangleLemma6}/>
+                            )
+                        }
+                        {
+                            identifier === "Lemma 7" && (
+                                <P5Wrapper sketch={TriangleSketch}
+                                           modal={true}
+                                           drawCircle={false}
+                                           drawRadiusLine={true}
+                                           drawTriangle={true}
+                                           computeCircumData={true}
+                                           clickOnNodes={false}
+                                           triangle={triangleLemma7}/>
+                            )
+                        }
                     </div>
-                  <Typography style={{textAlign:'left'}} variant="h6" color='secondary' gutterBottom>
-                    Proof
-                  </Typography>
-                    <Typography variant="body2" style={{textAlign:'left'}} gutterBottom>
-                      <div className="content" dangerouslySetInnerHTML={{__html: description}}/>
+                    <Typography style={{textAlign: 'left'}} variant="h6" color='secondary' gutterBottom>
+                        Proof
+                    </Typography>
+                    <Typography variant="body2" style={{textAlign: 'left'}} gutterBottom>
+                        <div className="content" dangerouslySetInnerHTML={{__html: description}}/>
                     </Typography>
                 </div>
                 <div className={classes.buttonOk}>

@@ -55,6 +55,9 @@ export default function TriangleSketch(p) {
         if(props.modal){
             p.resizeCanvas(250, 250);
         }
+        if(props.idLine){
+            p.idLine = props.idLine
+        }
     };
 
     p.draw = function () {
@@ -97,7 +100,8 @@ export default function TriangleSketch(p) {
                 p.circle(p.Z.x, p.Z.y, 2 * p.R);
             }
             if(p.drawRadiusLine){
-                p.line(p.nodes[0].x, p.nodes[0].y, p.Z.x, p.Z.y);
+                const idLine = p.idLine || 0;
+                p.line(p.nodes[idLine].x, p.nodes[idLine].y, p.Z.x, p.Z.y);
             }
         }
         if (p.drawTriangle) {
