@@ -46,8 +46,17 @@ export default function TriangleSketch(p) {
             p.drawCircle = props.drawCircle;
             // p.nodes.forEach((n) => n.y += props.padding)
         }
+        if (props.drawRadiusLine){
+            p.drawRadiusLine = props.drawRadiusLine
+        }
         if (props.otherNodes) {
             p.nodes = props.otherNodes
+        }
+        if(props.modal){
+            p.resizeCanvas(250, 250);
+        }
+        if(props.idLine){
+            p.idLine = props.idLine
         }
     };
 
@@ -89,7 +98,10 @@ export default function TriangleSketch(p) {
             p.fill('rgba(0,255,0, 0.00)');
             if (p.drawCircle) {
                 p.circle(p.Z.x, p.Z.y, 2 * p.R);
-                p.line(p.nodes[1].x, p.nodes[1].y, p.Z.x, p.Z.y);
+            }
+            if(p.drawRadiusLine){
+                const idLine = p.idLine || 0;
+                p.line(p.nodes[idLine].x, p.nodes[idLine].y, p.Z.x, p.Z.y);
             }
         }
         if (p.drawTriangle) {

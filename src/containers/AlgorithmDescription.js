@@ -314,6 +314,7 @@ class AlgorithmDescription extends Component {
                                                                clickOnNodes={false}
                                                                triangle={triangle}
                                                                drawCircle={true}
+                                                               drawRadiusLine={true}
                                                                computeCircumData={true}/>
                                                 )
                                             }
@@ -327,6 +328,7 @@ class AlgorithmDescription extends Component {
                                                                clickOnNodes={false}
                                                                triangle={triangle}
                                                                drawCircle={true}
+                                                               drawRadiusLine={true}
                                                                drawTriangle={true}
                                                                computeCircumData={false}/>
                                                 )

@@ -1,117 +1,142 @@
+import MathNotation from "../components/MathNotation";
+
 export const DATA_THEO = {
     "Axioms": [
         {
             "title": "Axiom 1",
-            "description": "The triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two- hop) must be enclosed within the effective sensing range of those three nodes."
+            "description": "A triangle formed by a reference node with any pair of its neighbors must be covered by the sensing range of those three nodes [1]."
         },
         {
             "title": "Axiom 2",
-            "description": "The circum radius (R) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be either rRs or 4Rs."
+            "description": "Let T be the triangle formed by a reference node RN and with a pair of neighbors, the circum radius (R) of T must be either <= R_s or >R_s where R_s is the sensing range of a node [1]."
         },
         {
             "title": "Axiom 3",
-            "description": "The circum center (Z) of the triangle (acute, right or obtuse) formed by a reference node with any pair of its neighbors (one-hop or two-hop) must be located inside or outside the sensing range of those three sensors."
-        }
-    ],
-    "Theorems": [
-        {
-            "title": "Theorem 1",
-            "description": "Coverage hole may or may not exist in the network, if an acute triangle is formed by a reference node with its neighbors.",
-            "proof": {
-                "img": "",
-                "description": ""
-            }
-        },
-        {
-            "title": "Theorem 2",
-            "description": "Coverage hole may or may not exist in the network, if an obtuse triangle is formed by a reference node with its neighbors",
-            "proof": {
-                "img": "",
-                "description": ""
-            }
-        },
-        {
-            "title": "Theorem 3",
-            "description": "Presence or absence of coverage hole in the network depends on the nature of angle formed by a reference node with its neighbors",
-            "proof": {
-                "img": "",
-                "description": ""
-            }
+            "description": "Let T be the triangle formed by a reference node RN and with a pair of neighbors, the circum center (Z) of T must be located inside or outside the sensing range of those three sensors [1]."
         }
     ],
     "Lemmas": [
         {
             "title": "Lemma 1",
-            "description": "If an acute triangle is formed by a reference node with its one-hop neighbors, then no coverage hole exists within those three sensors.",
+            "description": "\"If an acute triangle is formed by a reference node with its one-hop neighbors, then no coverage hole exists within those three sensors\" Extracted as it is from [1].",
             "proof": {
                 "img": "",
-                "description": "Let an acute triangle be formed by a reference node A with its one pair of one-hop neighbors as shown in Fig. 5.\n" +
-                    "The maximum acute angle of that triangle must be rp=2"
+                "description": "- Let T be a triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. " +
+                    "</br> - The maximum acute angle of T must be at most &pi;/2." +
+                    "- Circum center Z  has to be located at most at one side of T, (see example above) <br>" +
+                    "- Circum Radius (R) is lower or equal than the sensing range (R_s), therefore there exists a common sensing region." +
+                    "- There isn't a coverage hole within those nodes."
             }
         },
         {
             "title": "Lemma 2",
-            "description": "If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R r Rs , then no hole exists within those sensors.",
+            "description": "\"If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R <= Rs , then no hole exists within those sensors.\" Extracted as it is from [1].",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. Suppose R <= Rs. </br>" +
+                    "- Circum center Z has to be covered by a sensor, this is clear since R <= Rs, therefore no coverage hole exists between those nodes."
             }
         },
         {
             "title": "Lemma 3",
-            "description": "If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R4Rs, and circum center (Z) is not covered by any of its neighbors, then there must be a hole besides those sensors.",
+            "description": "\"If an obtuse triangle is formed by a reference node with its one-hop neighbors such that its circum radius R>Rs, and circum center (Z) is not covered by any of its neighbors, then there must be a hole besides those sensors.\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. Suppose R > Rs. </br>" +
+                    "- Circum center Z is not covered by any of the three sensors. </br>" +
+                    "- A coverage hole exits if Z is not covered by any other sensor."
             }
         },
         {
             "title": "Lemma 4",
-            "description": "If an acute triangle is formed by a reference node with its two-hop neighbors and its circum radius R 4 Rs , then there must be a coverage hole within those sensors, otherwise no coverage hole exists",
+            "description": "\"If an acute triangle is formed by a reference node with its two-hop neighbors and its circum radius R > Rs , then there must be a coverage hole within those sensors, otherwise no coverage hole exists\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>acute</b> triangle formed by a reference node RN and any of its neighbors, call these nodes X and Y. </br>" +
+                    "- For contradiction purposes, let's assume that circum radius R is lower or equal than the sensing rate Rs (R <= Rs). </br>" +
+                    "- As a consequence of Lemma 1, there must be a common sensing region within the three nodes that form T, therefore there is not a coverage hole. </br>" +
+                    "- However, if there is no common sensing range as it can be seen in the example above then we have that R > Rs, therefore Z must be located outside the sensing region. " +
+                    "leading to a coverage hole"
             }
         },
         {
             "title": "Lemma 5",
-            "description": "If an obtuse triangle is formed by a reference node with its two-hop neighbors such that the angle subtended at the reference",
+            "description": "\"If an obtuse triangle is formed by a reference node with its two-hop neighbors such that the angle subtended at the reference node is acute and R <= Rs, then no hole exists between them, then no hole exists within them, otherwise a hole must exists if circum center Z is not covered by any other sensor\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its <b>two-hop neighbors</b> where angle at RN is acute, </br>" +
+                    "- If R < Rs, then circum center Z must be covered by those three sensors, otherwise,  Z is not covered by them. </br>" +
+                    ""
             }
         },
         {
             "title": "Lemma 6",
-            "description": "If an obtuse triangle is formed by a reference node with its two-hop neighbors and the angle subtended at the reference node is obtuse, coverage hole exists in between those two-hop neighbors.",
+            "description": "\"If an obtuse triangle is formed by a reference node with its two-hop neighbors and the angle subtended at the reference node is obtuse, coverage hole exists in between those two-hop neighbors.\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its <b>two-hop neighbors (X and Y)</b> where angle at RN is acute, </br>" +
+                    "- No other nodes exist in between RN and XY since T is formed with two immediate nodes (due to ascending order of the set of neighbors). </br>" +
+                    "- Since R > Rs there is a coverage hole between X and Y."
             }
         },
         {
             "title": "Lemma 7",
-            "description": "If an acute triangle is formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors, no hole exists if R r Rs , otherwise, coverage hole exists within them.",
+            "description": "\"If an acute triangle is formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors, no hole exists if R <= Rs , otherwise, coverage hole exists within them.\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an <b>acute</b> triangle formed by a reference node RN and any of its <b>two-hop neighbors (X and Y).</b> </br>" +
+                    "- If R <= Rs, then circum center Z must be covered by XY or RN."
+            }
+        },
+        // {
+        //     "title": "Lemma 8",
+        //     "description": "\"If an obtuse triangle is formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors, such that angle subtended at the reference node is acute, no hole exists within them if R<=Rs, otherwise a hole must exist if circum center Z is not covered by any other sensor\". Extracted as it is from [1]",
+        //     "proof": {
+        //         "img": "",
+        //         "description": ""
+        //     }
+        // },
+        // {
+        //     "title": "Lemma 9",
+        //     "description": "If the triangle formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors subtends an obtuse angle at the reference node, hole exists within those neighbors.",
+        //     "proof": {
+        //         "img": "",
+        //         "description": ""
+        //     }
+        // }
+    ],
+    "Theorems": [
+        {
+            "title": "Theorem 1",
+            "description": "\"Coverage hole may or may not exist in the network, if an acute triangle is formed by a reference node with its neighbors.\" Extracted as it is from [1]",
+            "proof": {
+                "img": "",
+                "description": "- Due to Lemma 1 we conclude that no coverage hole exists given an acute triangle (T) formed by a reference node (RN) and its one-hop neighbors (X,Y). </br>" +
+                    "- Given the results of Lemmas 4 and 7, there are no coverage holes within an acute triangle (T\') formed by a RN and its two hop neighbors or one of its one-hope neighbors and one two-hop neighbors whenever R <= Rs." +
+                    "- On the other hand, a coverage hole exists given T\' and R > Rs, this can be derived from the second part of the proofs of Lemmas 4 and 7. </br>" +
+                    "- Given these assumptions, Theorem 1 can be proved."
             }
         },
         {
-            "title": "Lemma 8",
-            "description": "If an obtuse triangle is formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors, such that angle subtended at the reference node is acute, no hole exists within them if RrRs, otherwise a hole must exist if circum center Z is not covered by any other sensor.",
+            "title": "Theorem 2",
+            "description": "\"Coverage hole may or may not exist in the network, if an obtuse triangle is formed by a reference node with its neighbors\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an obtuse triangle formed by a reference node (RN) and its one-hop neighbors (X,Y). </br>" +
+                    "- If R <= Rs whe know there isn't a coverage hole as a consequence of Lemma 2." +
+                    "- This also applies if T was an obtuse triangle formed by RN and one of its one-hop neighbors along with one of its two-hope neighbors, meaning there isn't a coverage hole. </br>" +
+                    "- On the other hand, if R > Rs, then a coverage hole exists as proved in Lemma3.",
             }
         },
         {
-            "title": "Lemma 9",
-            "description": "If the triangle formed by a reference node with one of its one-hop neighbor and another one with its two-hop neighbors subtends an obtuse angle at the reference node, hole exists within those neighbors.",
+            "title": "Theorem 3",
+            "description": "\"Presence or absence of coverage hole in the network depends on the nature of angle formed by a reference node with its neighbors\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
-                "description": ""
+                "description": "- Let T be an obtuse triangle formed by a reference node (RN) and its one-hop neighbors (X,Y) </br>" +
+                    "- If there is an acute angle at RN and R <= Rs, then there is no coverage hole between RN,X and Y, this can be derived from Lemma 5. </br>" +
+                    "- If there is an obtuse angle at RN either with two hop neighbors or one of its one hop neighbor and one two hop neighbor, then there is a coverage hole, this can be derived from Lemma 6."
             }
         }
-    ]
-}
+    ],
+};
