@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import P5Wrapper from 'react-p5-wrapper';
 import sketch from '../../sketches/sketch';
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import * as demoActions from "../../actions/demo";
 import {
@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Slider from '@material-ui/core/Slider';
 import Grid from "@material-ui/core/Grid";
 import TriangleSketch from "../../sketches/Triangle";
+import Button from "@material-ui/core/Button";
 
 const marks = [
     {
@@ -96,7 +97,8 @@ class SimulatorContainer extends Component {
     onChangeSlider = (e, val) => {
         console.log("On change slider");
         console.log(val);
-        this.props.addSensingRateCreator(val)
+        this.props.addSensingRateCreator(val);
+        this.props.getNeighbors()
     };
     getCoords = (x, y) => {
         if (this.props.addingNodes) {
@@ -139,7 +141,9 @@ class SimulatorContainer extends Component {
 
         let instruction = '';
         if (this.props.addingNodes) {
-            instruction = "Click on screen to start adding nodes :)"
+            instruction = "Click on screen to start adding nodes"
+        } else if (this.props.addingNeighbors) {
+            instruction = "Click on a node to set it as reference"
         } else {
             instruction = ""
         }
@@ -202,8 +206,9 @@ class SimulatorContainer extends Component {
                                                     <Typography variant="body1" gutterBottom>
                                                         Two hop- Neighbors : {refNode.twoHopeNeighbors}
                                                     </Typography>
-
-
+                                                    <Button style={{textAlign: 'left'}} color='primary' variant="text" size="small">
+                                                        Get coverage holes around reference node
+                                                    </Button>
                                                 </div>
 
                                             )

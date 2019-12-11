@@ -203,23 +203,23 @@ export function distanceBetweenTwoPoints(pointA, pointB) {
 }
 
 
-export function nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, oneHop, message) {
+export function nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, sensingRate) {
     let response = {
         oneHopeNeighbors: [],
         twoHopeNeighbors: []
     };
     nodes.forEach((node, index) => {
         if (referenceNode !== index) {
-            if (checkPointInsideCircle(nodes[referenceNode], node, node.sensingRate)) {
+            if (checkPointInsideCircle(nodes[referenceNode], node, sensingRate)) {
                 response.oneHopeNeighbors.push(index)
             }
-            if (checkPointInsideCircle(nodes[referenceNode], node, 2 * node.sensingRate)) {
+            if (checkPointInsideCircle(nodes[referenceNode], node, 2 * sensingRate)) {
                 response.twoHopeNeighbors.push(index)
             }
         }
     });
     return response
-};
+}
 
 export function nodesThatCoverCircumCenter(circumCenter, nodes, sensingRange) {
     let response = [];
@@ -235,7 +235,7 @@ export function checkClickInside(mouseX, mouseY, canvasWidth, canvasHeight) {
     return mouseX > 0 && mouseX < canvasWidth && mouseY > 0 && mouseY < canvasHeight
 }
 
-function getDegree(pointA,pointB){
+function getDegree(pointA, pointB) {
     const a2 = squareDistanceBetweenPoints(pointA, pointB);
     return Math.sqrt(a2)
 }

@@ -111,7 +111,7 @@ class Demo extends Component {
             console.log("We iterate for every node that is not the reference node and we send a message");
             console.log("Nodes that listened to my message :)");
             const message = "HELLO!!";
-            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, true, message);
+            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, this.props.sensingRate);
             console.log("Just for testing purposes, let's see the union");
             const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
             console.log(union);
@@ -177,7 +177,7 @@ class Demo extends Component {
         const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
         const X = referenceNodes[0];
         // Step 2: Find one and two-hop neighbors of X;
-        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, true, "Hello");
+        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, this.props.sensingRate);
         // Assign those nodes to set N
         const N = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
         const nodeX = nodes[X];
