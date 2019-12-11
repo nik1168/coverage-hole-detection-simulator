@@ -35,6 +35,9 @@ export default function sketch(p) {
         if (props.addingNodes !== undefined) {
             p.addingNodes = props.addingNodes
         }
+        if (props.addingNeighbors !== undefined) {
+            p.addingNeighbors = props.addingNeighbors
+        }
         if (props.circumCenter) {
             p.circumCenter = props.circumCenter
         }

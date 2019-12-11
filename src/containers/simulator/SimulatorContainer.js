@@ -8,7 +8,8 @@ import {withRouter} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import * as demoActions from "../../actions/demo";
 import {
-    Node
+    distanceBetweenTwoPoints,
+    Node, nodesThatListenedMessageWithRespectToRadius, Point
 } from "../../utils/geometryUtils";
 import Typography from "@material-ui/core/Typography";
 import Slider from '@material-ui/core/Slider';
@@ -101,6 +102,29 @@ class SimulatorContainer extends Component {
         if (this.props.addingNodes) {
             this.props.addNodeCreator(new Node(x, y, this.props.nodes.length))
         }
+        if (this.props.addingNeighbors) {
+            let point = new Point(x, y);
+            let min = 1000000000;
+            let i = 0;
+            let indexReference = -2;
+            this.props.nodes.forEach((node, index) => {
+                if (node.isReference) {
+                    indexReference = index
+                }
+                const distance = distanceBetweenTwoPoints(node, point);
+                if (distance < min) {
+                    min = distance;
+                    i = index
+                }
+            });
+            if (indexReference !== -2) {
+                this.props.setReferenceCreator(indexReference);
+            }
+            if (min < 20) {
+                this.props.setReferenceCreator(i)
+                this.props.getNeighbors()
+            }
+        }
     };
 
 
@@ -109,6 +133,9 @@ class SimulatorContainer extends Component {
 
     render() {
         const {classes, referenceNodes, nodes} = this.props;
+        const refNode = nodes[referenceNodes];
+        console.log("Ref node");
+        console.log(refNode);
 
         let instruction = '';
         if (this.props.addingNodes) {
@@ -134,6 +161,7 @@ class SimulatorContainer extends Component {
                                                nodes={this.props.nodes}
                                                sensingRate={this.props.sensingRate}
                                                addingNodes={this.props.addingNodes}
+                                               addingNeighbors={this.props.addingNeighbors}
                                                circumCenter={this.props.circumCenter}/>
                                 </Grid>
                                 <Grid style={{paddingLeft: 10}} item xs={3}>
@@ -166,8 +194,16 @@ class SimulatorContainer extends Component {
                                             referenceNodes >= 0 && (
                                                 <div>
                                                     <Typography variant="body1" gutterBottom>
-                                                        Node {referenceNodes}
+                                                        Node {refNode.id}
                                                     </Typography>
+                                                    <Typography variant="body1" gutterBottom>
+                                                        One hop- Neighbors : {refNode.oneHopeNeighbors}
+                                                    </Typography>
+                                                    <Typography variant="body1" gutterBottom>
+                                                        Two hop- Neighbors : {refNode.twoHopeNeighbors}
+                                                    </Typography>
+
+
                                                 </div>
 
                                             )
@@ -192,8 +228,10 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
+        addingNeighbors: state.demo.addingNeighbors,
         circumCenter: state.demo.circumCenter,
-        referenceNodes: state.demo.referenceNodes
+        referenceNodes: state.demo.referenceNodes,
+        neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase
     }
 }
 

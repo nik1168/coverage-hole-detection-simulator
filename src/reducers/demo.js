@@ -11,7 +11,7 @@ import {
     GET_SENSING_RATE,
     SET_REFERENCE,
     SET_REFERENCE_NODES,
-    DRAW_CIRCUM_CENTER, RESET
+    DRAW_CIRCUM_CENTER, RESET, ADDING_NEIGHBORS
 } from "../actions/demo";
 import {Point} from "../utils/geometryUtils";
 
@@ -19,6 +19,7 @@ const initialState = {
     nodes: [],
     sensingRate: 80,
     addingNodes: false,
+    addingNeighbors: false,
     neighborDiscoveryPhase: false,
     coverageHoleDetectionPhase: false,
     coverageHoles: [],
@@ -44,6 +45,11 @@ export const demo = (state = initialState, action) => {
             return {
                 ...state,
                 addingNodes: !state.addingNodes
+            };
+        case ADDING_NEIGHBORS:
+            return {
+                ...state,
+                addingNeighbors: !state.addingNeighbors
             };
         case NEIGHBOR_DISCOVERY_PHASE:
             return {
@@ -95,7 +101,7 @@ export const demo = (state = initialState, action) => {
                 ...state
             };
             prevStateSetReference.nodes[referenceNode].isReference = !prevStateSetReference.nodes[referenceNode].isReference;
-            prevStateSetReference.referenceNodes = prevStateSetReference.nodes[referenceNode].isReference ? referenceNode : -1
+            prevStateSetReference.referenceNodes = prevStateSetReference.nodes[referenceNode].isReference ? referenceNode : -1;
             return prevStateSetReference;
         case ADD_SENSING_RATE:
             return {

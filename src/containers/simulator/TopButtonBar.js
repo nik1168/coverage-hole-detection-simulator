@@ -112,7 +112,7 @@ class TopButtonBar extends Component {
 
     render() {
         console.log("RENDER TOP BUTTON BAR COMPONENT");
-        const {classes, neighborDiscoveryPhase, addingNodes, nodes} = this.props;
+        const {classes, neighborDiscoveryPhase, addingNodes, nodes, addingNeighbors} = this.props;
         const areThereReferenceNodes = nodes.filter((val) => val.isReference).length > 0;
         console.log("NEIGHBOR DISCOVERY PHASE");
         console.log(neighborDiscoveryPhase);
@@ -139,7 +139,7 @@ class TopButtonBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        disabled={addingNodes || neighborDiscoveryPhase || !areThereReferenceNodes}
+                                        disabled={addingNodes || neighborDiscoveryPhase || addingNeighbors || !areThereReferenceNodes}
                                         onClick={this.handleSimulation}
                                         className={classes.outlinedButtom}
                                         startIcon={<PlayArrowIcon/>}
@@ -154,7 +154,7 @@ class TopButtonBar extends Component {
                                     variant="contained"
                                     color="secondary"
                                     onClick={this.handleCoverageHole}
-                                    disabled={addingNodes || neighborDiscoveryPhase || !areThereReferenceNodes}
+                                    disabled={addingNodes || neighborDiscoveryPhase || !areThereReferenceNodes || addingNeighbors}
                                     className={classes.outlinedButtom}
                                     startIcon={<SettingsInputAntennaIcon/>}
                                 >
@@ -168,7 +168,7 @@ class TopButtonBar extends Component {
                                     onClick={this.handleNeighbors}
                                     disabled={addingNodes || nodes.length === 0}
                                     className={classes.outlinedButtom}
-                                    startIcon={<PersonAddIcon/>}
+                                    startIcon={!addingNeighbors ? <PersonAddIcon/> : <StopIcon/>}
                                 >
                                     Neighbor Discovery
                                 </Button>
@@ -179,7 +179,7 @@ class TopButtonBar extends Component {
                                         variant="contained"
                                         color="secondary"
                                         onClick={this.handleNodeError}
-                                        disabled={addingNodes || neighborDiscoveryPhase || nodes.length === 0}
+                                        disabled={addingNodes || addingNeighbors ||neighborDiscoveryPhase || nodes.length === 0}
                                         className={classes.outlinedButtom}
                                         startIcon={<SignalWifiOffIcon/>}
                                     >
@@ -211,6 +211,7 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
+        addingNeighbors: state.demo.addingNeighbors,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase
     }
 }

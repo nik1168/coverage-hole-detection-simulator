@@ -79,7 +79,8 @@ class Demo extends Component {
     handleNeighborPhase = () => {
         // this.props.addingNodesCreator();
         console.log("Handle neighbor phase");
-        this.openDialog()
+        this.props.addingNeighborsCreator();
+        // this.openDialog()
     };
 
     handleCoverageDetectionPhase = () => {
@@ -285,7 +286,7 @@ class Demo extends Component {
                                 />
                             </Grid>
                             <Grid item xs={12} id={'gridNetworks'}>
-                                <SimulatorContainer/>
+                                <SimulatorContainer getNeighbors={this.getNeighbors}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -304,6 +305,7 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
+        addingNeighbors: state.demo.addingNeighbors,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase,
         referenceNode : state.demo.referenceNodes
     }
