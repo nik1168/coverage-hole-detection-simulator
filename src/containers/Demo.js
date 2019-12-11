@@ -99,11 +99,11 @@ class Demo extends Component {
         console.log("Handle help");
     };
 
-    getNeighbors = () => {
+    getNeighbors = (referenceNodeId) => {
         this.props.neighborDiscoveryPhaseCreator();
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes.filter((val) => val.active);
-        const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
+        const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
         console.log("There are two ways of finding one and two hope neighbors");
         console.log();
@@ -169,12 +169,12 @@ class Demo extends Component {
 
     };
 
-    coverageHoleDetection = () => {
+    coverageHoleDetection = (referenceNodeId) => {
         let i = 0;
         this.props.coverageHoleDetectionPhaseCreator();
         const nodes = this.props.nodes.filter((node) => node.active);
         // Step 1: Select any node X randomly as a reference node;
-        const referenceNodes = nodes.filter((val) => val.isReference).map((valM) => valM.id);
+        const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
         const X = referenceNodes[0];
         // Step 2: Find one and two-hop neighbors of X;
         const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, this.props.sensingRate);
@@ -189,7 +189,7 @@ class Demo extends Component {
         const N_uX = N_u.sort(function (a, b) {
             return a.x - b.x
         });
-        const firstN_uX = N_uX.length > 0 ? N_uX[0] : 0;
+        const firstN_uX = N_uX.length > 0 ? N_uX[0] : -1;
 
         // Step 5: Select nodes from set N whose y-coordinate < b; Assign those nodes to set Nd;
         const N_d = N.map((val) => nodes[val]).filter((val) => val.y > nodeX.y);
@@ -218,9 +218,9 @@ class Demo extends Component {
         } else {
             console.log("X");
             console.log(nodeX);
-            const Z = new Point(0, 0);
-            console.log("%cThere exists a hole around the reference node " + nodeX.id + "", "color: red; font-size:15px;");
-            this.props.addCoverageHole(nodeX.id, Z);
+            // const Z = new Point(0, 0);
+            // console.log("%cThere exists a hole around the reference node " + nodeX.id + "", "color: red; font-size:15px;");
+            // this.props.addCoverageHole(nodeX.id, Z);
         }
 
         // Step 14: Choose the 1st node Ai of Ndx and last balance node Aj of Nux;
@@ -247,7 +247,7 @@ class Demo extends Component {
 
             } while (N_dX.length !== 1);
         }
-        if (N_dX.length > 0) {
+        if (N_dX.length > 0 && firstN_uX!==-1) {
             this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, N_dX[0], firstN_uX);
         }
 
@@ -286,7 +286,7 @@ class Demo extends Component {
                                 />
                             </Grid>
                             <Grid item xs={12} id={'gridNetworks'}>
-                                <SimulatorContainer getNeighbors={this.getNeighbors}/>
+                                <SimulatorContainer getNeighbors={this.getNeighbors} coverageHoleDetection={this.coverageHoleDetection}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -307,7 +307,7 @@ function mapStateToProps(state) {
         addingNodes: state.demo.addingNodes,
         addingNeighbors: state.demo.addingNeighbors,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase,
-        referenceNode : state.demo.referenceNodes
+        referenceNode: state.demo.referenceNodes
     }
 }
 

@@ -95,10 +95,13 @@ function valuetext(value) {
 
 class SimulatorContainer extends Component {
     onChangeSlider = (e, val) => {
+        const {referenceNodes} = this.props;
         console.log("On change slider");
         console.log(val);
         this.props.addSensingRateCreator(val);
-        this.props.getNeighbors()
+        if (referenceNodes !== -1) {
+            this.props.getNeighbors(referenceNodes)
+        }
     };
     getCoords = (x, y) => {
         if (this.props.addingNodes) {
@@ -124,7 +127,7 @@ class SimulatorContainer extends Component {
             }
             if (min < 20) {
                 this.props.setReferenceCreator(i)
-                this.props.getNeighbors()
+                this.props.getNeighbors(i)
             }
         }
     };
@@ -206,9 +209,19 @@ class SimulatorContainer extends Component {
                                                     <Typography variant="body1" gutterBottom>
                                                         Two hop- Neighbors : {refNode.twoHopeNeighbors}
                                                     </Typography>
-                                                    <Button style={{textAlign: 'left'}} color='primary' variant="text" size="small">
+                                                    <Button
+                                                        onClick={() => this.props.coverageHoleDetection(referenceNodes)}
+                                                        style={{textAlign: 'left'}} color='primary' variant="text"
+                                                        size="small">
                                                         Get coverage holes around reference node
                                                     </Button>
+                                                    {
+                                                        refNode.coverageHolesAroundNode.length > 0 && (
+                                                            <Typography variant="body1" gutterBottom>
+                                                                Coverage Hole Detected around reference node
+                                                            </Typography>
+                                                        )
+                                                    }
                                                 </div>
 
                                             )
