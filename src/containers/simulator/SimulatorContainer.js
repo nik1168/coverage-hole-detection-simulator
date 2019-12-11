@@ -12,6 +12,8 @@ import {
 } from "../../utils/geometryUtils";
 import Typography from "@material-ui/core/Typography";
 import Slider from '@material-ui/core/Slider';
+import Grid from "@material-ui/core/Grid";
+import TriangleSketch from "../../sketches/Triangle";
 
 const marks = [
     {
@@ -90,6 +92,11 @@ function valuetext(value) {
 }
 
 class SimulatorContainer extends Component {
+    onChangeSlider = (e, val) => {
+        console.log("On change slider");
+        console.log(val);
+        this.props.addSensingRateCreator(val)
+    };
     getCoords = (x, y) => {
         if (this.props.addingNodes) {
             this.props.addNodeCreator(new Node(x, y, this.props.nodes.length))
@@ -101,12 +108,12 @@ class SimulatorContainer extends Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, referenceNodes, nodes} = this.props;
+
         let instruction = '';
-        if (this.props.addingNodes){
+        if (this.props.addingNodes) {
             instruction = "Click on screen to start adding nodes :)"
-        }
-        else{
+        } else {
             instruction = ""
         }
 
@@ -117,21 +124,63 @@ class SimulatorContainer extends Component {
                     <Typography color='secondary' variant="h6" gutterBottom>
                         {instruction}
                     </Typography>
-                    <div style={{width : 300}}>
-                        {/*<Slider*/}
-                        {/*    defaultValue={30}*/}
-                        {/*    getAriaValueText={valuetext}*/}
-                        {/*    aria-labelledby="discrete-slider"*/}
-                        {/*    valueLabelDisplay="auto"*/}
-                        {/*    step={10}*/}
-                        {/*    marks*/}
-                        {/*    min={10}*/}
-                        {/*    max={110}*/}
-                        {/*/>*/}
-                    </div>
 
-                    <P5Wrapper sketch={sketch} getCoords={this.getCoords} nodes={this.props.nodes}
-                               addingNodes={this.props.addingNodes} circumCenter={this.props.circumCenter}/>
+                    <Grid container justify="center">
+                        <Grid spacing={7} alignItems="center" justify="center" container>
+                            <Grid container item xs={12}>
+                                <Grid item xs={9} id={'gridWidth'}>
+                                    <P5Wrapper sketch={sketch}
+                                               getCoords={this.getCoords}
+                                               nodes={this.props.nodes}
+                                               sensingRate={this.props.sensingRate}
+                                               addingNodes={this.props.addingNodes}
+                                               circumCenter={this.props.circumCenter}/>
+                                </Grid>
+                                <Grid style={{paddingLeft: 10}} item xs={3}>
+                                    <div style={{width: 300}}>
+                                        <Typography color='secondary' variant="h6" gutterBottom>
+                                            Sensing rate
+                                        </Typography>
+                                        <Slider
+                                            defaultValue={this.props.sensingRate}
+                                            getAriaValueText={valuetext}
+                                            aria-labelledby="discrete-slider"
+                                            valueLabelDisplay="auto"
+                                            onChangeCommitted={this.onChangeSlider}
+                                            step={10}
+                                            marks
+                                            min={10}
+                                            max={110}
+                                        />
+                                        <Typography color='secondary' variant="h6" gutterBottom>
+                                            Reference Node:
+                                        </Typography>
+                                        {
+                                            referenceNodes === -1 && (
+                                                <Typography variant="body1" gutterBottom>
+                                                    Not Selected
+                                                </Typography>
+                                            )
+                                        }
+                                        {
+                                            referenceNodes >= 0 && (
+                                                <div>
+                                                    <Typography variant="body1" gutterBottom>
+                                                        Node {referenceNodes}
+                                                    </Typography>
+                                                </div>
+
+                                            )
+                                        }
+                                    </div>
+
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+
+
                 </Paper>
             </div>
         )
@@ -143,7 +192,8 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
-        circumCenter: state.demo.circumCenter
+        circumCenter: state.demo.circumCenter,
+        referenceNodes: state.demo.referenceNodes
     }
 }
 

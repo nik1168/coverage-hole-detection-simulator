@@ -144,7 +144,7 @@ class Demo extends Component {
 
         // Step 10: If (X forms an acute triangle with its neighbors Ai and Aj)
         if (isAcute) {
-            if (R < referenceNode.sensingRate) {
+            if (R < sensingRate) {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
@@ -152,11 +152,11 @@ class Demo extends Component {
             }
         }
         if (isObtuse) {
-            if (R < referenceNode.sensingRate) {
+            if (R < sensingRate) {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 // Check if circum center Z is covered by any other sensor
-                let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes).length > 0;
+                let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes, sensingRate).length > 0;
                 if (noHoleDetected) {
                     console.log("No hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
                 } else {
@@ -304,7 +304,8 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
-        neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase
+        neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase,
+        referenceNode : state.demo.referenceNodes
     }
 }
 

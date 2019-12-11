@@ -22,7 +22,7 @@ const initialState = {
     neighborDiscoveryPhase: false,
     coverageHoleDetectionPhase: false,
     coverageHoles: [],
-    referenceNodes: [],
+    referenceNodes: -1,
     circumCenter: new Point(0, 0)
 };
 
@@ -92,9 +92,10 @@ export const demo = (state = initialState, action) => {
             return prevStateTwoHop;
         case SET_REFERENCE:
             let prevStateSetReference = {
-                ...state,
+                ...state
             };
             prevStateSetReference.nodes[referenceNode].isReference = !prevStateSetReference.nodes[referenceNode].isReference;
+            prevStateSetReference.referenceNodes = prevStateSetReference.nodes[referenceNode].isReference ? referenceNode : -1
             return prevStateSetReference;
         case ADD_SENSING_RATE:
             return {

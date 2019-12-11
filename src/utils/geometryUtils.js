@@ -221,10 +221,10 @@ export function nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes
     return response
 };
 
-export function nodesThatCoverCircumCenter(circumCenter, nodes) {
+export function nodesThatCoverCircumCenter(circumCenter, nodes, sensingRange) {
     let response = [];
     nodes.forEach((node) => {
-        if (checkPointInsideCircle(node, circumCenter, node.sensingRate)) {
+        if (checkPointInsideCircle(node, circumCenter, sensingRange)) {
             response.push(node)
         }
     });
