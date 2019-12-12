@@ -80,8 +80,10 @@ export default function exampleAlgo(p) {
             // p.text('Circum center', p.circumCenter.x - 16, p.circumCenter.y + 15);
         }
         if(firstTime && p.sendNeighbors){
-            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(0, nodes, true, "Hello");
-            p.sendNeighbors(nodes[0], oneHopeNeighbors.map((val) => nodes[val]), twoHopeNeighbors.map((val) => nodes[val]));
+            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(0, nodes, nodes[0].sensingRate);
+            console.log("oneHopeNeighbors",oneHopeNeighbors);
+            console.log("twoHopeNeighbors",twoHopeNeighbors);
+            p.sendNeighbors(nodes[0], oneHopeNeighbors, twoHopeNeighbors);
             firstTime = false
         }
         if (p.clickOnNodes) {
@@ -107,8 +109,10 @@ export default function exampleAlgo(p) {
                         node.isReference = false;
                     });
                     nodes[i].isReference = true;
-                    const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(i, nodes, true, "Hello");
-                    p.sendNeighbors(nodes[i], oneHopeNeighbors.map((val) => nodes[val]), twoHopeNeighbors.map((val) => nodes[val]));
+                    const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(i, nodes, nodes[0].sensingRate);
+                    console.log("oneHopeNeighbors",oneHopeNeighbors)
+                    console.log("twoHopeNeighbors",twoHopeNeighbors)
+                    p.sendNeighbors(nodes[i], oneHopeNeighbors, twoHopeNeighbors);
                 }
             }
         }

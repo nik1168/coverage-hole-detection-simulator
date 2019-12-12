@@ -45,6 +45,7 @@ const styles = theme => ({
 
 class SwipeDialog extends Component {
 
+
     handleNext = () => {
         this.setState(prevState => ({
             activeStep: prevState.activeStep + 1,
@@ -66,23 +67,42 @@ class SwipeDialog extends Component {
     };
 
     handleCloseOk = () => {
-        this.props.onOk()
+        const topologyChecked = this.state.topologies.filter((topo) => topo.checked)[0];
+        this.props.onOk(topologyChecked.name)
     };
 
     state = {
-        checked: this.props.nodes ? this.props.nodes.filter((val) => val.isReference).map((val, index) => index) : []
+        checked: this.props.nodes ? this.props.nodes.filter((val) => val.isReference).map((val, index) => index) : [],
+        topologies: [{
+            name: "Topology 1",
+            checked: false
+        }, {
+            name: "Topology 2",
+            checked: false
+        }, {
+            name: "Topology 3",
+            checked: false
+        }],
+        checkedVal: []
     };
-
-    handleToggle = index => () => {
-        this.props.setReferenceCreator(index);
-        this.forceUpdate(); // Calling force update since the component was not being re rendered when calling set Reference
-
+    handleToggles = topo => () => {
+        let copy = {
+            ...this.state,
+        };
+        this.state.topologies.forEach((topos, index) => {
+            copy.topologies[index].checked = false;
+        });
+        copy.topologies[topo].checked = true;
+        this.setState(copy)
     };
-
 
     render() {
         const {classes} = this.props;
-        const nodes = this.props.nodes ? this.props.nodes : []
+        const {topologies} = this.state;
+        console.log("topologies");
+        console.log(topologies);
+
+
         console.log("RENDER!!! DIALOG");
 
 
@@ -91,22 +111,22 @@ class SwipeDialog extends Component {
                 <div className={classes.container}>
                     <div>
                         <Typography variant="h5" gutterBottom>
-                            Choose a reference node
+                            Choose a Topology
                         </Typography>
                         <List dense className={classes.root}>
-                            {nodes.map((value, index) => {
-                                const labelId = `checkbox-list-secondary-label-${value}`;
+                            {this.state.topologies.map((topo, index) => {
+                                const labelId = `checkbox-list-secondary-label-${index}`;
                                 return (
                                     <ListItem key={index} button>
                                         <ListItemIcon>
                                             <SettingsInputAntennaIcon/>
                                         </ListItemIcon>
-                                        <ListItemText id={labelId} primary={`Node ${index + 1}`}/>
+                                        <ListItemText id={labelId} primary={`${topo.name}`}/>
                                         <ListItemSecondaryAction>
                                             <Checkbox
                                                 edge="end"
-                                                onChange={this.handleToggle(index)}
-                                                checked={value.isReference}
+                                                checked={topo.checked}
+                                                onChange={this.handleToggles(index)}
                                                 inputProps={{'aria-labelledby': labelId}}
                                             />
                                         </ListItemSecondaryAction>

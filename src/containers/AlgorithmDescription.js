@@ -150,6 +150,10 @@ class AlgorithmDescription extends Component {
     };
 
     receiveNeighbors = (referenceNode, oneHopeNeighbors, twoHopeNeighbors) => {
+        console.log("Receive neighbors")
+        console.log(referenceNode)
+        console.log(oneHopeNeighbors)
+        console.log(twoHopeNeighbors)
         this.setState({oneHopeNeighbors, twoHopeNeighbors, referenceNode: referenceNode})
     };
 
@@ -170,7 +174,7 @@ class AlgorithmDescription extends Component {
         const triangle = new Triangle(this.state.referenceNode, N_uX[0], N_uX[1]);
         const R = triangle.getCircumRadius();
         const Z = triangle.getCircumCenter();
-        let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes).length > 0;
+        let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes, nodes.sensingRate).length > 0;
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -261,10 +265,10 @@ class AlgorithmDescription extends Component {
                                         </Typography>
                                         <Typography variant="body1" gutterBottom>
                                             <Button
-                                                    onClick={this.openDialog}
-                                                    color='contained'
-                                                    variant="outlined"
-                                                    className={classes.actionButtomR}>
+                                                onClick={this.openDialog}
+                                                color='contained'
+                                                variant="outlined"
+                                                className={classes.actionButtomR}>
                                                 See pseudo code
                                             </Button> <br/>
                                             This phase can be executed in a distributed way once every node knows its
@@ -392,7 +396,10 @@ class AlgorithmDescription extends Component {
                                                                     R <= this.state.referenceNode.sensingRate && (
                                                                         <span>
                                                                  No coverage hole detected around reference node (Node {this.state.referenceNode.id}) and A_i (Node {N_uX[0].id}), A_j (Node {N_uX[1].id})
-                                                                    <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                                    <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation
+                                                                            inline={true}
+                                                                            text={"M_uX"}/> and <MathNotation
+                                                                            inline={true} text={"M_dX"}/></b>
                                                                  </span>
                                                                     )
                                                                 }
@@ -412,7 +419,11 @@ class AlgorithmDescription extends Component {
                                                                                 !noHoleDetected && (
                                                                                     <span>
                                                                                         <b>There is a coverage hole since Z is not covered by any other node</b>
-                                                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation
+                                                                                        inline={true}
+                                                                                        text={"M_uX"}/> and <MathNotation
+                                                                                        inline={true}
+                                                                                        text={"M_dX"}/></b>
                                                                                     </span>
 
                                                                                 )
@@ -421,7 +432,11 @@ class AlgorithmDescription extends Component {
                                                                                 noHoleDetected && (
                                                                                     <span>
                                                                                         <b>There is not a coverage hole since Z is covered by a node</b>
-                                                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation
+                                                                                        inline={true}
+                                                                                        text={"M_uX"}/> and <MathNotation
+                                                                                        inline={true}
+                                                                                        text={"M_dX"}/></b>
                                                                                     </span>
 
                                                                                 )
@@ -456,7 +471,9 @@ class AlgorithmDescription extends Component {
                                                         Since <MathNotation inline={true}
                                                                             text={"" + R + " \\leq\t " + this.state.referenceNode.sensingRate + ""}/>, there is not
                                                         a coverage hole around the reference node {this.state.referenceNode.id} and Node {N_uX[0].id}, Node {N_uX[1].id}
-                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation
+                                                        inline={true} text={"M_uX"}/> and <MathNotation inline={true}
+                                                                                                        text={"M_dX"}/></b>
                                                     </span>
                                                 )
                                             }
@@ -465,7 +482,9 @@ class AlgorithmDescription extends Component {
                                                     <span>
                                                         Since <MathNotation inline={true}
                                                                             text={"" + R + " > " + this.state.referenceNode.sensingRate + ""}/>, there is a coverage hole around the reference node {this.state.referenceNode.id} and Node {N_uX[0].id}, Node {N_uX[1].id}
-                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation inline={true} text={"M_uX"}/> and <MathNotation inline={true} text={"M_dX"}/></b>
+                                                        <br/><b>10.- Repeat process for any pair of nodes and reference node of set <MathNotation
+                                                        inline={true} text={"M_uX"}/> and <MathNotation inline={true}
+                                                                                                        text={"M_dX"}/></b>
                                                     </span>
                                                 )
                                             }

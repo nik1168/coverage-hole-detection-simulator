@@ -8,12 +8,16 @@ function checkClickInside(mouseX, mouseY, canvasWidth, canvasHeight) {
 
 export default function sketch(p) {
     let div1 = document.getElementById("paper");
+    let div2 = document.getElementById("gridWidth");
+    const padding = 0;
+    const height = 450;
+    const width = div2.offsetWidth;
     p.setup = function () {
 
         console.log("div1 width");
-        console.log(div1.offsetWidth - 90);
+        console.log(width - padding);
         // p.createCanvas(div1.offsetWidth, div1.offsetHeight);
-        p.createCanvas(div1.offsetWidth - 60, 600);
+        p.createCanvas(width - padding, height);
         p.fill('black');
         // let canvas = p.createCanvas(canvasWidth, canvasHeight);
         // canvas.parent('sketchH1');
@@ -31,8 +35,17 @@ export default function sketch(p) {
         if (props.addingNodes !== undefined) {
             p.addingNodes = props.addingNodes
         }
+        if (props.addingNeighbors !== undefined) {
+            p.addingNeighbors = props.addingNeighbors
+        }
         if (props.circumCenter) {
             p.circumCenter = props.circumCenter
+        }
+        if (props.sensingRate) {
+            p.sensingRange = props.sensingRate
+        }
+        if (props.addingFailureNode) {
+            p.addingFailureNode = props.addingFailureNode
         }
     };
 
@@ -42,28 +55,28 @@ export default function sketch(p) {
             p.nodes.forEach((node, i) => {
                 if (node.active) {
                     p.ellipse(node.x, node.y, 6, 6);
-                    p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
+                    p.text('Node ' + (node.id) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
                     p.fill('rgba(0,255,0, 0.25)');
 
-                    p.circle(node.x, node.y, node.sensingRate * 2);
+                    p.circle(node.x, node.y, p.sensingRange * 2);
                     if (node.isReference) {
                         p.fill('rgba(163, 255, 232, 0.25)');
-                        p.circle(node.x, node.y, 2 * node.sensingRate * 2)
+                        p.circle(node.x, node.y, 2 * p.sensingRange * 2)
                     }
                     if (node.coverageHolesAroundNode.length > 0) {
                         // console.log("coverage holes!!!")
                         node.coverageHolesAroundNode.forEach((val, index) => {
-                            p.ellipse(val.x, val.y, 6, 6);
-                            p.text('cc: ' + index + '', val.x - 16, val.y + 15);
+                            p.ellipse(val.circumCenter.x, val.circumCenter.y, 6, 6);
+                            p.text('cc: ' + index + '', val.circumCenter.x - 16, val.circumCenter.y + 15);
                         })
                     }
                 } else {
                     p.ellipse(node.x, node.y, 6, 6);
                     p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
-                    p.fill('rgba(255,0,0, 0.25)');
-                    p.circle(node.x, node.y, node.sensingRate * 2);
+                    p.fill('rgba(255,0,0, 0.15)');
+                    p.circle(node.x, node.y, p.sensingRange * 2);
                 }
             });
         }
@@ -74,13 +87,15 @@ export default function sketch(p) {
     };
 
     p.mousePressed = function () {
-        if (checkClickInside(p.mouseX, p.mouseY, div1.offsetWidth - 60, 600)) {
+        if (checkClickInside(p.mouseX, p.mouseY, width - padding, height)) {
             p.sendCoords(p.mouseX, p.mouseY);
         }
     };
 
     p.windowResized = function () {
-        let div1 = document.getElementById("paper");
-        p.resizeCanvas(div1.offsetWidth - 60, 600);
+        const padding = 0;
+        const height = 450;
+        const width = div2.offsetWidth;
+        p.resizeCanvas(width - padding, height);
     }
 };

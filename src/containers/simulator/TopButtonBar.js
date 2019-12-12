@@ -21,24 +21,13 @@ import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 
 const styles = theme => ({
     paper: {
-        padding: theme.spacing(3),
+        padding: theme.spacing(2.5),
         textAlign: 'left',
         color: theme.palette.text.secondary
     },
     outlinedButtom: {
         textTransform: 'uppercase',
         margin: theme.spacing(1)
-    },
-    avatar: {
-        margin: 10,
-        backgroundColor: theme.palette.grey['200'],
-        color: theme.palette.text.primary,
-    },
-    avatarContainer: {
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: 0,
-            marginBottom: theme.spacing(4)
-        }
     },
     itemContainer: {
         display: 'flex',
@@ -52,7 +41,7 @@ const styles = theme => ({
     },
     baseline: {
         alignSelf: 'baseline',
-        marginLeft: theme.spacing(4),
+        marginLeft: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             display: 'flex',
             flexDirection: 'column',
@@ -66,7 +55,7 @@ const styles = theme => ({
     },
     inline: {
         display: 'inline-block',
-        marginLeft: theme.spacing(4),
+        // marginLeft: theme.spacing(4),
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0
         }
@@ -99,8 +88,8 @@ class TopButtonBar extends Component {
     handleAddNodes = () => {
         this.props.handleAddNodes()
     };
-    handleSimulation = () => {
-        this.props.handleSimulation()
+    handleTopologies = () => {
+        this.props.handleTopologies()
     };
     handleNeighbors = () => {
         this.props.handleNeighbor()
@@ -123,7 +112,7 @@ class TopButtonBar extends Component {
 
     render() {
         console.log("RENDER TOP BUTTON BAR COMPONENT");
-        const {classes, neighborDiscoveryPhase, addingNodes, nodes} = this.props;
+        const {classes, neighborDiscoveryPhase, addingNodes, nodes, addingNeighbors, addingFailureNode} = this.props;
         const areThereReferenceNodes = nodes.filter((val) => val.isReference).length > 0;
         console.log("NEIGHBOR DISCOVERY PHASE");
         console.log(neighborDiscoveryPhase);
@@ -137,7 +126,7 @@ class TopButtonBar extends Component {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    disabled={neighborDiscoveryPhase}
+                                    disabled={neighborDiscoveryPhase || addingNeighbors || addingFailureNode}
                                     onClick={this.handleAddNodes}
                                     className={classes.outlinedButtom}
                                     startIcon={!addingNodes ? <AddIcon/> : <StopIcon/>}
@@ -150,12 +139,12 @@ class TopButtonBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        disabled={addingNodes || neighborDiscoveryPhase || !areThereReferenceNodes}
-                                        onClick={this.handleSimulation}
+                                        disabled={addingNodes || addingNeighbors}
+                                        onClick={this.handleTopologies}
                                         className={classes.outlinedButtom}
                                         startIcon={<PlayArrowIcon/>}
                                     >
-                                        Start simulation
+                                        Topologies
                                     </Button>
                                 </MuiThemeProvider>
 
@@ -163,9 +152,10 @@ class TopButtonBar extends Component {
                             <div className={classes.inline}>
                                 <Button
                                     variant="contained"
+                                    id="handleCoverage"
                                     color="secondary"
                                     onClick={this.handleCoverageHole}
-                                    disabled={addingNodes || neighborDiscoveryPhase || !areThereReferenceNodes}
+                                    disabled={addingNodes || nodes.length === 0 || addingNeighbors}
                                     className={classes.outlinedButtom}
                                     startIcon={<SettingsInputAntennaIcon/>}
                                 >
@@ -177,9 +167,9 @@ class TopButtonBar extends Component {
                                     variant="contained"
                                     color="default"
                                     onClick={this.handleNeighbors}
-                                    disabled={addingNodes || nodes.length === 0}
+                                    disabled={addingNodes || nodes.length === 0 || addingFailureNode}
                                     className={classes.outlinedButtom}
-                                    startIcon={<PersonAddIcon/>}
+                                    startIcon={!addingNeighbors ? <PersonAddIcon/> : <StopIcon/>}
                                 >
                                     Neighbor Discovery
                                 </Button>
@@ -190,9 +180,10 @@ class TopButtonBar extends Component {
                                         variant="contained"
                                         color="secondary"
                                         onClick={this.handleNodeError}
-                                        disabled={addingNodes || neighborDiscoveryPhase || nodes.length === 0}
+                                        disabled={addingNodes || addingNeighbors || neighborDiscoveryPhase || nodes.length === 0}
                                         className={classes.outlinedButtom}
-                                        startIcon={<SignalWifiOffIcon/>}
+                                        startIcon={!addingFailureNode ? <SignalWifiOffIcon/> : <StopIcon/>}
+
                                     >
                                         Node error
                                     </Button>
@@ -201,6 +192,7 @@ class TopButtonBar extends Component {
                             <div className={classes.inline}>
                                 <Button
                                     variant="contained"
+                                    size="medium"
                                     color="default"
                                     onClick={this.handleHelp}
                                     className={classes.outlinedButtom}
@@ -221,6 +213,8 @@ function mapStateToProps(state) {
         nodes: state.demo.nodes,
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
+        addingNeighbors: state.demo.addingNeighbors,
+        addingFailureNode: state.demo.addingFailureNode,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase
     }
 }

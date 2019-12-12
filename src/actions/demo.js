@@ -2,12 +2,16 @@ export const GET_NODES = 'GET_NODES';
 export const GET_SENSING_RATE = 'GET_SENSING_RATE';
 export const ADD_NODE = 'ADD_NODE';
 export const ADDING_NODES = 'ADDING_NODES';
+export const ADDING_NEIGHBORS = 'ADDING_NEIGHBORS';
+export const ADDING_FAILURE_NODE = 'ADDING_FAILURE_NODE';
 export const NEIGHBOR_DISCOVERY_PHASE = 'NEIGHBOR_DISCOVERY_PHASE';
 export const COVERAGE_HOLE_DETECTION_PHASE = 'COVERAGE_HOLE_DETECTION_PHASE';
 export const ADD_SENSING_RATE = 'ADD_SENSING_RATE';
 export const ADD_COVERAGE_HOLE = 'ADD_COVERAGE_HOLE';
+export const ADD_GENERAL_HOLES = 'ADD_GENERAL_HOLES';
 export const SET_REFERENCE_NODES = 'SET_REFERENCE_NODES';
 export const SET_REFERENCE = 'SET_REFERENCE';
+export const SET_FAILURE = 'SET_FAILURE';
 export const SET_NEIGHBORS = 'SET_NEIGHBORS';
 export const ADD_NODE_ONE_HOPE_NEIGHBORS = 'ADD_NODE_ONE_HOPE_NEIGHBORS';
 export const ADD_NODE_TWO_HOPE_NEIGHBORS = 'ADD_NODE_TWO_HOPE_NEIGHBORS';
@@ -35,6 +39,12 @@ export const addNodeCreator = node => ({
 export const addingNodesCreator = () => ({
     type: ADDING_NODES
 });
+export const addingFailureNodeCreator = () => ({
+    type: ADDING_FAILURE_NODE
+});
+export const addingNeighborsCreator = () => ({
+    type: ADDING_NEIGHBORS
+});
 
 export const neighborDiscoveryPhaseCreator = () => ({
     type: NEIGHBOR_DISCOVERY_PHASE
@@ -49,10 +59,15 @@ export const addSensingRateCreator = sensingRate => ({
     sensingRate
 });
 
-export const addCoverageHole = (referenceNode, hole) => ({
+export const addGeneralHolesCreator = holes => ({
+    type: ADD_GENERAL_HOLES,
+    generalHoles: holes
+});
+
+export const addCoverageHole = (referenceNode, holes) => ({
     type: ADD_COVERAGE_HOLE,
     referenceNode,
-    hole
+    holes
 });
 
 export const setReferenceNodesCreator = nodes => ({
@@ -76,6 +91,12 @@ export const setReferenceCreator = (node) => ({
     type: SET_REFERENCE,
     referenceNode: node,
 });
+
+export const setFailure = (node) => ({
+    type: SET_FAILURE,
+    failureNode: node,
+});
+
 export const drawCircumCenterCreator = (node) => ({
     type: DRAW_CIRCUM_CENTER,
     circumCenter: node,
