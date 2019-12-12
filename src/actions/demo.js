@@ -58,10 +58,10 @@ export const addSensingRateCreator = sensingRate => ({
     sensingRate
 });
 
-export const addCoverageHole = (referenceNode, hole) => ({
+export const addCoverageHole = (referenceNode, holes) => ({
     type: ADD_COVERAGE_HOLE,
     referenceNode,
-    hole
+    holes
 });
 
 export const setReferenceNodesCreator = nodes => ({

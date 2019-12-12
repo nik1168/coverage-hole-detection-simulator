@@ -122,9 +122,10 @@ class Demo extends Component {
     };
 
     findHoleBetweenReferenceNodeAndPairNeighbors = (referenceNode, Ai, Aj) => {
-
+        const response = [];
         const triangle = new Triangle(referenceNode, Ai, Aj);
         const {nodes, sensingRate} = this.props;
+        const activeNodes = nodes.filter(node => node.active);
         console.log("--------------------------------------------");
         console.log("Triangle between reference node and points:");
         console.log(referenceNode.id);
@@ -137,8 +138,8 @@ class Demo extends Component {
         console.log("Circum center: ", Z);
         console.log("Circum Raduis: ", R);
         console.log("Sensing rate: ", sensingRate);
-        this.props.drawCircumCenterCreator(Z);
-        this.props.addCoverageHole(referenceNode.id, Z);
+        // this.props.drawCircumCenterCreator(Z);
+        // this.props.addCoverageHole(referenceNode.id, Z);
         // Step 9: Verify if XAiAj is an acute or obtuse triangle;
         const isObtuse = triangle.isObtuse();
         const isAcute = triangle.isAcute();
@@ -149,7 +150,9 @@ class Demo extends Component {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
-                this.props.addCoverageHole(referenceNode.id, Z);
+                this.props.drawCircumCenterCreator(Z);
+                response.push({refId: referenceNode.id, circumCenter: Z, triangle});
+                // this.props.addCoverageHole(referenceNode.id, Z, triangle);
             }
         }
         if (isObtuse) {
@@ -157,19 +160,22 @@ class Demo extends Component {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 // Check if circum center Z is covered by any other sensor
-                let noHoleDetected = nodesThatCoverCircumCenter(Z, nodes, sensingRate).length > 0;
+                let noHoleDetected = nodesThatCoverCircumCenter(Z, activeNodes, sensingRate).length > 0;
                 if (noHoleDetected) {
-                    console.log("No hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
+                    console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
                 } else {
                     console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
-                    this.props.addCoverageHole(referenceNode.id, Z);
+                    this.props.drawCircumCenterCreator(Z);
+                    response.push({refId: referenceNode.id, circumCenter: Z, triangle});
+                    // this.props.addCoverageHole(referenceNode.id, Z, triangle);
                 }
             }
         }
-
+        return response
     };
 
     coverageHoleDetection = (referenceNodeId) => {
+        let holesAroundNode = [];
         let i = 0;
         this.props.coverageHoleDetectionPhaseCreator();
         const nodes = this.props.nodes.filter((node) => node.active);
@@ -209,7 +215,10 @@ class Demo extends Component {
                 console.log("Entro!!");
                 let Ai = N_uX[0];
                 let Aj = N_uX[1];
-                this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                const hole = this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                if (hole.length > 0) {
+                    holesAroundNode.push(hole[0])
+                }
                 // Step 13: Update Nux’Nux􏰁fAig
                 N_uX.shift();
                 const whileCond = N_uX.length !== 1;
@@ -231,11 +240,18 @@ class Demo extends Component {
                 if (isFirstTime && N_uX.length > 0) {
                     Ai = N_dX[0];
                     Aj = N_uX[0];
-                    this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                    const hole = this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                    if (hole.length > 0) {
+                        holesAroundNode.push(hole[0])
+                    }
+
                 } else if (N_dX.length > 1) {
                     Ai = N_dX[0];
                     Aj = N_dX[1];
-                    this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                    const hole = this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
+                    if (hole.length > 0) {
+                        holesAroundNode.push(hole[0])
+                    }
                 }
 
                 if (isFirstTime) {
@@ -248,9 +264,13 @@ class Demo extends Component {
             } while (N_dX.length !== 1);
         }
         if (N_dX.length > 0 && firstN_uX !== -1) {
-            this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, N_dX[0], firstN_uX);
+            const hole = this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, N_dX[0], firstN_uX);
+            if (hole.length > 0) {
+                holesAroundNode.push(hole[0])
+            }
         }
-
+        // return holesAroundNode;
+        this.props.addCoverageHole(referenceNodeId, holesAroundNode);
 
         this.props.coverageHoleDetectionPhaseCreator();
     };

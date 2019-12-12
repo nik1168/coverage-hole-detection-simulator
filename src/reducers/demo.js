@@ -31,7 +31,7 @@ const initialState = {
 };
 
 export const demo = (state = initialState, action) => {
-    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, hole, failureNode} = action;
+    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, failureNode, holes} = action;
 
     switch (action.type) {
         case RESET:
@@ -80,7 +80,7 @@ export const demo = (state = initialState, action) => {
             let prevStateHole = {
                 ...state,
             };
-            prevStateHole.nodes[referenceNode].coverageHolesAroundNode.push(hole);
+            prevStateHole.nodes[referenceNode].coverageHolesAroundNode = holes;
             return prevStateHole;
         case SET_REFERENCE_NODES:
             return {

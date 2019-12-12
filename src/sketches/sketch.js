@@ -55,7 +55,7 @@ export default function sketch(p) {
             p.nodes.forEach((node, i) => {
                 if (node.active) {
                     p.ellipse(node.x, node.y, 6, 6);
-                    p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
+                    p.text('Node ' + (node.id) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
                     p.fill('rgba(0,255,0, 0.25)');
 
@@ -67,8 +67,8 @@ export default function sketch(p) {
                     if (node.coverageHolesAroundNode.length > 0) {
                         // console.log("coverage holes!!!")
                         node.coverageHolesAroundNode.forEach((val, index) => {
-                            p.ellipse(val.x, val.y, 6, 6);
-                            p.text('cc: ' + index + '', val.x - 16, val.y + 15);
+                            p.ellipse(val.circumCenter.x, val.circumCenter.y, 6, 6);
+                            p.text('cc: ' + index + '', val.circumCenter.x - 16, val.circumCenter.y + 15);
                         })
                     }
                 } else {

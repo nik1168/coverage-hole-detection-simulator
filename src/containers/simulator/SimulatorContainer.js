@@ -109,6 +109,9 @@ class SimulatorContainer extends Component {
         let i = 0;
         if (this.props.addingNodes) {
             this.props.addNodeCreator(new Node(x, y, this.props.nodes.length))
+            if (this.props.referenceNodes !== -1) {
+                this.props.getNeighbors(this.props.referenceNodes)
+            }
         }
         if (this.props.addingNeighbors) {
             let indexReference = -2;
@@ -140,7 +143,10 @@ class SimulatorContainer extends Component {
                 }
             });
             if (min < 20) {
-                this.props.setFailure(i)
+                this.props.setFailure(i);
+                console.log("references nodes??");
+                console.log(this.props.referenceNodes);
+                this.props.getNeighbors(this.props.referenceNodes)
             }
         }
     };
@@ -232,7 +238,16 @@ class SimulatorContainer extends Component {
                                                     {
                                                         refNode.coverageHolesAroundNode.length > 0 && (
                                                             <Typography variant="body1" gutterBottom>
-                                                                Coverage Hole Detected around reference node
+                                                                Coverage Hole Detected around: <br/>
+                                                                {
+                                                                    refNode.coverageHolesAroundNode.map((hole, key) => (
+                                                                        <span key={key}>
+                                                                            Node: {hole.triangle.pointA.id} <br/>
+                                                                            Node: {hole.triangle.pointB.id} <br/>
+                                                                            Node: {hole.triangle.pointC.id} <br/>
+                                                                        </span>
+                                                                    ))
+                                                                }
                                                             </Typography>
                                                         )
                                                     }
