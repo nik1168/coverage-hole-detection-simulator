@@ -22,25 +22,6 @@ import green from "@material-ui/core/colors/green";
 import {red} from "@material-ui/core/colors";
 import {ThemeProvider as MuiThemeProvider} from "@material-ui/styles";
 
-const marks = [
-    {
-        value: 10,
-        label: '0°C',
-    },
-    {
-        value: 20,
-        label: '20°C',
-    },
-    {
-        value: 30,
-        label: '37°C',
-    },
-    {
-        value: 40,
-        label: '100°C',
-    },
-];
-
 const styles = theme => ({
     paper: {
         padding: theme.spacing(3),
@@ -183,6 +164,8 @@ class SimulatorContainer extends Component {
             instruction = "Click on screen to start adding nodes"
         } else if (this.props.addingNeighbors) {
             instruction = "Click on a node to set it as reference"
+        } else if (this.props.addingFailureNode) {
+            instruction = "Click on a node to emulate a failure"
         } else {
             instruction = ""
         }
