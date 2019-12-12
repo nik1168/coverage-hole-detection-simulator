@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/coverage-hole-detection-simulator/static/css/main.b100e6da.chunk.css",
-    "main.js": "/coverage-hole-detection-simulator/static/js/main.9f171998.chunk.js",
-    "main.js.map": "/coverage-hole-detection-simulator/static/js/main.9f171998.chunk.js.map",
+    "main.js": "/coverage-hole-detection-simulator/static/js/main.ef301355.chunk.js",
+    "main.js.map": "/coverage-hole-detection-simulator/static/js/main.ef301355.chunk.js.map",
     "runtime-main.js": "/coverage-hole-detection-simulator/static/js/runtime-main.429f0b50.js",
     "runtime-main.js.map": "/coverage-hole-detection-simulator/static/js/runtime-main.429f0b50.js.map",
-    "static/js/2.1f18f89a.chunk.js": "/coverage-hole-detection-simulator/static/js/2.1f18f89a.chunk.js",
-    "static/js/2.1f18f89a.chunk.js.map": "/coverage-hole-detection-simulator/static/js/2.1f18f89a.chunk.js.map",
+    "static/js/2.0da5b81e.chunk.js": "/coverage-hole-detection-simulator/static/js/2.0da5b81e.chunk.js",
+    "static/js/2.0da5b81e.chunk.js.map": "/coverage-hole-detection-simulator/static/js/2.0da5b81e.chunk.js.map",
     "index.html": "/coverage-hole-detection-simulator/index.html",
-    "precache-manifest.8e64e64616da29d4cd084faf3871adb5.js": "/coverage-hole-detection-simulator/precache-manifest.8e64e64616da29d4cd084faf3871adb5.js",
+    "precache-manifest.490690edee8bb4fbb4f14ac5404ed9d8.js": "/coverage-hole-detection-simulator/precache-manifest.490690edee8bb4fbb4f14ac5404ed9d8.js",
     "service-worker.js": "/coverage-hole-detection-simulator/service-worker.js",
     "static/css/main.b100e6da.chunk.css.map": "/coverage-hole-detection-simulator/static/css/main.b100e6da.chunk.css.map",
     "static/media/logo.svg": "/coverage-hole-detection-simulator/static/media/logo.5d5d9eef.svg",
@@ -16,8 +16,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.429f0b50.js",
-    "static/js/2.1f18f89a.chunk.js",
+    "static/js/2.0da5b81e.chunk.js",
     "static/css/main.b100e6da.chunk.css",
-    "static/js/main.9f171998.chunk.js"
+    "static/js/main.ef301355.chunk.js"
   ]
 }
