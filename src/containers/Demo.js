@@ -17,6 +17,7 @@ import {
     nodesThatListenedMessageWithRespectToRadius, Point, Triangle
 } from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
+import DetailsCoverageHoles from "./dialogs/DetailsCoverageHoles";
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -84,9 +85,31 @@ class Demo extends Component {
     };
 
     handleCoverageDetectionPhase = () => {
-        // this.props.addingNodesCreator();
+        this.props.coverageHoleDetectionPhaseCreator();
         console.log("Handle coverage hole phase");
-        this.coverageHoleDetection()
+        const {nodes} = this.props;
+        let holes = [];
+        nodes.forEach((node) => {
+            if (node.active) {
+                this.getNeighbors(node.id);
+                this.handleHolesAroundNode(node.id);
+                if (node.coverageHolesAroundNode.length > 0) {
+                    console.log("LOOK HERE")
+                    console.log(node.coverageHolesAroundNode)
+                }
+                holes = holes.concat(node.coverageHolesAroundNode)
+            }
+        });
+        console.log("Response of logs papaya de zelaya");
+        console.log(holes);
+        this.props.addGeneralHolesCreator(holes);
+        this.props.coverageHoleDetectionPhaseCreator();
+    };
+
+
+    handleHolesAroundNode = (nodeId) => {
+        const holesAroundHole = this.coverageHoleDetection(nodeId);
+        this.props.addCoverageHole(nodeId, holesAroundHole);
     };
 
     handleNodeError = () => {
@@ -103,21 +126,18 @@ class Demo extends Component {
         this.props.neighborDiscoveryPhaseCreator();
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes.filter((val) => val.active);
-        const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
         console.log("There are two ways of finding one and two hope neighbors");
         console.log();
-        referenceNodes.forEach((referenceNode) => {
-            console.log("We iterate for every node that is not the reference node and we send a message");
-            console.log("Nodes that listened to my message :)");
-            const message = "HELLO!!";
-            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes, this.props.sensingRate);
-            console.log("Just for testing purposes, let's see the union");
-            const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
-            console.log(union);
-            this.props.addNodeOneHopeNeighborCreator(referenceNode, oneHopeNeighbors);
-            this.props.addNodeTwoHopeNeighborCreator(referenceNode, twoHopeNeighbors)
-        });
+        console.log("We iterate for every node that is not the reference node and we send a message");
+        console.log("Nodes that listened to my message :)");
+        const message = "HELLO!!";
+        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(referenceNodeId, nodes, this.props.sensingRate);
+        console.log("Just for testing purposes, let's see the union");
+        const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
+        console.log(union);
+        this.props.addNodeOneHopeNeighborCreator(referenceNodeId, oneHopeNeighbors);
+        this.props.addNodeTwoHopeNeighborCreator(referenceNodeId, twoHopeNeighbors);
         this.props.neighborDiscoveryPhaseCreator();
     };
 
@@ -177,7 +197,6 @@ class Demo extends Component {
     coverageHoleDetection = (referenceNodeId) => {
         let holesAroundNode = [];
         let i = 0;
-        this.props.coverageHoleDetectionPhaseCreator();
         const nodes = this.props.nodes.filter((node) => node.active);
         // Step 1: Select any node X randomly as a reference node;
         const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
@@ -271,9 +290,7 @@ class Demo extends Component {
             }
         }
         // return holesAroundNode;
-        this.props.addCoverageHole(referenceNodeId, holesAroundNode);
-
-        this.props.coverageHoleDetectionPhaseCreator();
+        return holesAroundNode
     };
 
 
@@ -308,11 +325,13 @@ class Demo extends Component {
                             </Grid>
                             <Grid item xs={12} id={'gridNetworks'}>
                                 <SimulatorContainer getNeighbors={this.getNeighbors}
-                                                    coverageHoleDetection={this.coverageHoleDetection}/>
+                                                    coverageHoleDetection={this.handleHolesAroundNode}
+                                                    handleDetails={this.openDialog}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
-                    <SwipeDialog
+                    <DetailsCoverageHoles
                         open={this.state.learnMoredialog}
                         onClose={this.dialogClose}
                         onOk={this.dialogCloseOk}/>

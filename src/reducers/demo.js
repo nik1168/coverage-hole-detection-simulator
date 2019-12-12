@@ -13,7 +13,7 @@ import {
     SET_REFERENCE,
     SET_FAILURE,
     SET_REFERENCE_NODES,
-    DRAW_CIRCUM_CENTER, RESET, ADDING_NEIGHBORS
+    DRAW_CIRCUM_CENTER, RESET, ADDING_NEIGHBORS, ADD_GENERAL_HOLES
 } from "../actions/demo";
 import {Point} from "../utils/geometryUtils";
 
@@ -31,7 +31,7 @@ const initialState = {
 };
 
 export const demo = (state = initialState, action) => {
-    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, failureNode, holes} = action;
+    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, failureNode, holes, generalHoles} = action;
 
     switch (action.type) {
         case RESET:
@@ -121,6 +121,11 @@ export const demo = (state = initialState, action) => {
             return {
                 ...state,
                 sensingRate: sensingRate
+            };
+        case ADD_GENERAL_HOLES:
+            return {
+                ...state,
+                coverageHoles: generalHoles
             };
         default:
             return state

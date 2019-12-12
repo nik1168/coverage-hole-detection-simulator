@@ -16,6 +16,11 @@ import Slider from '@material-ui/core/Slider';
 import Grid from "@material-ui/core/Grid";
 import TriangleSketch from "../../sketches/Triangle";
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import green from "@material-ui/core/colors/green";
+import {red} from "@material-ui/core/colors";
+import {ThemeProvider as MuiThemeProvider} from "@material-ui/styles";
 
 const marks = [
     {
@@ -89,6 +94,13 @@ const styles = theme => ({
     }
 });
 
+const theme = createMuiTheme({
+    palette: {
+        primary: green,
+        secondary: red
+    },
+});
+
 function valuetext(value) {
     return `${value}°C`;
 }
@@ -157,7 +169,9 @@ class SimulatorContainer extends Component {
     }
 
     render() {
-        const {classes, referenceNodes, nodes} = this.props;
+        const {classes, referenceNodes, nodes, coverageHoleDetectionPhase} = this.props;
+        console.log("Coverage Hole Detection Phase");
+        console.log(coverageHoleDetectionPhase);
         const refNode = nodes[referenceNodes];
         console.log("Ref node");
         console.log(refNode);
@@ -194,9 +208,10 @@ class SimulatorContainer extends Component {
                                 </Grid>
                                 <Grid style={{paddingLeft: 10}} item xs={3}>
                                     <div style={{width: 300}}>
-                                        <Typography color='secondary' variant="h6" gutterBottom>
+                                        <Typography color='secondary' variant="h5" gutterBottom>
                                             Sensing rate
                                         </Typography>
+
                                         <Slider
                                             defaultValue={this.props.sensingRate}
                                             getAriaValueText={valuetext}
@@ -208,6 +223,37 @@ class SimulatorContainer extends Component {
                                             min={10}
                                             max={110}
                                         />
+                                        <Typography color='secondary' variant="h5" gutterBottom>
+                                            Network Status
+                                            {
+                                                coverageHoleDetectionPhase && (
+                                                    <MuiThemeProvider theme={theme}>
+                                                        <CircularProgress color="secondary" size={20}/>
+                                                    </MuiThemeProvider>
+                                                )
+                                            }
+                                        </Typography>
+                                        <Typography variant="body1" gutterBottom>
+                                            {
+                                                this.props.coverageHoles.length > 0 && (
+                                                    <span
+                                                        style={{color: 'red'}}><b>Coverage holes detected in network</b></span>
+                                                )
+                                            }
+                                            {
+                                                this.props.coverageHoles.length === 0 && (
+                                                    <span
+                                                        style={{color: 'green'}}><b>No coverage holes detected in network</b></span>
+                                                )
+                                            }
+
+                                            <Button
+                                                onClick={() => this.props.handleDetails()}
+                                                style={{textAlign: 'left'}} color='secondary' variant="text"
+                                                size="small">
+                                                Details
+                                            </Button>
+                                        </Typography>
                                         <Typography color='secondary' variant="h6" gutterBottom>
                                             Reference Node:
                                         </Typography>
@@ -227,7 +273,7 @@ class SimulatorContainer extends Component {
                                                     <Typography variant="body1" gutterBottom>
                                                         One hop- Neighbors : {
                                                         refNode.oneHopeNeighbors.map((node, ind) => (
-                                                            <span key={ind}>{node.id}</span>
+                                                            <span key={ind}>{node.id}&nbsp;</span>
                                                         ))
                                                     }
                                                     </Typography>
@@ -247,7 +293,7 @@ class SimulatorContainer extends Component {
                                                     {
                                                         refNode.coverageHolesAroundNode.length > 0 && (
                                                             <Typography variant="body1" gutterBottom>
-                                                               <b>Coverage Hole Detected around:</b>  <br/>
+                                                                <b>Coverage Hole Detected around:</b> <br/>
                                                                 {
                                                                     refNode.coverageHolesAroundNode.map((hole, key) => (
                                                                         <span key={key}>
@@ -286,6 +332,8 @@ function mapStateToProps(state) {
         addingNodes: state.demo.addingNodes,
         addingNeighbors: state.demo.addingNeighbors,
         addingFailureNode: state.demo.addingFailureNode,
+        coverageHoleDetectionPhase: state.demo.coverageHoleDetectionPhase,
+        coverageHoles: state.demo.coverageHoles,
         circumCenter: state.demo.circumCenter,
         referenceNodes: state.demo.referenceNodes,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase

@@ -154,7 +154,7 @@ class TopButtonBar extends Component {
                                     variant="contained"
                                     color="secondary"
                                     onClick={this.handleCoverageHole}
-                                    disabled={addingNodes || neighborDiscoveryPhase || !areThereReferenceNodes || addingNeighbors}
+                                    disabled={addingNodes || nodes.length === 0 || addingNeighbors}
                                     className={classes.outlinedButtom}
                                     startIcon={<SettingsInputAntennaIcon/>}
                                 >
