@@ -146,7 +146,8 @@ class SimulatorContainer extends Component {
                 this.props.setFailure(i);
                 console.log("references nodes??");
                 console.log(this.props.referenceNodes);
-                this.props.getNeighbors(this.props.referenceNodes)
+                this.props.getNeighbors(this.props.referenceNodes);
+                this.props.coverageHoleDetection(this.props.referenceNodes);
             }
         }
     };
@@ -224,10 +225,18 @@ class SimulatorContainer extends Component {
                                                         Node {refNode.id}
                                                     </Typography>
                                                     <Typography variant="body1" gutterBottom>
-                                                        One hop- Neighbors : {refNode.oneHopeNeighbors}
+                                                        One hop- Neighbors : {
+                                                        refNode.oneHopeNeighbors.map((node, ind) => (
+                                                            <span key={ind}>{node.id}</span>
+                                                        ))
+                                                    }
                                                     </Typography>
                                                     <Typography variant="body1" gutterBottom>
-                                                        Two hop- Neighbors : {refNode.twoHopeNeighbors}
+                                                        Two hop- Neighbors : {
+                                                        refNode.twoHopeNeighbors.map((node, ind) => (
+                                                            <span key={ind}>{node.id}</span>
+                                                        ))
+                                                    }
                                                     </Typography>
                                                     <Button
                                                         onClick={() => this.props.coverageHoleDetection(referenceNodes)}
@@ -238,13 +247,13 @@ class SimulatorContainer extends Component {
                                                     {
                                                         refNode.coverageHolesAroundNode.length > 0 && (
                                                             <Typography variant="body1" gutterBottom>
-                                                                Coverage Hole Detected around: <br/>
+                                                               <b>Coverage Hole Detected around:</b>  <br/>
                                                                 {
                                                                     refNode.coverageHolesAroundNode.map((hole, key) => (
                                                                         <span key={key}>
-                                                                            Node: {hole.triangle.pointA.id} <br/>
-                                                                            Node: {hole.triangle.pointB.id} <br/>
-                                                                            Node: {hole.triangle.pointC.id} <br/>
+                                                                           - Node {hole.triangle.pointA.id},&nbsp;
+                                                                            Node {hole.triangle.pointB.id},&nbsp;
+                                                                            Node {hole.triangle.pointC.id}&nbsp; <br/>
                                                                         </span>
                                                                     ))
                                                                 }

@@ -211,10 +211,10 @@ export function nodesThatListenedMessageWithRespectToRadius(referenceNode, nodes
     nodes.forEach((node, index) => {
         if (referenceNode !== index) {
             if (checkPointInsideCircle(nodes[referenceNode], node, sensingRate)) {
-                response.oneHopeNeighbors.push(index)
+                response.oneHopeNeighbors.push(node)
             }
             if (checkPointInsideCircle(nodes[referenceNode], node, 2 * sensingRate)) {
-                response.twoHopeNeighbors.push(index)
+                response.twoHopeNeighbors.push(node)
             }
         }
     });

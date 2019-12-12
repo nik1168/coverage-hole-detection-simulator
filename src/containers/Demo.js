@@ -183,13 +183,14 @@ class Demo extends Component {
         const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
         const X = referenceNodes[0];
         // Step 2: Find one and two-hop neighbors of X;
-        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, this.props.sensingRate);
+        // const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, this.props.sensingRate);
         // Assign those nodes to set N
-        const N = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
+
         const nodeX = nodes[X];
+        const N = joinArrays(nodeX.oneHopeNeighbors, nodeX.twoHopeNeighbors);
 
         // Step 3: Select nodes from set N whose y-coordinate >= b; Assign those nodes to set Nu
-        const N_u = N.map((val) => nodes[val]).filter((val) => val.y <= nodeX.y);
+        const N_u = N.filter((val) => val.y <= nodeX.y);
 
         // Step 4: Arrange nodes of Nu with their x-coordinate in ascending order and put them in a new set Nux,
         const N_uX = N_u.sort(function (a, b) {
@@ -198,7 +199,7 @@ class Demo extends Component {
         const firstN_uX = N_uX.length > 0 ? N_uX[0] : -1;
 
         // Step 5: Select nodes from set N whose y-coordinate < b; Assign those nodes to set Nd;
-        const N_d = N.map((val) => nodes[val]).filter((val) => val.y > nodeX.y);
+        const N_d = N.filter((val) => val.y > nodeX.y);
 
         // Step 6: Arrange nodes of Nd with their x-coordinate in descending order and put them in a new set Ndx
         const N_dX = N_d.sort(function (a, b) {
