@@ -150,6 +150,10 @@ class AlgorithmDescription extends Component {
     };
 
     receiveNeighbors = (referenceNode, oneHopeNeighbors, twoHopeNeighbors) => {
+        console.log("Receive neighbors")
+        console.log(referenceNode)
+        console.log(oneHopeNeighbors)
+        console.log(twoHopeNeighbors)
         this.setState({oneHopeNeighbors, twoHopeNeighbors, referenceNode: referenceNode})
     };
 

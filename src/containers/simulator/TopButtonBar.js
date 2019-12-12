@@ -88,8 +88,8 @@ class TopButtonBar extends Component {
     handleAddNodes = () => {
         this.props.handleAddNodes()
     };
-    handleSimulation = () => {
-        this.props.handleSimulation()
+    handleTopologies = () => {
+        this.props.handleTopologies()
     };
     handleNeighbors = () => {
         this.props.handleNeighbor()
@@ -139,12 +139,12 @@ class TopButtonBar extends Component {
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        disabled={addingNodes || neighborDiscoveryPhase || addingNeighbors || !areThereReferenceNodes}
-                                        onClick={this.handleSimulation}
+                                        disabled={addingNodes || addingNeighbors}
+                                        onClick={this.handleTopologies}
                                         className={classes.outlinedButtom}
                                         startIcon={<PlayArrowIcon/>}
                                     >
-                                        Start simulation
+                                        Topologies
                                     </Button>
                                 </MuiThemeProvider>
 
@@ -152,6 +152,7 @@ class TopButtonBar extends Component {
                             <div className={classes.inline}>
                                 <Button
                                     variant="contained"
+                                    id="handleCoverage"
                                     color="secondary"
                                     onClick={this.handleCoverageHole}
                                     disabled={addingNodes || nodes.length === 0 || addingNeighbors}

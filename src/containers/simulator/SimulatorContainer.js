@@ -158,8 +158,10 @@ class SimulatorContainer extends Component {
                 this.props.setFailure(i);
                 console.log("references nodes??");
                 console.log(this.props.referenceNodes);
-                this.props.getNeighbors(this.props.referenceNodes);
-                this.props.coverageHoleDetection(this.props.referenceNodes);
+                if (this.props.referenceNodes !== -1) {
+                    this.props.getNeighbors(this.props.referenceNodes);
+                    this.props.coverageHoleDetection(this.props.referenceNodes);
+                }
             }
         }
     };
@@ -172,7 +174,7 @@ class SimulatorContainer extends Component {
         const {classes, referenceNodes, nodes, coverageHoleDetectionPhase} = this.props;
         console.log("Coverage Hole Detection Phase");
         console.log(coverageHoleDetectionPhase);
-        const refNode = nodes[referenceNodes];
+        const refNode = nodes.filter(node => node.id === referenceNodes);
         console.log("Ref node");
         console.log(refNode);
 
@@ -268,18 +270,18 @@ class SimulatorContainer extends Component {
                                             referenceNodes >= 0 && (
                                                 <div>
                                                     <Typography variant="body1" gutterBottom>
-                                                        Node {refNode.id}
+                                                        Node {refNode[0].id}
                                                     </Typography>
                                                     <Typography variant="body1" gutterBottom>
                                                         One hop- Neighbors : {
-                                                        refNode.oneHopeNeighbors.map((node, ind) => (
+                                                        refNode[0].oneHopeNeighbors.map((node, ind) => (
                                                             <span key={ind}>{node.id}&nbsp;</span>
                                                         ))
                                                     }
                                                     </Typography>
                                                     <Typography variant="body1" gutterBottom>
                                                         Two hop- Neighbors : {
-                                                        refNode.twoHopeNeighbors.map((node, ind) => (
+                                                        refNode[0].twoHopeNeighbors.map((node, ind) => (
                                                             <span key={ind}>{node.id}</span>
                                                         ))
                                                     }
@@ -291,15 +293,16 @@ class SimulatorContainer extends Component {
                                                         Get coverage holes around reference node
                                                     </Button>
                                                     {
-                                                        refNode.coverageHolesAroundNode.length > 0 && (
+                                                        refNode[0].coverageHolesAroundNode.length > 0 && (
                                                             <Typography variant="body1" gutterBottom>
                                                                 <b>Coverage Hole Detected around:</b> <br/>
                                                                 {
-                                                                    refNode.coverageHolesAroundNode.map((hole, key) => (
+                                                                    refNode[0].coverageHolesAroundNode.map((hole, key) => (
                                                                         <span key={key}>
                                                                            - Node {hole.triangle.pointA.id},&nbsp;
                                                                             Node {hole.triangle.pointB.id},&nbsp;
                                                                             Node {hole.triangle.pointC.id}&nbsp; <br/>
+                                                                            <b>Reason: </b> {hole.reason}
                                                                         </span>
                                                                     ))
                                                                 }

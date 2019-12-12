@@ -14,10 +14,11 @@ import {getCombinations, joinArrays} from "../utils/generalUtils";
 import {
     checkPointInsideCircle,
     nodesThatCoverCircumCenter,
-    nodesThatListenedMessageWithRespectToRadius, Point, Triangle
+    nodesThatListenedMessageWithRespectToRadius, Point, Triangle, Node
 } from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
 import DetailsCoverageHoles from "./dialogs/DetailsCoverageHoles";
+
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -44,37 +45,103 @@ const styles = theme => ({
 
 class Demo extends Component {
     state = {
-        learnMoredialog: false
+        learnMoredialog: false,
+        topologies: false
     };
 
     openDialog = (event) => {
         this.setState({learnMoredialog: true});
     };
+    openDialogTopologies = (event) => {
+        this.setState({topologies: true});
+    };
+    dialogCloseTopologies = (event) => {
+        this.setState({topologies: false});
+    };
     dialogClose = (event) => {
         this.setState({learnMoredialog: false});
     };
 
-    dialogCloseOk = (referenceNodes) => {
+    dialogCloseOk = (topoSelected) => {
         this.setState({learnMoredialog: false});
-        this.getNeighbors()
+        // this.getNeighbors()
+    };
+    dialogCloseToposOk = (topo) => {
+        this.setState({topologies: false});
+        this.props.reset();
+        if (topo === 'Topology 1') {
+            this.drawStar()
+        } else if (topo === 'Topology 2') {
+            this.drawPeerToPeer()
+        } else {
+            this.drawTopologyExample()
+        }
+        setTimeout(() => this.handleCoverageDetectionPhase(), 0.0001)
+
+        // this.forceUpdate()
+    };
+
+    drawStar = () => {
+        this.props.addNodeCreator(new Node(330, 379, 0, 80));
+        this.props.addNodeCreator(new Node(246, 364, 1, 80));
+        this.props.addNodeCreator(new Node(184, 305, 2));
+        this.props.addNodeCreator(new Node(149, 239, 3));
+        this.props.addNodeCreator(new Node(135, 166, 4));
+        this.props.addNodeCreator(new Node(177, 101, 5));
+        this.props.addNodeCreator(new Node(251, 75, 6));
+
+        this.props.addNodeCreator(new Node(325, 70, 7));
+        this.props.addNodeCreator(new Node(397, 65, 8));
+        this.props.addNodeCreator(new Node(446, 69, 9));
+        this.props.addNodeCreator(new Node(507, 72, 10));
+        this.props.addNodeCreator(new Node(584, 80, 11));
+        this.props.addNodeCreator(new Node(663, 89, 12));
+        this.props.addNodeCreator(new Node(727, 99, 13));
+        this.props.addNodeCreator(new Node(779, 127, 14));
+        this.props.addNodeCreator(new Node(783, 210, 15));
+        this.props.addNodeCreator(new Node(768, 290, 16));
+        this.props.addNodeCreator(new Node(719, 344, 17));
+        this.props.addNodeCreator(new Node(648, 372, 18));
+        this.props.addNodeCreator(new Node(548, 393, 19));
+        this.props.addNodeCreator(new Node(429, 386, 20));
+        this.props.addNodeCreator(new Node(443, 296, 21));
+        this.props.addNodeCreator(new Node(455, 188, 22));
+
+    };
+
+    drawPeerToPeer = () => {
+        this.props.addNodeCreator(new Node(265, 115, 0, 80));
+        this.props.addNodeCreator(new Node(358, 120, 1, 80));
+        this.props.addNodeCreator(new Node(412, 188, 2));
+        this.props.addNodeCreator(new Node(413, 269, 3));
+        this.props.addNodeCreator(new Node(388, 313, 4));
+        this.props.addNodeCreator(new Node(323, 348, 5));
+        this.props.addNodeCreator(new Node(269, 332, 6));
+        this.props.addNodeCreator(new Node(226, 297, 7));
+        this.props.addNodeCreator(new Node(213, 228, 7));
+
+    };
+    drawTopologyExample = () => {
+        this.props.addNodeCreator(new Node(469.4566699123661, 244.0703125, 0));
+        this.props.addNodeCreator(new Node(413.4021421616358, 224.0703125, 1));
+        this.props.addNodeCreator(new Node(374.36416747809153, 138.0703125, 2));
+        this.props.addNodeCreator(new Node(577.5618305744888, 196.0703125, 3));
+        this.props.addNodeCreator(new Node(588.572541382668, 305.0703125, 4));
+        this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
+        this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
+        this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
     };
 
     handleAddNodes = () => {
         console.log("Handle Add Nodess");
         this.props.addingNodesCreator();
-        // this.props.addNodeCreator(new Node(469.4566699123661, 244.0703125, 0, 80, true, true));
-        // this.props.addNodeCreator(new Node(413.4021421616358, 224.0703125, 1, 80, false));
-        // this.props.addNodeCreator(new Node(374.36416747809153, 138.0703125, 2));
-        // this.props.addNodeCreator(new Node(577.5618305744888, 196.0703125, 3));
-        // this.props.addNodeCreator(new Node(588.572541382668, 305.0703125, 4));
-        // this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
-        // this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
-        // this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
+
     };
 
-    handleStartSimulation = () => {
+    handleTopologies = () => {
         // this.props.addingNodesCreator();
-        console.log("Start simulation")
+        console.log("Start simulation");
+        this.openDialogTopologies()
     };
 
     handleNeighborPhase = () => {
@@ -88,16 +155,15 @@ class Demo extends Component {
         this.props.coverageHoleDetectionPhaseCreator();
         console.log("Handle coverage hole phase");
         const {nodes} = this.props;
+        console.log(this.props.nodes);
         let holes = [];
         nodes.forEach((node) => {
             if (node.active) {
                 this.getNeighbors(node.id);
                 this.handleHolesAroundNode(node.id);
                 if (node.coverageHolesAroundNode.length > 0) {
-                    console.log("LOOK HERE")
-                    console.log(node.coverageHolesAroundNode)
+                    holes = holes.concat(node.coverageHolesAroundNode)
                 }
-                holes = holes.concat(node.coverageHolesAroundNode)
             }
         });
         console.log("Response of logs papaya de zelaya");
@@ -124,20 +190,22 @@ class Demo extends Component {
 
     getNeighbors = (referenceNodeId) => {
         this.props.neighborDiscoveryPhaseCreator();
+
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes.filter((val) => val.active);
+        const refNodeIn = nodes.findIndex(node => node.id === referenceNodeId);
         console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
         console.log("There are two ways of finding one and two hope neighbors");
         console.log();
         console.log("We iterate for every node that is not the reference node and we send a message");
         console.log("Nodes that listened to my message :)");
         const message = "HELLO!!";
-        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(referenceNodeId, nodes, this.props.sensingRate);
+        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(refNodeIn, nodes, this.props.sensingRate);
         console.log("Just for testing purposes, let's see the union");
         const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
         console.log(union);
-        this.props.addNodeOneHopeNeighborCreator(referenceNodeId, oneHopeNeighbors);
-        this.props.addNodeTwoHopeNeighborCreator(referenceNodeId, twoHopeNeighbors);
+        this.props.addNodeOneHopeNeighborCreator(refNodeIn, oneHopeNeighbors);
+        this.props.addNodeTwoHopeNeighborCreator(refNodeIn, twoHopeNeighbors);
         this.props.neighborDiscoveryPhaseCreator();
     };
 
@@ -166,17 +234,26 @@ class Demo extends Component {
 
         // Step 10: If (X forms an acute triangle with its neighbors Ai and Aj)
         if (isAcute) {
-            if (R < sensingRate) {
+            if (R <= sensingRate) {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
-                console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
-                this.props.drawCircumCenterCreator(Z);
-                response.push({refId: referenceNode.id, circumCenter: Z, triangle});
+                let noHoleDetected = nodesThatCoverCircumCenter(Z, activeNodes, sensingRate).length > 0;
+                if (!noHoleDetected) {
+                    console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
+                    this.props.drawCircumCenterCreator(Z);
+                    response.push({
+                        refId: referenceNode.id,
+                        circumCenter: Z,
+                        triangle,
+                        reason: "Acute trinagle, cirucm radius R " + R + " is greater than sensing Range " + sensingRate + ""
+                    });
+                }
+
                 // this.props.addCoverageHole(referenceNode.id, Z, triangle);
             }
         }
         if (isObtuse) {
-            if (R < sensingRate) {
+            if (R <= sensingRate) {
                 console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
             } else {
                 // Check if circum center Z is covered by any other sensor
@@ -186,7 +263,13 @@ class Demo extends Component {
                 } else {
                     console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
                     this.props.drawCircumCenterCreator(Z);
-                    response.push({refId: referenceNode.id, circumCenter: Z, triangle});
+                    response.push(
+                        {
+                            refId: referenceNode.id,
+                            circumCenter: Z,
+                            triangle,
+                            reason: "Obtuse triangle, circum center Z is not covered by any other sensor"
+                        });
                     // this.props.addCoverageHole(referenceNode.id, Z, triangle);
                 }
             }
@@ -199,13 +282,13 @@ class Demo extends Component {
         let i = 0;
         const nodes = this.props.nodes.filter((node) => node.active);
         // Step 1: Select any node X randomly as a reference node;
-        const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
-        const X = referenceNodes[0];
+        // const referenceNodes = nodes.filter((val) => val.id === referenceNodeId).map((valM) => valM.id);
+        // const X = referenceNodes[0];
         // Step 2: Find one and two-hop neighbors of X;
         // const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(X, nodes, this.props.sensingRate);
         // Assign those nodes to set N
 
-        const nodeX = nodes[X];
+        const nodeX = nodes.find((node) => node.id === referenceNodeId);
         const N = joinArrays(nodeX.oneHopeNeighbors, nodeX.twoHopeNeighbors);
 
         // Step 3: Select nodes from set N whose y-coordinate >= b; Assign those nodes to set Nu
@@ -315,7 +398,7 @@ class Demo extends Component {
                             <Grid item xs={12} id={'gridNetworks'}>
                                 <TopButtonBar
                                     handleAddNodes={this.handleAddNodes}
-                                    handleSimulation={this.handleStartSimulation}
+                                    handleTopologies={this.handleTopologies}
                                     handleNeighbor={this.handleNeighborPhase}
                                     handleCoverage={this.handleCoverageDetectionPhase}
                                     handleNodeError={this.handleNodeError}
@@ -335,6 +418,10 @@ class Demo extends Component {
                         open={this.state.learnMoredialog}
                         onClose={this.dialogClose}
                         onOk={this.dialogCloseOk}/>
+                    <SwipeDialog
+                        open={this.state.topologies}
+                        onClose={this.dialogCloseTopologies}
+                        onOk={this.dialogCloseToposOk}/>
                 </div>
             </React.Fragment>
         )
