@@ -18,6 +18,7 @@ import {
 } from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
 import DetailsCoverageHoles from "./dialogs/DetailsCoverageHoles";
+import Help from "./dialogs/Help";
 
 
 const backgroundShape = require('../images/shape.svg');
@@ -46,11 +47,15 @@ const styles = theme => ({
 class Demo extends Component {
     state = {
         learnMoredialog: false,
-        topologies: false
+        topologies: false,
+        help: false
     };
 
     openDialog = (event) => {
         this.setState({learnMoredialog: true});
+    };
+    openDialogHelp = (event) => {
+        this.setState({help: true});
     };
     openDialogTopologies = (event) => {
         this.setState({topologies: true});
@@ -60,6 +65,9 @@ class Demo extends Component {
     };
     dialogClose = (event) => {
         this.setState({learnMoredialog: false});
+    };
+    dialogCloseHelp = (event) => {
+        this.setState({help: false});
     };
 
     dialogCloseOk = (topoSelected) => {
@@ -184,7 +192,7 @@ class Demo extends Component {
     };
 
     handleHelp = () => {
-        // this.props.addingNodesCreator();
+        this.openDialogHelp()
         console.log("Handle help");
     };
 
@@ -422,6 +430,9 @@ class Demo extends Component {
                         open={this.state.topologies}
                         onClose={this.dialogCloseTopologies}
                         onOk={this.dialogCloseToposOk}/>
+                    <Help
+                        open={this.state.help}
+                        onClose={this.dialogCloseHelp}/>
                 </div>
             </React.Fragment>
         )
