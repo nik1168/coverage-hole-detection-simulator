@@ -21,6 +21,8 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import green from "@material-ui/core/colors/green";
 import {red} from "@material-ui/core/colors";
 import {ThemeProvider as MuiThemeProvider} from "@material-ui/styles";
+import {voronoi} from "d3-voronoi"
+import * as d3 from "d3";
 
 const styles = theme => ({
     paper: {
@@ -87,6 +89,7 @@ function valuetext(value) {
 }
 
 class SimulatorContainer extends Component {
+
     onChangeSlider = (e, val) => {
         const {referenceNodes} = this.props;
         console.log("On change slider");
@@ -107,6 +110,7 @@ class SimulatorContainer extends Component {
             }
         }
         if (this.props.addingNeighbors) {
+            this.setState({buttonPressed : false})
             let indexReference = -2;
             this.props.nodes.forEach((node, index) => {
                 if (node.isReference) {
@@ -120,10 +124,13 @@ class SimulatorContainer extends Component {
             });
             if (indexReference !== -2) {
                 this.props.setReferenceCreator(indexReference);
+                this.props.addCoverageHole(indexReference, [])
             }
             if (min < 20) {
-                this.props.setReferenceCreator(i)
-                this.props.getNeighbors(i)
+                this.props.setReferenceCreator(i);
+                this.props.getNeighbors(i);
+                // this.props.coverageHoleDetection(i);
+                // this.forceUpdate()
             }
         }
 
@@ -149,32 +156,52 @@ class SimulatorContainer extends Component {
 
 
     componentDidMount() {
+        // console.log("Let's compute some voronoi diagrams")
+        // const a = voronoi(this.props.nodes)
+        // console.log(a)
     }
-
+    state = {
+        buttonPressed: false,
+    };
     render() {
+
+        console.log("Let's compute some voronoi diagrams")
+        if (this.props.nodes.length > 0) {
+            // const nodesCoords = this.props.nodes.map((n) => [n.x, n.y])
+            // // console.log(this.props.nodes);
+            // // const a = voronoi(this.props.nodes);
+            // // console.log(a.polygons(this.props.nodes))
+            // const d = voronoi().polygons(nodesCoords);
+            //  console.log(d)
+        }
+
         const {classes, referenceNodes, nodes, coverageHoleDetectionPhase} = this.props;
         console.log("Coverage Hole Detection Phase");
         console.log(coverageHoleDetectionPhase);
+        console.log("referenceNodes");
+        console.log(referenceNodes);
         const refNode = nodes.filter(node => node.id === referenceNodes);
         console.log("Ref node");
         console.log(refNode);
+        console.log("button");
+        console.log(this.state.buttonPressed);
 
         let instruction = '';
         if (this.props.addingNodes) {
             instruction = "Click on screen to start adding nodes"
         } else if (this.props.addingNeighbors) {
-            instruction = "Click on a node to set it as reference"
+            instruction = "Click on a node to set it as reference, (click on \"Get coverage hole around\" button on side bar to see the holes within its neighbors')"
         } else if (this.props.addingFailureNode) {
             instruction = "Click on a node to emulate a failure"
         } else {
-            instruction = ""
+            instruction = "Start by creating some nodes or using an existing topology"
         }
 
         return (
             <div className={classes.root}>
                 <Paper className={classes.paper} id={'paper'}>
 
-                    <Typography color='secondary' variant="h6" gutterBottom>
+                    <Typography color='secondary' variant="body1" gutterBottom>
                         {instruction}
                     </Typography>
 
@@ -270,13 +297,16 @@ class SimulatorContainer extends Component {
                                                     }
                                                     </Typography>
                                                     <Button
-                                                        onClick={() => this.props.coverageHoleDetection(referenceNodes)}
+                                                        onClick={() => {
+                                                            this.props.coverageHoleDetection(referenceNodes)
+                                                            this.setState({buttonPressed: true});
+                                                        }}
                                                         style={{textAlign: 'left'}} color='primary' variant="text"
                                                         size="small">
                                                         Get coverage holes around reference node
                                                     </Button>
                                                     {
-                                                        refNode[0].coverageHolesAroundNode.length > 0 && (
+                                                        refNode[0].coverageHolesAroundNode.length > 0 && this.state.buttonPressed && (
                                                             <Typography variant="body1" gutterBottom>
                                                                 <b>Coverage Hole Detected around:</b> <br/>
                                                                 {
@@ -285,10 +315,18 @@ class SimulatorContainer extends Component {
                                                                            - Node {hole.triangle.pointA.id},&nbsp;
                                                                             Node {hole.triangle.pointB.id},&nbsp;
                                                                             Node {hole.triangle.pointC.id}&nbsp; <br/>
-                                                                            <b>Reason: </b> {hole.reason}
+                                                                            <b>Reason: </b> {hole.reason} <br/>
                                                                         </span>
                                                                     ))
                                                                 }
+                                                            </Typography>
+                                                        )
+                                                    }
+                                                    {
+                                                        refNode[0].coverageHolesAroundNode.length === 0 && this.state.buttonPressed && (
+                                                            <Typography variant="body1" gutterBottom>
+                                                                <b>No coverage hole found:</b> <br/>
+
                                                             </Typography>
                                                         )
                                                     }

@@ -118,7 +118,7 @@ class Demo extends Component {
         this.props.addNodeCreator(new Node(323, 348, 5));
         this.props.addNodeCreator(new Node(269, 332, 6));
         this.props.addNodeCreator(new Node(226, 297, 7));
-        this.props.addNodeCreator(new Node(213, 228, 7));
+        this.props.addNodeCreator(new Node(213, 228, 8));
 
     };
     drawTopologyExample = () => {
