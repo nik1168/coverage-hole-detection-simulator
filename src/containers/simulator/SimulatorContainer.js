@@ -104,13 +104,13 @@ class SimulatorContainer extends Component {
         }
     };
     getCoords = (x, y) => {
+        let point = new Point(x, y);
+        let min = 1000000000;
+        let i = 0;
         if (this.props.addingNodes) {
             this.props.addNodeCreator(new Node(x, y, this.props.nodes.length))
         }
         if (this.props.addingNeighbors) {
-            let point = new Point(x, y);
-            let min = 1000000000;
-            let i = 0;
             let indexReference = -2;
             this.props.nodes.forEach((node, index) => {
                 if (node.isReference) {
@@ -128,6 +128,19 @@ class SimulatorContainer extends Component {
             if (min < 20) {
                 this.props.setReferenceCreator(i)
                 this.props.getNeighbors(i)
+            }
+        }
+
+        if (this.props.addingFailureNode) {
+            this.props.nodes.forEach((node, index) => {
+                const distance = distanceBetweenTwoPoints(node, point);
+                if (distance < min) {
+                    min = distance;
+                    i = index
+                }
+            });
+            if (min < 20) {
+                this.props.setFailure(i)
             }
         }
     };
@@ -168,6 +181,7 @@ class SimulatorContainer extends Component {
                                                nodes={this.props.nodes}
                                                sensingRate={this.props.sensingRate}
                                                addingNodes={this.props.addingNodes}
+                                               addingFailureNode={this.props.addingFailureNode}
                                                addingNeighbors={this.props.addingNeighbors}
                                                circumCenter={this.props.circumCenter}/>
                                 </Grid>
@@ -247,6 +261,7 @@ function mapStateToProps(state) {
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
         addingNeighbors: state.demo.addingNeighbors,
+        addingFailureNode: state.demo.addingFailureNode,
         circumCenter: state.demo.circumCenter,
         referenceNodes: state.demo.referenceNodes,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase

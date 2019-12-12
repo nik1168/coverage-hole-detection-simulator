@@ -90,7 +90,7 @@ class Demo extends Component {
     };
 
     handleNodeError = () => {
-        // this.props.addingNodesCreator();
+        this.props.addingFailureNodeCreator();
         console.log("Handle node error");
     };
 
@@ -247,7 +247,7 @@ class Demo extends Component {
 
             } while (N_dX.length !== 1);
         }
-        if (N_dX.length > 0 && firstN_uX!==-1) {
+        if (N_dX.length > 0 && firstN_uX !== -1) {
             this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, N_dX[0], firstN_uX);
         }
 
@@ -286,7 +286,8 @@ class Demo extends Component {
                                 />
                             </Grid>
                             <Grid item xs={12} id={'gridNetworks'}>
-                                <SimulatorContainer getNeighbors={this.getNeighbors} coverageHoleDetection={this.coverageHoleDetection}/>
+                                <SimulatorContainer getNeighbors={this.getNeighbors}
+                                                    coverageHoleDetection={this.coverageHoleDetection}/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -306,6 +307,7 @@ function mapStateToProps(state) {
         sensingRate: state.demo.sensingRate,
         addingNodes: state.demo.addingNodes,
         addingNeighbors: state.demo.addingNeighbors,
+        addingFailureNode: state.demo.addingFailureNode,
         neighborDiscoveryPhase: state.demo.neighborDiscoveryPhase,
         referenceNode: state.demo.referenceNodes
     }

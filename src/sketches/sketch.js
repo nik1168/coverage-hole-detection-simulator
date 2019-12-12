@@ -41,8 +41,11 @@ export default function sketch(p) {
         if (props.circumCenter) {
             p.circumCenter = props.circumCenter
         }
-        if(props.sensingRate){
+        if (props.sensingRate) {
             p.sensingRange = props.sensingRate
+        }
+        if (props.addingFailureNode) {
+            p.addingFailureNode = props.addingFailureNode
         }
     };
 
@@ -72,7 +75,7 @@ export default function sketch(p) {
                     p.ellipse(node.x, node.y, 6, 6);
                     p.text('Node ' + (i) + '', node.x - 16, node.y + 15);
                     p.stroke('black');
-                    p.fill('rgba(255,0,0, 0.25)');
+                    p.fill('rgba(255,0,0, 0.15)');
                     p.circle(node.x, node.y, p.sensingRange * 2);
                 }
             });

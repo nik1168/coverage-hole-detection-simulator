@@ -5,11 +5,13 @@ import {
     ADD_SENSING_RATE,
     ADD_COVERAGE_HOLE,
     ADDING_NODES,
+    ADDING_FAILURE_NODE,
     NEIGHBOR_DISCOVERY_PHASE,
     COVERAGE_HOLE_DETECTION_PHASE,
     GET_NODES,
     GET_SENSING_RATE,
     SET_REFERENCE,
+    SET_FAILURE,
     SET_REFERENCE_NODES,
     DRAW_CIRCUM_CENTER, RESET, ADDING_NEIGHBORS
 } from "../actions/demo";
@@ -20,6 +22,7 @@ const initialState = {
     sensingRate: 80,
     addingNodes: false,
     addingNeighbors: false,
+    addingFailureNode: false,
     neighborDiscoveryPhase: false,
     coverageHoleDetectionPhase: false,
     coverageHoles: [],
@@ -28,11 +31,11 @@ const initialState = {
 };
 
 export const demo = (state = initialState, action) => {
-    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, hole} = action;
+    const {node, sensingRate, referenceNodes, neighbors, referenceNode, circumCenter, hole, failureNode} = action;
 
     switch (action.type) {
         case RESET:
-            return initialState
+            return initialState;
         case GET_NODES:
             return {
                 ...state
@@ -50,6 +53,11 @@ export const demo = (state = initialState, action) => {
             return {
                 ...state,
                 addingNeighbors: !state.addingNeighbors
+            };
+        case ADDING_FAILURE_NODE:
+            return {
+                ...state,
+                addingFailureNode: !state.addingFailureNode
             };
         case NEIGHBOR_DISCOVERY_PHASE:
             return {
@@ -103,6 +111,12 @@ export const demo = (state = initialState, action) => {
             prevStateSetReference.nodes[referenceNode].isReference = !prevStateSetReference.nodes[referenceNode].isReference;
             prevStateSetReference.referenceNodes = prevStateSetReference.nodes[referenceNode].isReference ? referenceNode : -1;
             return prevStateSetReference;
+        case SET_FAILURE:
+            let prevStateSetFailure = {
+                ...state
+            };
+            prevStateSetFailure.nodes[failureNode].active = !prevStateSetFailure.nodes[failureNode].active;
+            return prevStateSetFailure;
         case ADD_SENSING_RATE:
             return {
                 ...state,
