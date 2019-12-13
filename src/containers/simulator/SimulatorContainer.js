@@ -22,7 +22,6 @@ import green from "@material-ui/core/colors/green";
 import {red} from "@material-ui/core/colors";
 import {ThemeProvider as MuiThemeProvider} from "@material-ui/styles";
 import {voronoi} from "d3-voronoi"
-import * as d3 from "d3";
 
 const styles = theme => ({
     paper: {

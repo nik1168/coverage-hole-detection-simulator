@@ -9,7 +9,6 @@
     "@material-ui/lab": "^4.0.0-alpha.16",
     "@material-ui/styles": "^4.0.0",
     "bootstrap-3-card": "^0.2.0",
-    "d3": "^5.14.2",
     "d3-voronoi": "^1.1.4",
     "escape-string-regexp": "^1.0.5",
     "form-serialize": "^0.7.2",
