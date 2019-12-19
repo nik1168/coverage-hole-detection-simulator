@@ -90,8 +90,6 @@ class SimulatorContainer extends Component {
 
     onChangeSlider = (e, val) => {
         const {referenceNodes} = this.props;
-        console.log("On change slider");
-        console.log(val);
         this.props.addSensingRateCreator(val);
         if (referenceNodes !== -1) {
             this.props.getNeighbors(referenceNodes)
@@ -160,7 +158,7 @@ class SimulatorContainer extends Component {
 
     render() {
 
-        console.log("Let's compute some voronoi diagrams")
+        // console.log("Let's compute some voronoi diagrams")
         if (this.props.nodes.length > 0) {
             // const nodesCoords = this.props.nodes.map((n) => [n.x, n.y])
             // // console.log(this.props.nodes);
@@ -206,7 +204,7 @@ class SimulatorContainer extends Component {
                                                circumCenter={this.props.circumCenter}/>
                                 </Grid>
                                 <Grid style={{paddingLeft: 10}} item xs={3}>
-                                    <div style={{width: 300}}>
+                                    <div style={{width: 300, height: 450, overflow: 'auto'}}>
                                         <Typography color='secondary' variant="h5" gutterBottom>
                                             Sensing rate
                                         </Typography>
@@ -272,14 +270,14 @@ class SimulatorContainer extends Component {
                                                     <Typography variant="body1" gutterBottom>
                                                         One hop- Neighbors : {
                                                         refNode[0].oneHopeNeighbors.map((node, ind) => (
-                                                            <span key={ind}>{node.id}&nbsp;</span>
+                                                            <span key={ind}>{node.id}&nbsp;&nbsp;</span>
                                                         ))
                                                     }
                                                     </Typography>
                                                     <Typography variant="body1" gutterBottom>
                                                         Two hop- Neighbors : {
                                                         refNode[0].twoHopeNeighbors.map((node, ind) => (
-                                                            <span key={ind}>{node.id}</span>
+                                                            <span key={ind}>{node.id}&nbsp;&nbsp;</span>
                                                         ))
                                                     }
                                                     </Typography>

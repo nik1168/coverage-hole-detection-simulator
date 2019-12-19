@@ -14,8 +14,8 @@ export default function sketch(p) {
     const width = div2.offsetWidth;
     p.setup = function () {
 
-        console.log("div1 width");
-        console.log(width - padding);
+        // console.log("div1 width");
+        // console.log(width - padding);
         // p.createCanvas(div1.offsetWidth, div1.offsetHeight);
         p.createCanvas(width - padding, height);
         p.fill('black');
@@ -24,8 +24,8 @@ export default function sketch(p) {
     };
 
     p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-        console.log("myCustomRedrawAccordingToNewPropsHandler");
-        console.log(props);
+        // console.log("myCustomRedrawAccordingToNewPropsHandler");
+        // console.log(props);
         if (props.getCoords) {
             p.sendCoords = props.getCoords;
         }

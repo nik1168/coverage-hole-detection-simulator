@@ -141,29 +141,24 @@ class Demo extends Component {
     };
 
     handleAddNodes = () => {
-        console.log("Handle Add Nodess");
         this.props.addingNodesCreator();
 
     };
 
     handleTopologies = () => {
         // this.props.addingNodesCreator();
-        console.log("Start simulation");
         this.openDialogTopologies()
     };
 
     handleNeighborPhase = () => {
         // this.props.addingNodesCreator();
-        console.log("Handle neighbor phase");
         this.props.addingNeighborsCreator();
         // this.openDialog()
     };
 
     handleCoverageDetectionPhase = () => {
         this.props.coverageHoleDetectionPhaseCreator();
-        console.log("Handle coverage hole phase");
         const {nodes} = this.props;
-        console.log(this.props.nodes);
         let holes = [];
         nodes.forEach((node) => {
             if (node.active) {
@@ -174,8 +169,6 @@ class Demo extends Component {
                 }
             }
         });
-        console.log("Response of logs papaya de zelaya");
-        console.log(holes);
         this.props.addGeneralHolesCreator(holes);
         this.props.coverageHoleDetectionPhaseCreator();
     };
@@ -188,12 +181,10 @@ class Demo extends Component {
 
     handleNodeError = () => {
         this.props.addingFailureNodeCreator();
-        console.log("Handle node error");
     };
 
     handleHelp = () => {
-        this.openDialogHelp()
-        console.log("Handle help");
+        this.openDialogHelp();
     };
 
     getNeighbors = (referenceNodeId) => {
@@ -306,7 +297,7 @@ class Demo extends Component {
         const N_uX = N_u.sort(function (a, b) {
             return a.x - b.x
         });
-        const firstN_uX = N_uX.length > 0 ? N_uX[0] : -1;
+        let firstN_uX = N_uX.length > 0 ? N_uX[0] : -1;
 
         // Step 5: Select nodes from set N whose y-coordinate < b; Assign those nodes to set Nd;
         const N_d = N.filter((val) => val.y > nodeX.y);
@@ -354,6 +345,9 @@ class Demo extends Component {
                     const hole = this.findHoleBetweenReferenceNodeAndPairNeighbors(nodeX, Ai, Aj);
                     if (hole.length > 0) {
                         holesAroundNode.push(hole[0])
+                        if(Aj.id === firstN_uX.id){
+                            firstN_uX = -1
+                        }
                     }
 
                 } else if (N_dX.length > 1) {
@@ -386,13 +380,11 @@ class Demo extends Component {
 
 
     componentDidMount() {
-        console.log("DEMO COMPONENT");
         this.props.reset();
     }
 
 
     render() {
-        console.log("RE RENDER COMPONENT DEMO");
         const {classes} = this.props;
         const currentPath = this.props.location.pathname;
 

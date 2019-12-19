@@ -99,12 +99,6 @@ class SwipeDialog extends Component {
     render() {
         const {classes} = this.props;
         const {topologies} = this.state;
-        console.log("topologies");
-        console.log(topologies);
-
-
-        console.log("RENDER!!! DIALOG");
-
 
         return (
             <BaseDialog {...this.props}>
