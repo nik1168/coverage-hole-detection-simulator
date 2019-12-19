@@ -14,11 +14,12 @@ import {getCombinations, joinArrays} from "../utils/generalUtils";
 import {
     checkPointInsideCircle,
     nodesThatCoverCircumCenter,
-    nodesThatListenedMessageWithRespectToRadius, Point, Triangle, Node
+    nodesThatListenedMessageWithRespectToRadius, Point, Triangle, Node, checkClickInside
 } from "../utils/geometryUtils";
 import SwipeDialog from "./dialogs/SwipeDialog";
 import DetailsCoverageHoles from "./dialogs/DetailsCoverageHoles";
 import Help from "./dialogs/Help";
+import {HEIGHT, PADDING} from "../constants";
 
 
 const backgroundShape = require('../images/shape.svg');
@@ -209,6 +210,8 @@ class Demo extends Component {
     };
 
     findHoleBetweenReferenceNodeAndPairNeighbors = (referenceNode, Ai, Aj) => {
+        let div2 = document.getElementById("gridWidth");
+        const width = div2.offsetWidth;
         const response = [];
         const triangle = new Triangle(referenceNode, Ai, Aj);
         const {nodes, sensingRate} = this.props;
@@ -238,14 +241,16 @@ class Demo extends Component {
             } else {
                 let noHoleDetected = nodesThatCoverCircumCenter(Z, activeNodes, sensingRate).length > 0;
                 if (!noHoleDetected) {
-                    console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
-                    this.props.drawCircumCenterCreator(Z);
-                    response.push({
-                        refId: referenceNode.id,
-                        circumCenter: Z,
-                        triangle,
-                        reason: "Acute trinagle, cirucm radius R " + R + " is greater than sensing Range " + sensingRate + ""
-                    });
+                    if (checkClickInside(Z.x, Z.y, width - PADDING, HEIGHT)) {
+                        console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
+                        this.props.drawCircumCenterCreator(Z);
+                        response.push({
+                            refId: referenceNode.id,
+                            circumCenter: Z,
+                            triangle,
+                            reason: "Acute trinagle, cirucm radius R " + R + " is greater than sensing Range " + sensingRate + ""
+                        });
+                    }
                 }
 
                 // this.props.addCoverageHole(referenceNode.id, Z, triangle);
@@ -260,16 +265,17 @@ class Demo extends Component {
                 if (noHoleDetected) {
                     console.log("%cNo hole exists around the reference node " + referenceNode.id + "", "color: green; font-size:15px;")
                 } else {
-                    console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
-                    this.props.drawCircumCenterCreator(Z);
-                    response.push(
-                        {
-                            refId: referenceNode.id,
-                            circumCenter: Z,
-                            triangle,
-                            reason: "Obtuse triangle, circum center Z is not covered by any other sensor"
-                        });
-                    // this.props.addCoverageHole(referenceNode.id, Z, triangle);
+                    if (checkClickInside(Z.x, Z.y, width - PADDING, HEIGHT)) {
+                        console.log("%cThere exists a hole around the reference node " + referenceNode.id + "", "color: red; font-size:15px;");
+                        this.props.drawCircumCenterCreator(Z);
+                        response.push(
+                            {
+                                refId: referenceNode.id,
+                                circumCenter: Z,
+                                triangle,
+                                reason: "Obtuse triangle, circum center Z is not covered by any other sensor"
+                            });
+                    }
                 }
             }
         }

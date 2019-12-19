@@ -1,4 +1,5 @@
 import {squareDistanceBetweenPoints} from "../utils/geometryUtils";
+import {HEIGHT, PADDING} from "../constants";
 
 export let timesClicked = 0;
 
@@ -17,7 +18,7 @@ export default function sketch(p) {
         // console.log("div1 width");
         // console.log(width - padding);
         // p.createCanvas(div1.offsetWidth, div1.offsetHeight);
-        p.createCanvas(width - padding, height);
+        p.createCanvas(width - PADDING, HEIGHT);
         p.fill('black');
         // let canvas = p.createCanvas(canvasWidth, canvasHeight);
         // canvas.parent('sketchH1');
@@ -87,7 +88,7 @@ export default function sketch(p) {
     };
 
     p.mousePressed = function () {
-        if (checkClickInside(p.mouseX, p.mouseY, width - padding, height)) {
+        if (checkClickInside(p.mouseX, p.mouseY, width - padding, HEIGHT)) {
             p.sendCoords(p.mouseX, p.mouseY);
         }
     };
@@ -96,6 +97,6 @@ export default function sketch(p) {
         const padding = 0;
         const height = 450;
         const width = div2.offsetWidth;
-        p.resizeCanvas(width - padding, height);
+        p.resizeCanvas(width - PADDING, HEIGHT);
     }
 };
