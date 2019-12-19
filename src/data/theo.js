@@ -61,7 +61,7 @@ export const DATA_THEO = {
         },
         {
             "title": "Lemma 5",
-            "description": "\"If an obtuse triangle is formed by a reference node with its two-hop neighbors such that the angle subtended at the reference node is acute and R <= Rs, then no hole exists between them, then no hole exists within them, otherwise a hole must exists if circum center Z is not covered by any other sensor\" Extracted as it is from [1]",
+            "description": "\"If an obtuse triangle is formed by a reference node with its two-hop neighbors such that the angle subtended at the reference node is acute and R <= Rs, then no hole exists within them, otherwise a hole must exists if circum center Z is not covered by any other sensor\" Extracted as it is from [1]",
             "proof": {
                 "img": "",
                 "description": "- Let T be an <b>obtuse</b> triangle formed by a reference node RN and any of its <b>two-hop neighbors</b> where angle at RN is acute, </br>" +

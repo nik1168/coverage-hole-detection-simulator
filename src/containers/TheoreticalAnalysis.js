@@ -23,10 +23,10 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.grey['100'],
-        overflow: 'hidden',
-        backgroundSize: 'cover',
-        backgroundPosition: '0 400px',
-        paddingBottom: 200
+        // overflow: 'hidden',
+        // backgroundSize: 'cover',
+        // backgroundPosition: '0 400px',
+        paddingBottom: 100
     },
     gridList: {
         flexWrap: 'nowrap',
@@ -49,6 +49,7 @@ const styles = theme => ({
     },
     paper: {
         padding: theme.spacing(3),
+        paddingTop : theme.spacing(2),
         textAlign: 'left',
         color: theme.palette.text.secondary,
     },
@@ -72,15 +73,8 @@ const styles = theme => ({
         margin: theme.spacing(1),
         width: 152
     },
-    blockCenter: {
-        padding: theme.spacing(2),
-        textAlign: 'center'
-    },
-    block: {
-        padding: theme.spacing(2),
-    },
     box: {
-        marginBottom: 40,
+        marginBottom: 0,
         height: 65
     },
     inlining: {
@@ -148,7 +142,7 @@ class TheoreticalAnalysis extends Component {
         const keys = Object.keys(DATA_THEO);
         return (
             <React.Fragment>
-                <CssBaseline/>
+                {/*<CssBaseline/>*/}
                 <Topbar currentPath={currentPath}/>
                 <div className={classes.root}>
                     {
@@ -160,16 +154,17 @@ class TheoreticalAnalysis extends Component {
                                     </Typography>
                                     <GridList className={classes.gridList} cols={2.5} spacing={20}>
                                         {DATA_THEO[key].map((axiom, indx) => (
-                                            <GridListTile key={indx}>
+                                            <GridListTile key={indx} zeroMinWidth>
                                                 <Paper className={classes.paper}>
-                                                    <div>
-                                                        <div className={classes.box}>
+                                                    <span>
+                                                        <div className={classes.box} style={{height:'106px',overflow:'auto'}}>
                                                             <Typography color='secondary' gutterBottom>
                                                                 {axiom.title}
                                                             </Typography>
                                                             <Typography variant="body1" gutterBottom>
                                                                 {axiom.description}
                                                             </Typography>
+                                                            {/*<div style={{paddingTop: '20px !important'}}></div>*/}
                                                         </div>
                                                         {
                                                             axiom['proof'] && (
@@ -185,8 +180,8 @@ class TheoreticalAnalysis extends Component {
                                                                 </div>
                                                             )
                                                         }
-                                                        <div style={{paddingTop: 8}}></div>
-                                                    </div>
+                                                        <div style={{paddingTop: '20px !important'}}></div>
+                                                    </span>
                                                 </Paper>
                                             </GridListTile>
                                         ))}
