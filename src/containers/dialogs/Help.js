@@ -49,13 +49,16 @@ class Help extends Component {
             <BaseDialog {...this.props}>
                 <div className={classes.container}>
                     <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                       Help
+                        Help
                     </Typography>
                     <Typography variant="body2" style={{textAlign: 'left'}} gutterBottom>
-                        - To get all coverage holes in network click on "Find coverage holes" in top bar after having created some nodes or used a topology.
+                        - To get all coverage holes in network click on "Find coverage holes" in top bar after having
+                        created some nodes or used a topology.
                     </Typography>
                     <Typography variant="body2" style={{textAlign: 'left'}} gutterBottom>
-                        - To see the coverage holes around a node in specific click on "Neighbor discovery" button and select a node, on the side bar you will see the node information, along with a button called "Get coverage holes around reference node" to see the holes around it.
+                        - To see the coverage holes around a node in specific click on "Neighbor discovery" button and
+                        select a node, on the side bar you will see the node information, along with a button called
+                        "Get coverage holes around reference node" to see the holes around it.
                     </Typography>
                     <Typography variant="body2" style={{textAlign: 'left'}} gutterBottom>
                         - To simulate a node failure, click on "Node error button" and select a node.

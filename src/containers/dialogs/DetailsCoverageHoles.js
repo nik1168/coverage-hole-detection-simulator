@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import withStyles from '@material-ui/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BaseDialog from './BaseDialog';
-import Grid from "@material-ui/core/Grid";
 import {bindActionCreators} from "redux";
 import * as demoActions from "../../actions/demo";
 import {connect} from "react-redux";

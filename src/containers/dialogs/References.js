@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import withStyles from '@material-ui/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BaseDialog from './BaseDialog';
-import SwipeableViews from 'react-swipeable-views';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import { autoPlay } from 'react-swipeable-views-utils';
-import MathNotation from "../../components/MathNotation";
 
 const styles = theme => ({
   container: {

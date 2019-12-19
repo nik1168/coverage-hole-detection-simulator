@@ -1,18 +1,14 @@
 import React, {Component} from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import withStyles from '@material-ui/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BaseDialog from './../BaseDialog';
-import SwipeableViews from 'react-swipeable-views';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import {autoPlay} from 'react-swipeable-views-utils';
 import TriangleSketch from "../../../sketches/Triangle";
 import P5Wrapper from "react-p5-wrapper";
 import {Node, Triangle} from "../../../utils/geometryUtils";
 import Grid from "@material-ui/core/Grid";
 
-const logo = require('../../../images/logo.svg');
 
 const styles = theme => ({
     container: {

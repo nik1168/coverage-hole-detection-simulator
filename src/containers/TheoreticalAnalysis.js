@@ -113,7 +113,7 @@ class TheoreticalAnalysis extends Component {
         loading: true,
         selectedImage: "",
         selectedTest: "",
-        identifier : "",
+        identifier: "",
         modals: {
             active: false,
             lemma1: {
@@ -136,9 +136,9 @@ class TheoreticalAnalysis extends Component {
         this.setState({
             modals: {['lemma1']: {['active']: true}},
             selectedImage: axiom.proof['img'],
-            identifier : axiom['title'],
+            identifier: axiom['title'],
             selectedTest: axiom.proof['description'],
-            des : axiom.description
+            des: axiom.description
         })
     };
 
@@ -168,7 +168,7 @@ class TheoreticalAnalysis extends Component {
                                                                 {axiom.title}
                                                             </Typography>
                                                             <Typography variant="body1" gutterBottom>
-                                                                { axiom.description}
+                                                                {axiom.description}
                                                             </Typography>
                                                         </div>
                                                         {

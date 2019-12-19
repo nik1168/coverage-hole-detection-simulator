@@ -11,7 +11,6 @@ import Topbar from './Topbar';
 import {bindActionCreators} from "redux";
 import * as theoremsActions from "../actions/theoretical";
 import BounceNode from "../components/BounceNode";
-import PseudoDescription from "./dialogs/pseudoDescription";
 import References from "./dialogs/References";
 
 const backgroundShape = require('../images/shape.svg');

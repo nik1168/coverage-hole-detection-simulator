@@ -14,7 +14,6 @@ import {
 import Typography from "@material-ui/core/Typography";
 import Slider from '@material-ui/core/Slider';
 import Grid from "@material-ui/core/Grid";
-import TriangleSketch from "../../sketches/Triangle";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
@@ -103,13 +102,13 @@ class SimulatorContainer extends Component {
         let min = 1000000000;
         let i = 0;
         if (this.props.addingNodes) {
-            this.props.addNodeCreator(new Node(x, y, this.props.nodes.length))
+            this.props.addNodeCreator(new Node(x, y, this.props.nodes.length));
             if (this.props.referenceNodes !== -1) {
                 this.props.getNeighbors(this.props.referenceNodes)
             }
         }
         if (this.props.addingNeighbors) {
-            this.setState({buttonPressed : false})
+            this.setState({buttonPressed: false});
             let indexReference = -2;
             this.props.nodes.forEach((node, index) => {
                 if (node.isReference) {
@@ -143,8 +142,6 @@ class SimulatorContainer extends Component {
             });
             if (min < 20) {
                 this.props.setFailure(i);
-                console.log("references nodes??");
-                console.log(this.props.referenceNodes);
                 if (this.props.referenceNodes !== -1) {
                     this.props.getNeighbors(this.props.referenceNodes);
                     this.props.coverageHoleDetection(this.props.referenceNodes);
@@ -155,13 +152,12 @@ class SimulatorContainer extends Component {
 
 
     componentDidMount() {
-        // console.log("Let's compute some voronoi diagrams")
-        // const a = voronoi(this.props.nodes)
-        // console.log(a)
     }
+
     state = {
         buttonPressed: false,
     };
+
     render() {
 
         console.log("Let's compute some voronoi diagrams")
@@ -175,15 +171,7 @@ class SimulatorContainer extends Component {
         }
 
         const {classes, referenceNodes, nodes, coverageHoleDetectionPhase} = this.props;
-        console.log("Coverage Hole Detection Phase");
-        console.log(coverageHoleDetectionPhase);
-        console.log("referenceNodes");
-        console.log(referenceNodes);
         const refNode = nodes.filter(node => node.id === referenceNodes);
-        console.log("Ref node");
-        console.log(refNode);
-        console.log("button");
-        console.log(this.state.buttonPressed);
 
         let instruction = '';
         if (this.props.addingNodes) {
