@@ -57,6 +57,10 @@ class References extends Component {
               [1] Ma, Hwa-Chun & Sahoo, Prasan & Chen, Yen-Wen. (2011). Computational geometry based distributed coverage hole detection protocol for the wireless sensor networks. J. Network and Computer Applications. 34. 1743-1756. 10.1016/j.jnca.2011.06.007.
 
             </Typography>
+          <Typography style={{textAlign: 'left'}} variant="body2" gutterBottom>
+            [2] Meysam Argany, Mir Abolfazl Mostafavi, and Farid Karimipour. Voronoi-based approaches for geosensor networks coverage determination and optimisation: A survey. pages 115–123, 06 2010..
+
+          </Typography>
         </div>
         <div className={classes.buttonOk}>
           <Button variant='contained' onClick={this.handleClose} color="primary" autoFocus>

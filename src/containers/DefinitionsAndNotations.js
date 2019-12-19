@@ -173,7 +173,7 @@ class DefinitionsAndNotations extends Component {
                                             the visibility of the observers. As mentioned above, the coverage of a
                                             point, in the context of WSN, denotes that the point is located within de
                                             sensing range
-                                            of a node. In the example below, there is a coverage hole in the red colored
+                                            of a node [1,2]. In the example below, there is a coverage hole in the red colored
                                             area.
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
@@ -195,7 +195,7 @@ class DefinitionsAndNotations extends Component {
                                             area can be detected by
                                             the node. For this particular case, the communication range <MathNotation
                                             inline={true} text={"R_c"}/> of a sensor will have the same value as the
-                                            sensing rate. In the example below, the sensing rate of "Node 0" is
+                                            sensing rate [1]. In the example below, the sensing rate of "Node 0" is
                                             represented by the green area.
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
@@ -215,7 +215,7 @@ class DefinitionsAndNotations extends Component {
                                             initializing the coverage hole detection algorithm.
                                             It does this by first finding its neighbors information in a range
                                             of <MathNotation inline={true} text={"2R_s"}/>. In the example below, "Node
-                                            0" is a reference node and Nodes 1, 2 and 3 are its neighbors.
+                                            0" is a reference node and Nodes 1, 2 and 3 are its neighbors [1].
 
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
@@ -244,7 +244,7 @@ class DefinitionsAndNotations extends Component {
                                             distance between them is lower or equal than the sensing range of Node 0,
                                             whereas Nodes 1 and 2 are two-hop neighbors of Node 0 since the distance
                                             between
-                                            them and is lower or equal than twice the sensing range of Node 0.
+                                            them and is lower or equal than twice the sensing range of Node 0 [1].
 
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
