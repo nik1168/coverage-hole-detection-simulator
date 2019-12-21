@@ -82,7 +82,10 @@ class Demo extends Component {
             this.drawStar()
         } else if (topo === 'Topology 2') {
             this.drawPeerToPeer()
-        } else {
+        } else if (topo === 'Topology 3'){
+            this.drawPaperExample()
+        }
+        else{
             this.drawTopologyExample()
         }
         setTimeout(() => this.handleCoverageDetectionPhase(), 0.0001)
@@ -139,6 +142,56 @@ class Demo extends Component {
         this.props.addNodeCreator(new Node(484.47127555988317, 361.0703125, 5));
         this.props.addNodeCreator(new Node(346.3369036027264, 327.0703125, 6));
         this.props.addNodeCreator(new Node(316.3076923076923, 261.0703125, 7));
+    };
+
+    drawPaperExample = () => {
+        this.props.addNodeCreator(new Node(71, 166.40625, 0));
+        this.props.addNodeCreator(new Node(123, 101.40625, 1));
+        this.props.addNodeCreator(new Node(209, 70.40625, 2));
+        this.props.addNodeCreator(new Node(250, 68.40625, 3));
+        this.props.addNodeCreator(new Node(295, 64.40625, 4));
+        this.props.addNodeCreator(new Node(352, 63.40625, 5));
+        this.props.addNodeCreator(new Node(416, 47.40625, 6));
+        this.props.addNodeCreator(new Node(461, 49.40625, 7));
+        this.props.addNodeCreator(new Node(511, 62.40625, 8));
+        this.props.addNodeCreator(new Node(558, 77.40625, 9));
+        this.props.addNodeCreator(new Node(592, 66.40625, 10));
+        this.props.addNodeCreator(new Node(644, 67.40625, 11));
+        this.props.addNodeCreator(new Node(693, 70.40625, 12));
+        this.props.addNodeCreator(new Node(742, 72.40625, 13));
+        this.props.addNodeCreator(new Node(786, 68.40625, 14));
+        this.props.addNodeCreator(new Node(818, 73.40625, 15));
+        this.props.addNodeCreator(new Node(850, 100.40625, 16));
+        this.props.addNodeCreator(new Node(850, 155.40625, 17));
+        this.props.addNodeCreator(new Node(838, 207.40625, 18));
+        this.props.addNodeCreator(new Node(5837, 246.40625, 19));
+        this.props.addNodeCreator(new Node(837, 297.40625, 20));
+        this.props.addNodeCreator(new Node(828, 338.40625, 21));
+        this.props.addNodeCreator(new Node(806, 384.40625, 22));
+        this.props.addNodeCreator(new Node(759, 392.40625, 7));
+        this.props.addNodeCreator(new Node(695, 392.40625, 23));
+        this.props.addNodeCreator(new Node(660, 387.40625, 24));
+        this.props.addNodeCreator(new Node(621, 387.40625, 25));
+        this.props.addNodeCreator(new Node(546, 394.40625, 26));
+        this.props.addNodeCreator(new Node(479, 401.40625, 27));
+        this.props.addNodeCreator(new Node(404, 405.40625, 28));
+        this.props.addNodeCreator(new Node(336, 389.40625, 29));
+        this.props.addNodeCreator(new Node(304, 393.40625, 30));
+
+        this.props.addNodeCreator(new Node(238, 386.40625, 31));
+        this.props.addNodeCreator(new Node(169, 363.40625, 32));
+        this.props.addNodeCreator(new Node(110, 330.40625, 33));
+        this.props.addNodeCreator(new Node(70, 269.40625, 34));
+        this.props.addNodeCreator(new Node(653, 152.40625, 35));
+        this.props.addNodeCreator(new Node(705, 156.40625, 36));
+        this.props.addNodeCreator(new Node(725, 190.40625, 37));
+        this.props.addNodeCreator(new Node(612, 224.40625, 38));
+        this.props.addNodeCreator(new Node(548, 178.40625, 39));
+        this.props.addNodeCreator(new Node(558, 293.40625, 40));
+        this.props.addNodeCreator(new Node(492, 210.40625, 41));
+        this.props.addNodeCreator(new Node(468, 151.40625, 42));
+        this.props.addNodeCreator(new Node(436, 251.40625, 43));
+        this.props.addNodeCreator(new Node(372, 176.40625, 44));
     };
 
     handleAddNodes = () => {

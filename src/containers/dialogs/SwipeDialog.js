@@ -82,6 +82,9 @@ class SwipeDialog extends Component {
         }, {
             name: "Topology 3",
             checked: false
+        },{
+            name: "Topology 4",
+            checked: false
         }],
         checkedVal: []
     };
