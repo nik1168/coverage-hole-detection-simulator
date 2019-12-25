@@ -3,32 +3,30 @@ import MathJax from 'react-mathjax'
 
 class MathNotation extends Component {
     render() {
-        const {text,inline} = this.props;
+        const {text, inline} = this.props;
         return (
-            <div>
+            <span>
                 {
                     inline && (
                         <MathJax.Provider>
-                            <div>
-                                <MathJax.Node inline formula={text} />
-                            </div>
+                            <MathJax.Node inline formula={text}/>
                         </MathJax.Provider>
                     )
                 }
-                {!inline  &&
+                {!inline &&
                 <p>
                     <MathJax.Provider>
                         <div>
-                            <MathJax.Node formula={text} />
+                            <MathJax.Node formula={text}/>
                         </div>
                     </MathJax.Provider>
                 </p>
                 }
-            </div>
-
+            </span>
 
 
         );
     }
 }
+
 export default MathNotation
