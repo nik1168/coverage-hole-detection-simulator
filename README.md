@@ -20,3 +20,6 @@ http://localhost:3000
 (If there is an error run "unset HOST")
 ```
 
+## Demo
+https://nik1168.github.io/coverage-hole-detection-simulator
+
