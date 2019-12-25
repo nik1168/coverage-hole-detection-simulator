@@ -24,7 +24,46 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Coverage hole detection</title>
+    <style>
+      #container {
+        width: 600px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .circle {
+        border-radius: 50%;
+        background-color: deepskyblue;
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        opacity: 0;
+        animation: scaleIn 4s infinite cubic-bezier(.36, .11, .89, .32);
+      }
+
+      .item {
+        z-index: 100;
+        padding: 5px;
+      }
+
+      .item img {
+        width: 150px;
+      }
+      @keyframes scaleIn {
+        from {
+          transform: scale(.5, .5);
+          opacity: .5;
+        }
+        to {
+          transform: scale(2.5, 2.5);
+          opacity: 0;
+        }
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
