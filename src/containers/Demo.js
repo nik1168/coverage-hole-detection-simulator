@@ -247,18 +247,24 @@ class Demo extends Component {
         console.log("Well, are you ready to rumble?, don't forget single responsibility");
         const nodes = this.props.nodes.filter((val) => val.active);
         const refNodeIn = nodes.findIndex(node => node.id === referenceNodeId);
-        console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
-        console.log("There are two ways of finding one and two hope neighbors");
-        console.log();
-        console.log("We iterate for every node that is not the reference node and we send a message");
-        console.log("Nodes that listened to my message :)");
-        const message = "HELLO!!";
-        const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(refNodeIn, nodes, this.props.sensingRate);
-        console.log("Just for testing purposes, let's see the union");
-        const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
-        console.log(union);
-        this.props.addNodeOneHopeNeighborCreator(refNodeIn, oneHopeNeighbors);
-        this.props.addNodeTwoHopeNeighborCreator(refNodeIn, twoHopeNeighbors);
+        if(refNodeIn!==-1){
+            console.log("In this part we will iterate over the reference nodes to init the process of get Neighbor phase, for performance purposes we will do it for only one reference node");
+            console.log("There are two ways of finding one and two hope neighbors");
+            console.log();
+            console.log("We iterate for every node that is not the reference node and we send a message");
+            console.log("Nodes that listened to my message :)");
+            const message = "HELLO!!";
+            const {oneHopeNeighbors, twoHopeNeighbors} = nodesThatListenedMessageWithRespectToRadius(refNodeIn, nodes, this.props.sensingRate);
+            console.log("Just for testing purposes, let's see the union");
+            const union = joinArrays(oneHopeNeighbors, twoHopeNeighbors);
+            console.log(union);
+            this.props.addNodeOneHopeNeighborCreator(refNodeIn, oneHopeNeighbors);
+            this.props.addNodeTwoHopeNeighborCreator(refNodeIn, twoHopeNeighbors);
+        }
+        else{
+            console.log("Inactive node")
+        }
+
         this.props.neighborDiscoveryPhaseCreator();
     };
 
