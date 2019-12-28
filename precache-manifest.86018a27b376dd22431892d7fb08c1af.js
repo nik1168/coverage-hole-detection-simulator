@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cdbc9f7724057d34807e05bc577cc87f",
+    "revision": "22a3889300927974f236f9c06f98a042",
     "url": "/coverage-hole-detection-simulator/index.html"
   },
   {
-    "revision": "d06869b99b50ab0ccb09",
+    "revision": "9e0d650cd0cc97c2b569",
     "url": "/coverage-hole-detection-simulator/static/css/main.b100e6da.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/coverage-hole-detection-simulator/static/js/2.19d75abe.chunk.js"
   },
   {
-    "revision": "d06869b99b50ab0ccb09",
-    "url": "/coverage-hole-detection-simulator/static/js/main.a08bcd73.chunk.js"
+    "revision": "9e0d650cd0cc97c2b569",
+    "url": "/coverage-hole-detection-simulator/static/js/main.938e717c.chunk.js"
   },
   {
     "revision": "f785466e262efffc3cbf",

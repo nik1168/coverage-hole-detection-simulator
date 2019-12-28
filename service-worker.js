@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/coverage-hole-detection-simulator/precache-manifest.c96a8d2c7ab556c3f0bbd558005126c0.js"
+  "/coverage-hole-detection-simulator/precache-manifest.86018a27b376dd22431892d7fb08c1af.js"
 );
 
 self.addEventListener('message', (event) => {
