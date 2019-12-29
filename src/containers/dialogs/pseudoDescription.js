@@ -48,10 +48,9 @@ class PseudoDescription extends Component {
             <BaseDialog {...this.props}>
                 <div className={classes.container}>
                     <Typography style={{textTransform: 'uppercase'}} color='secondary' gutterBottom>
-                        Hole detection phase pseudo code
+                        Hole detection phase pseudo code [1]
                     </Typography>
                     <Typography style={{textAlign: 'left'}} variant="body2" gutterBottom>
-                        Let's check the pseudo code :) <br/>
                         <b>1.- Choose a random node <MathNotation inline={true} text={"Y"}/> and set it as reference
                             node </b><br/>
                         <b>2.- Get one and two hop neighbors of <MathNotation inline={true} text={"Y"}/> and assign them

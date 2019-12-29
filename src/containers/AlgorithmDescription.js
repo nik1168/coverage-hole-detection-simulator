@@ -236,7 +236,7 @@ class AlgorithmDescription extends Component {
                                             process is completed the reference node
                                             has information about its one and two hop neighbors.
                                             This process has to be completed by each node in the neighbor in a
-                                            distributed manner.
+                                            distributed manner [1].
 
                                         </Typography>
                                         <div style={{textAlign: 'left'}}>
