@@ -120,6 +120,7 @@ export class Triangle {
     // Function which converts the input line to its
     // perpendicular bisector. It also inputs the points
     // whose mid-point lies on the bisector
+    // based con c++ implementation of https://www.geeksforgeeks.org/program-find-circumcenter-triangle-2/
     perpendicularBisectorFromLine(nodeA, nodeB, oa, ob, oc) {
         const mid_point = new Point((nodeA.x + nodeB.x) / 2,
             (nodeA.y + nodeB.y) / 2);
@@ -136,6 +137,7 @@ export class Triangle {
     }
 
     // Returns the intersection point of two lines
+    // based con c++ implementation of https://www.geeksforgeeks.org/program-find-circumcenter-triangle-2/
     lineLineIntersection(a1, b1, c1, a2, b2, c2) {
         const determinant = a1 * b2 - a2 * b1;
         if (determinant === 0) {
@@ -149,6 +151,7 @@ export class Triangle {
         }
     }
 
+    // based con c++ implementation of https://www.geeksforgeeks.org/program-find-circumcenter-triangle-2/
     getCircumCenter(A = this.pointA, B = this.pointB, C = this.pointC) {
         // Line AB is represented as ax + by = c
         let resA = this.lineFromNodes(A, B);
