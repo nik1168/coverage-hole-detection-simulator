@@ -18,6 +18,10 @@ npm start
 http://localhost:3000
 (If there is an error run "unset HOST")
 ```
+
+## Demo
+https://nik1168.github.io/coverage-hole-detection-simulator/
+
 ## Main reference
 - Ma, Hwa-Chun & Sahoo, Prasan & Chen, Yen-Wen. (2011). Computational geometry based distributed coverage hole detection protocol for the wireless sensor networks. J. Network and Computer Applications. 34. 1743-1756. 10.1016/j.jnca.2011.06.007.
 
